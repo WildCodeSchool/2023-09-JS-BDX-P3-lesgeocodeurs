@@ -1,4 +1,3 @@
-import { MDBBtn } from "mdb-react-ui-kit";
 import { useState } from "react";
 
 export default function Register() {
@@ -55,18 +54,6 @@ export default function Register() {
       {/* {userRegister?.map((el) => (
         <div>{el.email}</div>
       ))} */}
-      <div>
-        <MDBBtn className="me-1" color="success">
-          Success
-        </MDBBtn>
-        <MDBBtn className="me-1" color="danger">
-          Danger
-        </MDBBtn>
-        <MDBBtn className="me-1" color="warning">
-          Warning
-        </MDBBtn>
-        <MDBBtn color="info">Info</MDBBtn>
-      </div>
     </div>
   );
 }
