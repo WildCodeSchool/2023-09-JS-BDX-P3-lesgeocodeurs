@@ -1,0 +1,26 @@
+.navbar {
+  bottom: 0;
+  position: fixed;
+  display: flex;
+  justify-content: space-around;
+  background-color: #21a89a;
+  padding-block: 5px;
+  width: 100%;
+  .navbar-title {
+    margin-top: 3px;
+    font-size: 14px;
+    color: white;
+    font-family: "Inter";
+  }
+
+  .material-symbols-outlined {
+    color: white;
+    font-size: 32px;
+  }
+
+  .navbar-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
