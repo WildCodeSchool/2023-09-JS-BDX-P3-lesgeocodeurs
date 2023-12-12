@@ -1,8 +1,6 @@
-import "./home.css";
-
 export default function Home() {
   return (
-    <div>
+    <div className="home-container">
       <img className="img-home" src="./src/assets/Logo.png" alt="logo" />
       <button className="map-button" type="button">
         Accédez à la carte

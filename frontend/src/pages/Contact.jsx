@@ -1,9 +1,8 @@
 // Initialization for ES Users
-import "./contact.css";
 
 export default function Contact() {
   return (
-    <div>
+    <div className="contact-container">
       <h1 className="contact">Nous Contacter</h1>
       <div id="form-main">
         <div id="form-div">
