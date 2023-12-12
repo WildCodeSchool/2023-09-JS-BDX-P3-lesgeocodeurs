@@ -5,7 +5,7 @@ export default function NavBar() {
   const { userConected } = useTheContext();
 
   return (
-    <div className="navbar">
+    <div className="the-navbar">
       <Link to="/" className="navbar-button">
         <span className="material-symbols-outlined">home</span>
         <p className="navbar-title">Accueil</p>

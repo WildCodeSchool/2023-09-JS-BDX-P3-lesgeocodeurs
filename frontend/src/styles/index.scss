@@ -1,18 +1,6 @@
 @import "./components/navBar";
 @import "./components/login";
-@import "./scss/mdb.pro.scss";
-
-$my-theme-primary: #21a89a; // theme primary color, change this value to customize theme
-$my-theme-secondary: #525b5a; // theme secondary color, change this value to customize theme
-
-$my-theme: mdb-light-theme(
-  $my-theme-primary,
-  $my-theme-secondary
-); // create the new theme using primary and
-// secondary colors
-
-// include theme styles
-@include mdb-theme($my-theme);
+@import "./scss/mdb.dark.scss";
 
 * {
   margin: 0;

@@ -19,12 +19,13 @@ export default function Login() {
   };
   return (
     <form className="login-form" onSubmit={handleSubmit}>
+      <h1>Se Connecter</h1>
       <MDBInput
         className="mb-4"
         type="email"
         name="email"
         id="form2Example1"
-        label="Email address"
+        label="Addresse email"
         onChange={handleInput}
       />
       <MDBInput
@@ -32,25 +33,29 @@ export default function Login() {
         type="password"
         name="password"
         id="form2Example2"
-        label="Password"
+        label="Mot de passe"
         onChange={handleInput}
       />
 
       <MDBRow className="mb-4">
         <MDBCol className="d-flex justify-content-center">
-          <MDBCheckbox id="form2Example3" label="Remember me" defaultChecked />
+          <MDBCheckbox
+            id="form2Example3"
+            label="Se souvenir de moi"
+            defaultChecked
+          />
         </MDBCol>
         <MDBCol>
-          <a href="#!">Forgot password?</a>
+          <a href="#!">Mot de passe oublié? </a>
         </MDBCol>
       </MDBRow>
-      <MDBBtn type="submit" className="mb-4" color="$my-theme-primary" block>
+      <MDBBtn type="submit" className="mb-4" block>
         Sign in
       </MDBBtn>
 
       <div className="text-center">
         <p>
-          Not a member? <Link href="/register">Register</Link>
+          Nouveau membre ? <Link href="/register">S'inscrire</Link>
         </p>
       </div>
     </form>
