@@ -7,6 +7,7 @@ import App from "./App";
 import Home from "./pages/Home";
 import Map from "./pages/Map";
 import Account from "./pages/Account";
+import Contact from "./pages/Contact";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "/account",
         element: <Account />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
       },
     ],
   },

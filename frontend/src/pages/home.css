@@ -1,0 +1,50 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.img-home {
+  width: 100%;
+}
+
+.img-road {
+  width: 100%;
+}
+.slogan-container {
+  display: inline-block;
+  position: relative;
+}
+
+.slogan-container .slogan {
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  position: absolute;
+  text-align: center;
+  font-family: Georgia;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  top: 10%;
+  color: white;
+  width: 70%;
+  border-radius: 10px;
+}
+.map-button {
+  font-family: "Lato";
+  float: left;
+  width: 50%;
+  border: #fbfbfb solid 4px;
+  cursor: pointer;
+  background-color: #21a89a;
+  color: white;
+  font-size: 24px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+  margin-top: -4px;
+  font-weight: 700;
+  border-radius: 20px;
+}
