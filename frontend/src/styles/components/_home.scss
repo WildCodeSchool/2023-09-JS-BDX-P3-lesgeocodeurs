@@ -1,6 +1,7 @@
 .home-container {
   & > * {
-    margin: 10px;
+    margin: 15px;
+    margin-bottom: 20px;
     padding: 0;
     box-sizing: border-box;
   }
@@ -8,54 +9,58 @@
   .img-home {
     width: 100%;
   }
-
-  .img-road {
-    width: 100%;
-  }
-  .slogan-container {
-    display: inline-block;
+  .img-road-container {
     position: relative;
   }
-
-  .slogan-container .slogan {
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1;
+  .img-road {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .overlay {
     position: absolute;
-    text-align: center;
-    font-family: Georgia;
-    margin: 0 auto;
+    top: 0;
     left: 0;
-    right: 0;
-    top: 10%;
-    color: white;
-    width: 70%;
-    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0.8)
+    );
   }
-  .map-button {
+
+  .slogan {
+    text-align: center;
     font-family: "Lato";
-    float: left;
-    width: 50%;
-    border: #fbfbfb solid 4px;
-    cursor: pointer;
-    background-color: #21a89a;
-    color: white;
-    font-size: 24px;
-    padding-top: 14px;
-    padding-bottom: 14px;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    transition: all 0.3s;
-    margin-top: -4px;
-    font-weight: 700;
-    border-radius: 20px;
+    font-size: x-large;
   }
+  .button-map-container {
+    display: flex;
+    justify-content: space-around;
+  }
+  .mb-4 {
+    font-family: "Inter";
+    width: 50%;
+  }
+
   .card-container {
+    margin-bottom: 100px;
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
   .card {
+    margin-block: 20px;
+    width: 80%;
     border-radius: 10px;
     box-shadow: 31px 30px 11px -16px rgba(0, 0, 0, 0.1);
+  }
+  .card-text {
+    font-family: "Inter", sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
   }
   .video-container {
     display: flex;
