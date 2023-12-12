@@ -5,8 +5,10 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import App from "./App";
 import Home from "./pages/Home";
-import Map from "./pages/Map";
+import MyMap from "./pages/Map";
 import Account from "./pages/Account";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Contact from "./pages/Contact";
 
 const router = createBrowserRouter([
@@ -20,11 +22,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/map",
-        element: <Map />,
+        element: <MyMap />,
       },
       {
         path: "/account",
         element: <Account />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
       },
       {
         path: "/contact",
