@@ -1,6 +1,6 @@
 .home-container {
-  * {
-    margin: 0;
+  & > * {
+    margin: 10px;
     padding: 0;
     box-sizing: border-box;
   }
@@ -48,5 +48,16 @@
     margin-top: -4px;
     font-weight: 700;
     border-radius: 20px;
+  }
+  .card-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .card {
+    border-radius: 10px;
+    box-shadow: 31px 30px 11px -16px rgba(0, 0, 0, 0.1);
+  }
+  .video-container {
+    display: flex;
   }
 }
