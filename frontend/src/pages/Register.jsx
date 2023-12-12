@@ -7,6 +7,7 @@ export default function Register() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    // postUser();
   };
   return (
     <div className="register-container">
@@ -45,11 +46,11 @@ export default function Register() {
           className="input-actuality"
           type="text"
           name="content"
-          placeholder="Nouveau post"
+          placeholder=""
           onChange={handleInput}
         />
 
-        <input type="submit" className="edit" value="Edit" />
+        <input type="submit" className="edit" value="Suivant" />
       </form>
       {/* {userRegister?.map((el) => (
         <div>{el.email}</div>
