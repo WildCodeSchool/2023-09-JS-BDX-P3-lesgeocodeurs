@@ -70,11 +70,11 @@
   }
 
   #button-blue {
+    text-align: center;
     font-family: "Lato";
     float: left;
     width: 50%;
     border: #fbfbfb solid 4px;
-    cursor: pointer;
     background-color: #21a89a;
     color: white;
     font-size: 24px;
@@ -90,10 +90,6 @@
 
   #button-blue:hover {
     background-color: rgba(0, 0, 0, 0);
-    color: #21a89a;
-  }
-
-  .submit:hover {
     color: #21a89a;
   }
 
