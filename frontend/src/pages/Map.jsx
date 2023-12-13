@@ -1,5 +1,6 @@
-import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
+import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import data from "../data-test.json";
+import Station from "../components/Station";
 
 export default function MyMap() {
   // const wild = { lat: 44.86943771320005, lng: -0.5651798933208533 };
@@ -16,14 +17,8 @@ export default function MyMap() {
           disableDefaultUI
           /* mapId="baf145c89ada9afb" */
         >
-          {data.map((point) => (
-            <Marker
-              position={{
-                lat: point.consolidated_latitude,
-                lng: point.consolidated_longitude,
-              }}
-              key={point.id_station_itinerance}
-            />
+          {data.map((station) => (
+            <Station key={station.id_station_itinerance} station={station} />
           ))}
         </Map>
       </div>
