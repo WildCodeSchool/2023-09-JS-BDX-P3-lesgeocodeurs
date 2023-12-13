@@ -1,6 +1,15 @@
 // Initialization for ES Users
+import { useState } from "react";
 
 export default function Contact() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [text, setText] = useState("");
+
+  const onSubmit = () => {
+    alert(`Envoyé ${name} ${email} ${text}`);
+  };
+
   return (
     <div className="contact-container">
       <h1 className="contact">Nous Contacter</h1>
@@ -14,6 +23,8 @@ export default function Contact() {
                 className="feedback-input"
                 placeholder="Nom"
                 id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </p>
 
@@ -24,6 +35,8 @@ export default function Contact() {
                 className=" feedback-input"
                 id="email"
                 placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </p>
 
@@ -41,11 +54,13 @@ export default function Contact() {
                 className=" feedback-input"
                 id="comment"
                 placeholder="Message"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
               />
             </p>
 
             <div className="submit">
-              <input type="submit" value="Envoyer" id="button-blue" />
+              <input onClick={onSubmit} value="Envoyer" id="button-blue" />
               <div className="ease" />
             </div>
           </form>

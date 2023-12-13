@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   MDBCard,
   MDBCardBody,
@@ -30,7 +31,7 @@ export default function Home() {
       </div>
       <div className="button-map-container">
         <MDBBtn type="submit" className="mb-4" block>
-          Accédez à la carte
+          <Link to="/map">Accédez à la Carte</Link>
         </MDBBtn>
       </div>
       <div className="img-road-container">
@@ -118,6 +119,9 @@ export default function Home() {
             </MDBCardText>
           </MDBCardBody>
         </MDBCard>
+        <p>
+          <Link to="/contact">Une question ? Contactez-nous </Link>
+        </p>
       </div>
     </div>
   );
