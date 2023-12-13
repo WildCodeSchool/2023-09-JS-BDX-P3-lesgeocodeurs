@@ -55,7 +55,7 @@ export default function Login() {
 
       <div className="text-center">
         <p>
-          Nouveau membre ? <Link href="/register">S'inscrire</Link>
+          Nouveau membre ? <Link to="/register">S'inscrire</Link>
         </p>
       </div>
     </form>

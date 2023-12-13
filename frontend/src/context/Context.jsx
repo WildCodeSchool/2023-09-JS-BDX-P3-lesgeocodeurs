@@ -6,9 +6,12 @@ const theContext = createContext();
 
 export function ContextProvider({ children }) {
   const [userConected, setUserConected] = useState(false);
+  const [userRegister, setUserRegister] = useState({});
 
   return (
-    <theContext.Provider value={{ userConected, setUserConected }}>
+    <theContext.Provider
+      value={{ userConected, setUserConected, userRegister, setUserRegister }}
+    >
       {children}
     </theContext.Provider>
   );
