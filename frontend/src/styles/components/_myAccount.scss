@@ -1,2 +1,35 @@
-.container_myAccount {
+.myAccount-container {
+  * {
+    margin: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .profil-title {
+    margin: 50px;
+    margin-bottom: 30px;
+  }
+  .profil-container {
+    display: flex;
+    align-items: center;
+    color: black;
+  }
+  .buttonprofil {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 5px;
+    border: 0.1px solid #c3c1c1;
+    width: 90%;
+    border-radius: 3px;
+    font-size: "Lato";
+    font-weight: bold;
+  }
+  .modification-profil {
+    margin-top: 15px;
+  }
+  .identity {
+    line-height: 0;
+    text-align: left;
+  }
 }
