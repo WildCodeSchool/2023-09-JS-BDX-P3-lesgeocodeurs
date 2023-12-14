@@ -1,5 +1,6 @@
 import React from "react";
 import { MDBBtn } from "mdb-react-ui-kit";
+import { Link } from "react-router-dom";
 
 export default function MyAccount() {
   return (
@@ -13,14 +14,18 @@ export default function MyAccount() {
           <p>damien.jean@mail.com</p>
         </div>
         <div className="profil-container">
-          <MDBBtn className="buttonprofil" color="light" rippleColor="dark">
-            <p>Mes véhicules</p>
-            <p>&rarr;</p>
-          </MDBBtn>
-          <MDBBtn className="buttonprofil" color="light" rippleColor="dark">
-            <p>Mes réservations</p>
-            <p>&rarr;</p>
-          </MDBBtn>
+          <Link to="/cars">
+            <MDBBtn className="buttonprofil" color="light" rippleColor="dark">
+              <p>Mes véhicules</p>
+              <p>&rarr;</p>
+            </MDBBtn>
+          </Link>
+          <Link to="/reservation">
+            <MDBBtn className="buttonprofil" color="light" rippleColor="dark">
+              <p>Mes réservations</p>
+              <p>&rarr;</p>
+            </MDBBtn>
+          </Link>
 
           <div className="modification-profil" />
           <MDBBtn className="buttonprofil" color="light" rippleColor="dark">
