@@ -6,8 +6,11 @@
   background-color: #21a89a;
   padding-block: 5px;
   width: 100%;
+  z-index: 2;
+
   .navbar-title {
     margin-top: 3px;
+    margin-bottom: 0;
     font-size: 14px;
     color: white;
     font-family: "Inter";
