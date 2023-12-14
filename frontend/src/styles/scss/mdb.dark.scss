@@ -1,8 +1,0 @@
-// MDB PRO
-@import "./mdb.pro.scss";
-
-// DARK SKIN
-$my-theme-primary: #21a89a;
-$my-theme-secondary: #e3ebf7;
-$my-dark-theme: mdb-light-theme($my-theme-primary, $my-theme-secondary);
-@include mdb-theme($my-dark-theme);
