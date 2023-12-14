@@ -1,6 +1,6 @@
 .home-container {
   & > * {
-    margin: 15px;
+    margin: 0;
     margin-bottom: 20px;
     padding: 0;
     box-sizing: border-box;
@@ -39,6 +39,7 @@
     display: flex;
     justify-content: space-around;
   }
+
   .mb-4 {
     font-family: "Inter";
     width: 50%;

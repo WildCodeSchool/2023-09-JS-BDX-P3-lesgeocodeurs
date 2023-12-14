@@ -12,6 +12,8 @@ $my-dark-theme: mdb-light-theme($my-theme-primary, $my-theme-secondary);
 @import "./components/home";
 @import "./components/login";
 @import "./components/register";
+@import "./components/reservation";
+@import "./components/cars";
 
 * {
   margin: 0;

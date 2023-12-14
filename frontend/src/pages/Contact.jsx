@@ -13,6 +13,10 @@ export default function Contact() {
     setContactForm({ ...contactForm, [e.target.name]: e.target.value });
   };
 
+  /*  const isDisabled =
+    contactForm.name.trim() === "" ||
+    contactForm.email.trim() === "" ||
+    (contactForm.text.trim() === "" && contactForm.text.length < 1000); */
   return (
     // <div className="contact-container">
     //   <h1 className="contact">Nous Contacter</h1>
@@ -74,7 +78,7 @@ export default function Contact() {
           id="form4Example1"
           wrapperClass="mb-4"
           label="Nom"
-          name="userName"
+          name="name"
           onChange={handleChange}
         />
         <MDBInput
@@ -82,16 +86,17 @@ export default function Contact() {
           id="form4Example2"
           wrapperClass="mb-4"
           label="Email"
-          name="userEmail"
+          name="email"
           onChange={handleChange}
         />
         <MDBInput
+          maxlength="140"
           wrapperClass="mb-4"
           textarea
           id="contact-textarea"
           rows={4}
           label="Message"
-          name="userMessage"
+          name="message"
           onChange={handleChange}
         />
 
@@ -111,6 +116,21 @@ export default function Contact() {
         >
           Envoyer
         </MDBBtn>
+        {/*   {isDisabled ? (
+          <span>
+            {contactForm.name.trim() === "" && (
+              <p>Veuillez renseigner votre nom</p>
+            )}
+            {contactForm.email.trim() === "" && (
+              <p>Veuillez renseigner votre email</p>
+            )}
+            {contactForm.text.trim() === "" && (
+              <p>Veuillez écrir votre message</p>
+            )}
+          </span>
+        ) : (
+          <Link to="/"></Link>
+        )} */}
       </form>
     </div>
   );

@@ -7,10 +7,12 @@ import "./styles/index.scss";
 import App from "./App";
 import Home from "./pages/Home";
 import MyMap from "./pages/Map";
-import Account from "./pages/Account";
+import MyAccount from "./pages/MyAccount";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Contact from "./pages/Contact";
+import Cars from "./pages/Cars";
+import Reservation from "./pages/Reservation";
 import RegisterInfos from "./pages/RegisterInfos";
 import RegisterCars from "./pages/RegisterCars";
 import RegisterManager from "./components/RegisterManager";
@@ -29,8 +31,8 @@ const router = createBrowserRouter([
         element: <MyMap />,
       },
       {
-        path: "/account",
-        element: <Account />,
+        path: "/myaccount",
+        element: <MyAccount />,
       },
       {
         path: "/login",
@@ -51,6 +53,14 @@ const router = createBrowserRouter([
       {
         path: "/contact",
         element: <Contact />,
+      },
+      {
+        path: "/cars",
+        element: <Cars />,
+      },
+      {
+        path: "/reservation",
+        element: <Reservation />,
       },
     ],
   },
