@@ -5,7 +5,6 @@ import data from "../data-test.json";
 
 export default function MyMap() {
   const position = { lat: 46.57829080854987, lng: 2.528225829979713 };
-  const [open, setOpen] = useState(false);
   const [selectedStation, setSelectedStation] = useState(null);
 
   return (
@@ -16,23 +15,30 @@ export default function MyMap() {
           center={position}
           gestureHandling="greedy"
           disableDefaultUI
-          onClick={() => setOpen(false)}
+          onClick={() => setSelectedStation(null)}
           /* mapId="baf145c89ada9afb" */
         >
           {data.map((station) => (
             <Station
               key={station.id_station_itinerance}
               station={station}
-              setOpen={setOpen}
               setSelectedStation={setSelectedStation}
             />
           ))}
         </Map>
       </div>
-      {open && selectedStation && (
+      {selectedStation && (
         <div className="station-modal">
           <strong>{selectedStation.nom_station}</strong>
-          <p>{selectedStation.adresse_station}</p>
+          <div>{selectedStation.adresse_station}</div>
+          <div>{selectedStation.id_station_itinerance}</div>
+          <div>{selectedStation.implantation_station}</div>
+          <div>Nombre de bornes : {selectedStation.nbre_pdc}</div>
+          <div>Puissance : {selectedStation.puissance_nominale} kW</div>
+
+          <div>{selectedStation.gratuit ? "Gratuit" : "Payant"}</div>
+          <div>{selectedStation.condition_acces}</div>
+          <div>Horaires : {selectedStation.horaires}</div>
         </div>
       )}
     </APIProvider>
