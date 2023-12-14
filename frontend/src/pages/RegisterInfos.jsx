@@ -3,10 +3,8 @@ import { Link } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function RegisterInfos() {
-  const { userRegister, setUserRegister } = useTheContext();
-  const handleInput = (e) => {
-    setUserRegister({ ...userRegister, [e.target.name]: e.target.value });
-  };
+  const { handleInputRegister } = useTheContext();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // postUser();
@@ -14,33 +12,45 @@ export default function RegisterInfos() {
   return (
     <div className="registerInfos-container">
       <form className="login-form" onSubmit={handleSubmit}>
-        <h1>S'inscrire</h1>
+        <h1>Mes infos</h1>
         <MDBInput
           className="mb-4"
-          type="email"
-          name="email"
-          id="form2Example1"
-          label="Addresse email"
-          onChange={handleInput}
+          type="string"
+          name="firstName"
+          label="Prenom"
+          onChange={handleInputRegister}
         />
         <MDBInput
           className="mb-4"
-          type="password"
-          name="password"
-          id="form2Example2"
-          label="Mot de passe"
-          onChange={handleInput}
+          type="string"
+          name="name"
+          label="Nom"
+          onChange={handleInputRegister}
         />
         <MDBInput
           className="mb-4"
-          type="password"
-          name="password"
-          id="form2Example2"
-          label="Confirmer le mot de passe"
-          onChange={handleInput}
+          type="date"
+          name="birthDate"
+          label="Date de naissance"
+          onChange={handleInputRegister}
+        />
+        <MDBInput
+          className="mb-4"
+          type="number"
+          required
+          name="Postal"
+          label="Code postal"
+          onChange={handleInputRegister}
+        />
+        <MDBInput
+          className="mb-4"
+          type="city"
+          name="city"
+          label="Ville"
+          onChange={handleInputRegister}
         />
 
-        <Link to="/">
+        <Link to="/register/cars">
           <MDBBtn type="submit" className="mb-4" block>
             Suivant
           </MDBBtn>
