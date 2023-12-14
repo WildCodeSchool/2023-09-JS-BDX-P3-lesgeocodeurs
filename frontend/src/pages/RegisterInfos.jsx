@@ -36,7 +36,8 @@ export default function RegisterInfos() {
         />
         <MDBInput
           className="mb-4"
-          type="postal"
+          type="number"
+          required
           name="Postal"
           label="Code postal"
           onChange={handleInputRegister}

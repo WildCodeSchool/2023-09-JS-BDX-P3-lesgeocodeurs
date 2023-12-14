@@ -1,13 +1,13 @@
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
+
 import { useTheContext } from "../context/Context";
 
 export default function Register() {
-  const { handleInputRegister, userRegister } = useTheContext();
+  const { handleInputRegister, userRegister, isValidEmail } = useTheContext();
 
   const handleSubmitRegister = (e) => {
     e.preventDefault();
-
     // postUser();
   };
   const isDisabled =
@@ -15,7 +15,8 @@ export default function Register() {
     (userRegister.password && userRegister.password.length < 8) || // Vérifie la longueur seulement si le mot de passe est défini
     !/\d/.test(userRegister.password) || // Vérifie la présence de chiffres
     !/[!@#$%^&*(),.?":{}|<>]/.test(userRegister.password) || // Vérifie la présence de ponctuations
-    userRegister.password.trim() === ""; // Vérifie si le champ est vide
+    userRegister.password.trim() === "" ||
+    !isValidEmail; // Vérifie si le champ est vide
 
   return (
     <div className="register-container">
@@ -24,6 +25,7 @@ export default function Register() {
         <MDBInput
           className="mb-4"
           type="email"
+          required
           name="email"
           label="Addresse email"
           onChange={handleInputRegister}
@@ -62,6 +64,9 @@ export default function Register() {
             )}
             {userRegister?.password?.trim() === "" && (
               <p>Le champ du mot de passe ne peut pas être vide</p>
+            )}
+            {userRegister.email && !isValidEmail && (
+              <p>Entrez un email correct</p>
             )}
           </span>
         ) : (

@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function RegisterCars() {
-  const { handleInputRegister, setUserConected } = useTheContext();
+  const { handleInputRegister, login } = useTheContext();
 
   const handleSubmitRegister = (e) => {
     e.preventDefault();
-    setUserConected(true);
+    login();
     // postUser();
   };
+
   return (
     <div className="registerInfos-container">
       <form className="login-form" onSubmit={handleSubmitRegister}>

@@ -14,7 +14,10 @@ export default function NavBar() {
         <span className="material-symbols-outlined">map</span>
         <p className="navbar-title">Carte</p>
       </Link>
-      <Link to={userConected ? "/account" : "/login"} className="navbar-button">
+      <Link
+        to={userConected.user === true ? "/account" : "/login"}
+        className="navbar-button"
+      >
         <span className="material-symbols-outlined">account_circle</span>
         <p className="navbar-title">Compte</p>
       </Link>
