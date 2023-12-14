@@ -1,9 +1,10 @@
-import { Marker } from "@vis.gl/react-google-maps";
+/* import { Marker } from "@vis.gl/react-google-maps"; */
+import { MarkerF } from "@react-google-maps/api";
 import PropTypes from "prop-types";
 
 export default function Station({ station, setSelectedStation }) {
   return (
-    <Marker
+    <MarkerF
       position={{
         lat: station.consolidated_latitude,
         lng: station.consolidated_longitude,
