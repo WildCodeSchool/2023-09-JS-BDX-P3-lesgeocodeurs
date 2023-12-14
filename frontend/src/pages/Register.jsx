@@ -10,13 +10,28 @@ export default function Register() {
     e.preventDefault();
     // postUser();
   };
-  const isDisabled =
-    userRegister.password !== userRegister.confirmPassword ||
-    (userRegister.password && userRegister.password.length < 8) || // Vérifie la longueur seulement si le mot de passe est défini
-    !/\d/.test(userRegister.password) || // Vérifie la présence de chiffres
-    !/[!@#$%^&*(),.?":{}|<>]/.test(userRegister.password) || // Vérifie la présence de ponctuations
-    userRegister.password.trim() === "" ||
-    !isValidEmail; // Vérifie si le champ est vide
+  const formErrors = [];
+
+  if (userRegister.password !== userRegister.confirmPassword) {
+    formErrors.push("Les mots de passe ne correspondent pas");
+  }
+  if (userRegister.email && !isValidEmail) {
+    formErrors.push("L'adresse email n'est pas valide");
+  }
+  if (userRegister.password && userRegister.password.length < 8) {
+    formErrors.push("Le mot de passe doit contenir au moins 8 caractères");
+  }
+  if (!/\d/.test(userRegister.password)) {
+    formErrors.push(
+      "le champ  de mot de passe doit contenir au moins un chiffre"
+    );
+  }
+  if (!/[!@#$%^&*(),.?":{}|<>]/.test(userRegister.password)) {
+    formErrors.push("Le mot de passe doit contenir au moins une ponctuation");
+  }
+  if (userRegister?.password?.trim() === "") {
+    formErrors.push("Le champ du mot de passe ne peut pas être vide");
+  }
 
   return (
     <div className="register-container">
@@ -44,39 +59,20 @@ export default function Register() {
           label="Confirmer le mot de passe"
           onChange={handleInputRegister}
         />
-        {isDisabled ? (
-          <span>
-            {/* Utiliser un autre élément pour simuler la désactivation */}
-            <MDBBtn type="button" className="mb-4" block disabled>
-              Suivant
-            </MDBBtn>
-            {userRegister.password !== userRegister.confirmPassword && (
-              <p>Les mots de passe ne correspondent pas</p>
-            )}
-            {userRegister.password && userRegister.password.length < 8 && (
-              <p>Le mot de passe doit contenir au moins 8 caractères</p>
-            )}
-            {!/\d/.test(userRegister.password) && (
-              <p>Le mot de passe doit contenir au moins un chiffre</p>
-            )}
-            {!/[!@#$%^&*(),.?":{}|<>]/.test(userRegister.password) && (
-              <p>Le mot de passe doit contenir au moins une ponctuation</p>
-            )}
-            {userRegister?.password?.trim() === "" && (
-              <p>Le champ du mot de passe ne peut pas être vide</p>
-            )}
-            {userRegister.email && !isValidEmail && (
-              <p>Entrez un email correct</p>
-            )}
-          </span>
-        ) : (
-          <Link to="/register/infos">
-            {/* Utiliser <Link> normalement */}
-            <MDBBtn type="submit" className="mb-4" block>
-              Suivant
-            </MDBBtn>
-          </Link>
-        )}
+
+        <Link to="/register/infos">
+          <MDBBtn
+            type="submit"
+            className="mb-4"
+            block
+            disabled={formErrors.length !== 0}
+          >
+            Suivant
+          </MDBBtn>
+        </Link>
+        {formErrors.map((error) => (
+          <p key={error}>{error}</p>
+        ))}
       </form>
     </div>
   );
