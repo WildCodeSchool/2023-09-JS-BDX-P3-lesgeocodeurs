@@ -3,12 +3,11 @@ import { Link } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function Register() {
-  const { userRegister, setUserRegister } = useTheContext();
-  const handleInput = (e) => {
-    setUserRegister({ ...userRegister, [e.target.name]: e.target.value });
-  };
-  const handleSubmit = (e) => {
+  const { handleInputRegister, userRegister } = useTheContext();
+
+  const handleSubmitRegister = (e) => {
     e.preventDefault();
+
     // postUser();
   };
   const isDisabled =
@@ -20,31 +19,28 @@ export default function Register() {
 
   return (
     <div className="register-container">
-      <form className="login-form" onSubmit={handleSubmit}>
+      <form className="login-form" onSubmit={handleSubmitRegister}>
         <h1>S'inscrire</h1>
         <MDBInput
           className="mb-4"
           type="email"
           name="email"
-          id="form2Example1"
           label="Addresse email"
-          onChange={handleInput}
+          onChange={handleInputRegister}
         />
         <MDBInput
           className="mb-4"
           type="password"
           name="password"
-          id="form2Example2"
           label="Mot de passe"
-          onChange={handleInput}
+          onChange={handleInputRegister}
         />
         <MDBInput
           className="mb-4"
           type="password"
           name="confirmPassword"
-          id="form2Example2"
           label="Confirmer le mot de passe"
-          onChange={handleInput}
+          onChange={handleInputRegister}
         />
         {isDisabled ? (
           <span>
@@ -69,7 +65,7 @@ export default function Register() {
             )}
           </span>
         ) : (
-          <Link to="/">
+          <Link to="/register/infos">
             {/* Utiliser <Link> normalement */}
             <MDBBtn type="submit" className="mb-4" block>
               Suivant

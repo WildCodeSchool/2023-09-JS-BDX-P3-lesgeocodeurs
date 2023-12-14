@@ -8,9 +8,19 @@ export function ContextProvider({ children }) {
   const [userConected, setUserConected] = useState(false);
   const [userRegister, setUserRegister] = useState({});
 
+  const handleInputRegister = (e) => {
+    setUserRegister({ ...userRegister, [e.target.name]: e.target.value });
+  };
+
   return (
     <theContext.Provider
-      value={{ userConected, setUserConected, userRegister, setUserRegister }}
+      value={{
+        userConected,
+        setUserConected,
+        userRegister,
+        setUserRegister,
+        handleInputRegister,
+      }}
     >
       {children}
     </theContext.Provider>

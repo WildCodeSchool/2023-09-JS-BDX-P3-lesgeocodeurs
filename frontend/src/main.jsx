@@ -10,6 +10,9 @@ import Account from "./pages/Account";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Contact from "./pages/Contact";
+import RegisterInfos from "./pages/RegisterInfos";
+import RegisterCars from "./pages/RegisterCars";
+import RegisterManager from "./components/RegisterManager";
 
 const router = createBrowserRouter([
   {
@@ -34,7 +37,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/register",
-        element: <Register />,
+        element: <RegisterManager />,
+        children: [
+          {
+            path: "/register/logs",
+            element: <Register />,
+          },
+          { path: "/register/infos", element: <RegisterInfos /> },
+          { path: "/register/cars", element: <RegisterCars /> },
+        ],
       },
       {
         path: "/contact",
