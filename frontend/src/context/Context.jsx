@@ -6,6 +6,7 @@ const theContext = createContext();
 
 export function ContextProvider({ children }) {
   const [userConected, setUserConected] = useState(false);
+  const [logUser, setLogUser] = useState({});
   const [userRegister, setUserRegister] = useState({});
   const [isValidEmail, setIsValidEmail] = useState(false);
 
@@ -14,6 +15,18 @@ export function ContextProvider({ children }) {
     if (e.target.name === "email") {
       setIsValidEmail(validator.isEmail(e.target.value));
     }
+  };
+
+  const setStorage = () => {
+    localStorage.setItem("user", JSON.stringify(logUser));
+  };
+  const handleLogin = (e) => {
+    setLogUser({ ...logUser, [e.target.name]: e.target.value });
+  };
+
+  const validLogin = () => {
+    setUserConected(true);
+    setStorage();
   };
 
   const login = () => {
@@ -25,9 +38,6 @@ export function ContextProvider({ children }) {
     localStorage.removeItem("user");
   };
 
-  const setStorage = () => {
-    localStorage.setItem("user", JSON.stringify(userRegister));
-  };
   const checkStorage = () => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser) {
@@ -51,6 +61,8 @@ export function ContextProvider({ children }) {
       logout,
       checkStorage,
       setStorage,
+      handleLogin,
+      validLogin,
     }),
     [
       userConected,
@@ -64,6 +76,8 @@ export function ContextProvider({ children }) {
       logout,
       checkStorage,
       setStorage,
+      handleLogin,
+      validLogin,
     ]
   );
   return (
