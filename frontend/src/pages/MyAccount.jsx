@@ -32,11 +32,13 @@ export default function MyAccount() {
             <p>Modifier mon profil</p>
             <p>&rarr;</p>
           </MDBBtn>
+          <Link to="/">
+            <MDBBtn className="buttonprofil" color="light" rippleColor="dark">
+              <p>Me déconnecter</p>
+              <p>&rarr;</p>
+            </MDBBtn>
+          </Link>
 
-          <MDBBtn className="buttonprofil" color="light" rippleColor="dark">
-            <p>Me déconnecter</p>
-            <p>&rarr;</p>
-          </MDBBtn>
           <MDBBtn className="buttonprofil" color="light" rippleColor="dark">
             <p>Supprimer mon compte</p>
             <p>&rarr;</p>
