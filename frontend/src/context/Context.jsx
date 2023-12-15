@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useMemo } from "react";
+import { createContext, useContext, useState, useMemo, useEffect } from "react";
 import validator from "validator";
 import PropTypes from "prop-types";
 
@@ -34,6 +34,9 @@ export function ContextProvider({ children }) {
       login();
     }
   };
+  useEffect(() => {
+    checkStorage();
+  }, []);
 
   const memoizedUserValue = useMemo(
     () => ({
