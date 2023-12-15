@@ -12,7 +12,7 @@ import {
 import "@reach/combobox/styles.css";
 import PropTypes from "prop-types";
 
-export default function Places({ setOffice }) {
+export default function Places({ setCenter }) {
   const {
     ready,
     value,
@@ -27,7 +27,7 @@ export default function Places({ setOffice }) {
 
     const results = await getGeocode({ address: val });
     const { lat, lng } = await getLatLng(results[0]);
-    setOffice({ lat, lng });
+    setCenter({ lat, lng });
   };
 
   return (
@@ -62,5 +62,5 @@ export default function Places({ setOffice }) {
 }
 
 Places.propTypes = {
-  setOffice: PropTypes.func.isRequired,
+  setCenter: PropTypes.func.isRequired,
 };

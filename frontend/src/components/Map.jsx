@@ -19,7 +19,7 @@ export default function Map() {
     <>
       <div className="map">
         <Places
-          setOffice={(place) => {
+          setCenter={(place) => {
             mapRef.current?.setZoom(10);
             mapRef.current?.panTo(place);
             mapRef.current?.setCenter(place);
