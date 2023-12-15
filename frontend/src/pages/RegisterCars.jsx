@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function RegisterCars() {
-  const { handleInputRegister, login } = useTheContext();
+  const { handleInputRegister, login, setStorage } = useTheContext();
   const handleSubmitRegister = () => {
     login();
+    setStorage();
   };
 
   return (

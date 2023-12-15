@@ -18,6 +18,7 @@ export default function NavBar() {
         to={userConected ? "/myaccount" : "/login"}
         className="navbar-button"
       >
+        {userConected ? <span>🟢</span> : <span />}
         <span className="material-symbols-outlined">account_circle</span>
         <p className="navbar-title">Compte</p>
       </Link>

@@ -1,5 +1,4 @@
-/* eslint-disable react/jsx-no-constructed-context-values */
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useMemo } from "react";
 import validator from "validator";
 import PropTypes from "prop-types";
 
@@ -12,8 +11,8 @@ export function ContextProvider({ children }) {
 
   const handleInputRegister = (e) => {
     setUserRegister({ ...userRegister, [e.target.name]: e.target.value });
-    if (userRegister.email) {
-      setIsValidEmail(validator.isEmail(userRegister.email));
+    if (e.target.name === "email") {
+      setIsValidEmail(validator.isEmail(e.target.value));
     }
   };
 
@@ -21,25 +20,54 @@ export function ContextProvider({ children }) {
     setUserConected(true);
   };
 
-  // localStorage.getItem("userValues")? user.find(() => comparer mail avec dbmail et si ça match setUserConected({ user: true }) ): elsehere;
-  // localStorage.setItem("userRegister")
+  const logout = () => {
+    setUserConected(false);
+    localStorage.removeItem("user");
+  };
+
+  const setStorage = () => {
+    localStorage.setItem("user", JSON.stringify(userRegister));
+  };
+  const checkStorage = () => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) {
+      login();
+    }
+  };
+
+  const memoizedUserValue = useMemo(
+    () => ({
+      userConected,
+      setUserConected,
+      userRegister,
+      setUserRegister,
+      handleInputRegister,
+      login,
+      isValidEmail,
+      setIsValidEmail,
+      logout,
+      checkStorage,
+      setStorage,
+    }),
+    [
+      userConected,
+      setUserConected,
+      userRegister,
+      setUserRegister,
+      handleInputRegister,
+      login,
+      isValidEmail,
+      setIsValidEmail,
+      logout,
+      checkStorage,
+      setStorage,
+    ]
+  );
   return (
-    <theContext.Provider
-      value={{
-        userConected,
-        setUserConected,
-        userRegister,
-        setUserRegister,
-        handleInputRegister,
-        login,
-        isValidEmail,
-        setIsValidEmail,
-      }}
-    >
+    <theContext.Provider value={memoizedUserValue}>
       {children}
     </theContext.Provider>
   );
 }
-
 ContextProvider.propTypes = { children: PropTypes.node.isRequired };
 export const useTheContext = () => useContext(theContext);
