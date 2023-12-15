@@ -6,10 +6,7 @@ import PropTypes from "prop-types";
 const theContext = createContext();
 
 export function ContextProvider({ children }) {
-  const [userConected, setUserConected] = useState({
-    user: false,
-    admin: false,
-  });
+  const [userConected, setUserConected] = useState(false);
   const [userRegister, setUserRegister] = useState({});
   const [isValidEmail, setIsValidEmail] = useState(false);
 
@@ -20,15 +17,10 @@ export function ContextProvider({ children }) {
     }
   };
 
-  const login = (e) => {
-    e.preventDefault();
-    setUserConected({ user: true, admin: false });
+  const login = () => {
+    setUserConected(true);
   };
 
-  const logout = (e) => {
-    e.preventDefault();
-    setUserConected({ user: false, admin: false });
-  };
   // localStorage.getItem("userValues")? user.find(() => comparer mail avec dbmail et si ça match setUserConected({ user: true }) ): elsehere;
   // localStorage.setItem("userRegister")
   return (
@@ -40,7 +32,6 @@ export function ContextProvider({ children }) {
         setUserRegister,
         handleInputRegister,
         login,
-        logout,
         isValidEmail,
         setIsValidEmail,
       }}
@@ -50,10 +41,5 @@ export function ContextProvider({ children }) {
   );
 }
 
-ContextProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-  // eslint-disable-next-line react/no-unused-prop-types
-  userConected: PropTypes.bool.isRequired,
-};
-
+ContextProvider.propTypes = { children: PropTypes.node.isRequired };
 export const useTheContext = () => useContext(theContext);

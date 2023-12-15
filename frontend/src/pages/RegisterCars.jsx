@@ -4,11 +4,8 @@ import { useTheContext } from "../context/Context";
 
 export default function RegisterCars() {
   const { handleInputRegister, login } = useTheContext();
-
-  const handleSubmitRegister = (e) => {
-    e.preventDefault();
+  const handleSubmitRegister = () => {
     login();
-    // postUser();
   };
 
   return (
