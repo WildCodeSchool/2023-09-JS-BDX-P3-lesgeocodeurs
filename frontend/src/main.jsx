@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ContextProvider } from "./context/Context";
 import "./styles/index.scss";
 
 import App from "./App";
@@ -21,6 +21,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+
     children: [
       {
         path: "/",
@@ -42,10 +43,7 @@ const router = createBrowserRouter([
         path: "/register",
         element: <RegisterManager />,
         children: [
-          {
-            path: "/register/logs",
-            element: <Register />,
-          },
+          { path: "/register/logs", element: <Register /> },
           { path: "/register/infos", element: <RegisterInfos /> },
           { path: "/register/cars", element: <RegisterCars /> },
         ],
@@ -70,6 +68,8 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ContextProvider>
+      <RouterProvider router={router} />
+    </ContextProvider>
   </React.StrictMode>
 );

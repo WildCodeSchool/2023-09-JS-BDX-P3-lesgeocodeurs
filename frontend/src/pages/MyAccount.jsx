@@ -1,8 +1,10 @@
 import React from "react";
 import { MDBBtn } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
+import { useTheContext } from "../context/Context";
 
 export default function MyAccount() {
+  const { logout } = useTheContext();
   return (
     <div>
       <div className="myAccount-container">
@@ -33,7 +35,12 @@ export default function MyAccount() {
             <p>&rarr;</p>
           </MDBBtn>
           <Link to="/">
-            <MDBBtn className="buttonprofil" color="light" rippleColor="dark">
+            <MDBBtn
+              className="buttonprofil"
+              color="light"
+              rippleColor="dark"
+              onClick={logout}
+            >
               <p>Me déconnecter</p>
               <p>&rarr;</p>
             </MDBBtn>

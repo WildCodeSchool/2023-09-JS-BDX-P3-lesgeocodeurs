@@ -3,17 +3,15 @@ import { Link } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function RegisterCars() {
-  const { handleInputRegister, login } = useTheContext();
-
-  const handleSubmitRegister = (e) => {
-    e.preventDefault();
+  const { handleInputRegister, login, setStorage } = useTheContext();
+  const handleSubmitRegister = () => {
     login();
-    // postUser();
+    setStorage();
   };
 
   return (
     <div className="registerInfos-container">
-      <form className="login-form" onSubmit={handleSubmitRegister}>
+      <div className="login-form">
         <h1>Mes infos</h1>
         <MDBInput
           className="mb-4"
@@ -38,11 +36,16 @@ export default function RegisterCars() {
         />
 
         <Link to="/">
-          <MDBBtn type="submit" className="mb-4" block>
+          <MDBBtn
+            type="button"
+            onClick={handleSubmitRegister}
+            className="mb-4"
+            block
+          >
             Terminer l'inscription
           </MDBBtn>
         </Link>
-      </form>
+      </div>
     </div>
   );
 }
