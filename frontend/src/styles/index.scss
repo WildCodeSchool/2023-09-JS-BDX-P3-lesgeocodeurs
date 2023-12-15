@@ -8,7 +8,7 @@ $my-dark-theme: mdb-light-theme($my-theme-primary, $my-theme-secondary);
 
 @import "./components/navBar";
 @import "./components/map";
-
+@import "./components/myAccount";
 @import "./components/home";
 @import "./components/login";
 @import "./components/register";
