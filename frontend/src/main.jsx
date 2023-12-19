@@ -6,7 +6,7 @@ import "./styles/index.scss";
 
 import App from "./App";
 import Home from "./pages/Home";
-import MyMap from "./pages/Map";
+import MapPage from "./pages/MapPage";
 import MyAccount from "./pages/MyAccount";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -30,7 +30,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/map",
-        element: <MyMap />,
+        element: <MapPage />,
       },
       {
         path: "/myaccount",
