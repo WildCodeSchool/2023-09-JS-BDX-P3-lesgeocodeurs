@@ -6,11 +6,7 @@ import "./styles/index.scss";
 
 import App from "./App";
 import Home from "./pages/Home";
-/* import MyMap from "./pages/Map";
-import Map from "./components/Map"; */
 import MapPage from "./pages/MapPage";
-/* import Account from "./pages/Account";
-import MyMap from "./pages/Map"; */
 import MyAccount from "./pages/MyAccount";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
