@@ -7,9 +7,14 @@ import {
 } from "mdb-react-ui-kit";
 
 export default function Reservation() {
+  function rtn() {
+    window.history.back();
+  }
   return (
     <div className="reservation-container">
-      <h2 className="back"> &larr; Retour</h2>
+      <button type="submit" className="back" onClick={rtn}>
+        &larr; Retour
+      </button>
 
       <h1 className="reservation-title">Mes Réservations</h1>
       <p className="history-reservation">A venir</p>

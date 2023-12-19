@@ -7,9 +7,15 @@ import {
 } from "mdb-react-ui-kit";
 
 export default function Cars() {
+  function rtn() {
+    window.history.back();
+  }
+
   return (
     <div className="cars-container">
-      <h2 className="back"> &larr; Retour</h2>
+      <button type="submit" className="back" onClick={rtn}>
+        &larr; Retour
+      </button>
       <h1 className="cars-title">Mes véhicules</h1>
       <div className="my-car">
         <MDBCard border>

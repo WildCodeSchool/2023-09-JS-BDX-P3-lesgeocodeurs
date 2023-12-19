@@ -30,10 +30,13 @@ export default function MyAccount() {
           </Link>
 
           <div className="modification-profil" />
-          <MDBBtn className="buttonprofil" color="light" rippleColor="dark">
-            <p>Modifier mon profil</p>
-            <p>&rarr;</p>
-          </MDBBtn>
+          <Link to="/modifprofil">
+            <MDBBtn className="buttonprofil" color="light" rippleColor="dark">
+              <p>Modifier mon profil</p>
+              <p>&rarr;</p>
+            </MDBBtn>
+          </Link>
+
           <Link to="/">
             <MDBBtn
               className="buttonprofil"

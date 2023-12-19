@@ -17,6 +17,7 @@ import RegisterInfos from "./pages/RegisterInfos";
 import RegisterCars from "./pages/RegisterCars";
 import RegisterManager from "./components/RegisterManager";
 import ModifProfil from "./pages/ModifProfil";
+import BackOfficeUtilisateur from "./pages/BackOfficeUtilisateur";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
       {
         path: "/modifprofil",
         element: <ModifProfil />,
+      },
+      {
+        path: "/backofficeutilisateur",
+        element: <BackOfficeUtilisateur />,
       },
     ],
   },
