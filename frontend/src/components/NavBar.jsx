@@ -14,7 +14,11 @@ export default function NavBar() {
         <span className="material-symbols-outlined">map</span>
         <p className="navbar-title">Carte</p>
       </Link>
-      <Link to={userConected ? "/account" : "/login"} className="navbar-button">
+      <Link
+        to={userConected ? "/myaccount" : "/login"}
+        className="navbar-button"
+      >
+        {userConected ? <span>🟢</span> : <span />}
         <span className="material-symbols-outlined">account_circle</span>
         <p className="navbar-title">Compte</p>
       </Link>

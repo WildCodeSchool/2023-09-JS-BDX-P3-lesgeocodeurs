@@ -13,7 +13,8 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.20.1",
     "sass": "^1.69.5",
-    "use-places-autocomplete": "^4.0.1"
+    "use-places-autocomplete": "^4.0.1",
+    "validator": "^13.11.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.3",
