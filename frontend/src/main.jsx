@@ -16,6 +16,7 @@ import Reservation from "./pages/Reservation";
 import RegisterInfos from "./pages/RegisterInfos";
 import RegisterCars from "./pages/RegisterCars";
 import RegisterManager from "./components/RegisterManager";
+import ModifProfil from "./pages/ModifProfil";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: "/reservation",
         element: <Reservation />,
+      },
+      {
+        path: "/modifprofil",
+        element: <ModifProfil />,
       },
     ],
   },

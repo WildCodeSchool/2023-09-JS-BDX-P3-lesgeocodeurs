@@ -3,10 +3,9 @@ import { Link } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function RegisterCars() {
-  const { handleInputRegister, login, setStorage } = useTheContext();
+  const { handleInputRegister, login } = useTheContext();
   const handleSubmitRegister = () => {
     login();
-    setStorage();
   };
 
   return (
@@ -35,7 +34,7 @@ export default function RegisterCars() {
           onChange={handleInputRegister}
         />
 
-        <Link to="/">
+        <Link to="/login">
           <MDBBtn
             type="button"
             onClick={handleSubmitRegister}
