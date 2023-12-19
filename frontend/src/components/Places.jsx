@@ -2,22 +2,14 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-import {
-  Combobox,
-  ComboboxInput,
-  ComboboxPopover,
-  ComboboxList,
-  ComboboxOption,
-} from "@reach/combobox";
-import "@reach/combobox/styles.css";
 import PropTypes from "prop-types";
+import { MDBAutocomplete } from "mdb-react-ui-kit";
 
 export default function Places({ setCenter }) {
   const {
-    ready,
     value,
     setValue,
-    suggestions: { status, data },
+    suggestions: { data },
     clearSuggestions,
   } = usePlacesAutocomplete();
 
@@ -30,34 +22,15 @@ export default function Places({ setCenter }) {
     setCenter({ lat, lng });
   };
 
+  const onSearch = (value1) => setValue(value1);
+
   return (
-    <Combobox
+    <MDBAutocomplete
+      data={data.map((e) => e.description)}
+      value={value}
+      onSearch={onSearch}
       onSelect={handleSelect}
-      style={{
-        width: "300px",
-        position: "absolute",
-        top: "5px",
-        left: "5px",
-        zIndex: "1",
-      }}
-    >
-      <ComboboxInput
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        disabled={!ready}
-        className="combobox-input"
-        placeholder="Search office address"
-        style={{ width: "100%" }}
-      />
-      <ComboboxPopover>
-        <ComboboxList>
-          {status === "OK" &&
-            data.map(({ placeId, description }) => (
-              <ComboboxOption key={placeId} value={description} />
-            ))}
-        </ComboboxList>
-      </ComboboxPopover>
-    </Combobox>
+    />
   );
 }
 
