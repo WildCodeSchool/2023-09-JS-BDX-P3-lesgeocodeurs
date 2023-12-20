@@ -4,16 +4,19 @@ import { Link } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function MyAccount() {
-  const { logout } = useTheContext();
+  const { logout, getRegisterStorage, age } = useTheContext();
+
   return (
     <div>
       <div className="myAccount-container">
         <h1 className="profil-title">Mon Compte</h1>
         <div className="identity">
-          <p>Damien Jean </p>
-          <p>25 ans</p>
-          <p>Bordeaux</p>
-          <p>damien.jean@mail.com</p>
+          <p>
+            {getRegisterStorage?.name} {getRegisterStorage?.firstName}
+          </p>
+          <p>{age}</p>
+          <p>{getRegisterStorage?.city}</p>
+          <p>{getRegisterStorage?.email}</p>
         </div>
         <div className="profil-container">
           <Link to="/cars">

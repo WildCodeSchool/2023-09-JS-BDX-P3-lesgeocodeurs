@@ -3,10 +3,7 @@ import { Link } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function RegisterCars() {
-  const { handleInputRegister, login } = useTheContext();
-  const handleSubmitRegister = () => {
-    login();
-  };
+  const { handleInputRegister, handleSubmitRegister } = useTheContext();
 
   return (
     <div className="registerInfos-container">
