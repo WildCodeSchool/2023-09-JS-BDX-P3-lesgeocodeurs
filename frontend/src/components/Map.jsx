@@ -1,10 +1,24 @@
-import { GoogleMap } from "@react-google-maps/api";
+import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import { useCallback, useMemo, useRef, useState } from "react";
+import { useGeolocated } from "react-geolocated";
+import { MDBBtn } from "mdb-react-ui-kit";
 import Station from "./Station";
 import Places from "./Places";
 import data from "../data-test.json";
+/* import getLocationIcon from "../assets/get-location.svg"; */
+import myLocationIcon from "../assets/my-location.svg";
 
 export default function Map() {
+  /* eslint-disable */
+  // (hack to stop Google Maps spamming the console with errors)
+  const previousPreventDefault = TouchEvent.prototype.preventDefault;
+  TouchEvent.prototype.preventDefault = function () {
+    if (this.cancelable) {
+      previousPreventDefault.call(this);
+    }
+  };
+  /* eslint-enable */
+
   const position = useMemo(
     () => ({ lat: 46.57829080854987, lng: 2.528225829979713 }),
     []
@@ -15,16 +29,31 @@ export default function Map() {
     mapRef.current = map;
   }, []);
 
+  const setFocus = (place, zoom) => {
+    mapRef.current?.setZoom(zoom);
+    mapRef.current?.panTo(place);
+    mapRef.current?.setCenter(place);
+  };
+
+  const { coords, getPosition } = useGeolocated();
+  console.info(coords);
+
+  const handleClick = () => {
+    getPosition();
+    if (coords) {
+      setFocus({ lat: coords.latitude, lng: coords.longitude }, 15);
+    }
+  };
+
   return (
     <>
       <div className="map">
-        <Places
-          setCenter={(place) => {
-            mapRef.current?.setZoom(10);
-            mapRef.current?.panTo(place);
-            mapRef.current?.setCenter(place);
-          }}
-        />
+        <div className="map-controls" style={{ display: "flex" }}>
+          <Places setFocus={setFocus} />
+          <MDBBtn onClick={handleClick}>
+            <span className="material-symbols-outlined">my_location</span>
+          </MDBBtn>
+        </div>
         <GoogleMap
           zoom={5}
           center={position}
@@ -33,6 +62,12 @@ export default function Map() {
           onLoad={onLoad}
           onClick={() => setSelectedStation(null)}
         >
+          {coords && (
+            <MarkerF
+              position={{ lat: coords.latitude, lng: coords.longitude }}
+              icon={myLocationIcon}
+            />
+          )}
           {data.map((station) => (
             <Station
               key={station.id_station_itinerance}
