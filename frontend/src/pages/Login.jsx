@@ -9,7 +9,7 @@ import {
 import { useTheContext } from "../context/Context";
 
 export default function Login() {
-  const { handleLogin, validLogin } = useTheContext();
+  const { handleLogin, login } = useTheContext();
 
   return (
     <div className="login-form">
@@ -38,7 +38,7 @@ export default function Login() {
         </MDBCol>
       </MDBRow>
       <Link to="/">
-        <MDBBtn type="submit" className="mb-4" block onClick={validLogin}>
+        <MDBBtn type="submit" className="mb-4" block onClick={login}>
           Connexion
         </MDBBtn>
       </Link>

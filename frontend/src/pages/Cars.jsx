@@ -5,8 +5,10 @@ import {
   MDBCardTitle,
   MDBCardText,
 } from "mdb-react-ui-kit";
+import { useTheContext } from "../context/Context";
 
 export default function Cars() {
+  const { getRegisterStorage } = useTheContext();
   return (
     <div className="cars-container">
       <h2 className="back"> &larr; Retour</h2>
@@ -16,7 +18,9 @@ export default function Cars() {
           <div className="one-car">
             <MDBCardBody>
               <div>
-                <MDBCardTitle>Peugeot 200swag</MDBCardTitle>
+                <MDBCardTitle>
+                  {getRegisterStorage.brand} {getRegisterStorage.model}
+                </MDBCardTitle>
                 <MDBCardText>Type de prise : ABC</MDBCardText>
               </div>
               <div className="btn-delete-car">

@@ -5,45 +5,61 @@ import PropTypes from "prop-types";
 const theContext = createContext();
 
 export function ContextProvider({ children }) {
+  // statut de connexion
   const [userConected, setUserConected] = useState(false);
+  // information de connexion
   const [logUser, setLogUser] = useState({});
+  // information d'inscription
   const [userRegister, setUserRegister] = useState({});
   const [isValidEmail, setIsValidEmail] = useState(false);
 
+  const setStorage = (key, data) => {
+    localStorage.setItem(key, JSON.stringify(data));
+  };
+
   const handleInputRegister = (e) => {
     setUserRegister({ ...userRegister, [e.target.name]: e.target.value });
+    setStorage("userRegister", userRegister);
     if (e.target.name === "email") {
       setIsValidEmail(validator.isEmail(e.target.value));
     }
   };
 
-  const setStorage = () => {
-    localStorage.setItem("user", JSON.stringify(logUser));
-  };
   const handleLogin = (e) => {
     setLogUser({ ...logUser, [e.target.name]: e.target.value });
+    setStorage("logUser", logUser);
   };
 
-  const validLogin = () => {
-    setUserConected(true);
-    setStorage();
-  };
+  const getRegisterStorage = JSON.parse(localStorage.getItem("userRegister"));
+  const getLogStorage = JSON.parse(localStorage.getItem("logUser"));
 
   const login = () => {
-    setUserConected(true);
+    if (getRegisterStorage) {
+      if (
+        getRegisterStorage.email === logUser.email &&
+        getRegisterStorage.password === logUser.password
+      ) {
+        setUserConected(true);
+      }
+    }
   };
 
   const logout = () => {
     setUserConected(false);
-    localStorage.removeItem("user");
+    // localStorage.removeItem("user");
   };
 
   const checkStorage = () => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser) {
-      login();
+    if (getLogStorage) {
+      if (
+        getLogStorage.email === getRegisterStorage.email &&
+        getLogStorage.password === getRegisterStorage.password
+      ) {
+        setUserConected(true);
+      }
     }
   };
+
   useEffect(() => {
     checkStorage();
   }, []);
@@ -62,7 +78,7 @@ export function ContextProvider({ children }) {
       checkStorage,
       setStorage,
       handleLogin,
-      validLogin,
+      getRegisterStorage,
     }),
     [
       userConected,
@@ -77,7 +93,7 @@ export function ContextProvider({ children }) {
       checkStorage,
       setStorage,
       handleLogin,
-      validLogin,
+      getRegisterStorage,
     ]
   );
   return (
