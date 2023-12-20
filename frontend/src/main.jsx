@@ -18,6 +18,7 @@ import RegisterCars from "./pages/RegisterCars";
 import RegisterManager from "./components/RegisterManager";
 import ModifProfil from "./pages/ModifProfil";
 import BackOfficeUtilisateur from "./pages/BackOfficeUtilisateur";
+import BackOfficeAccueil from "./pages/BackOfficeAccueil";
 
 const router = createBrowserRouter([
   {
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
       {
         path: "/backofficeutilisateur",
         element: <BackOfficeUtilisateur />,
+      },
+      {
+        path: "/backofficeaccueil",
+        element: <BackOfficeAccueil />,
       },
     ],
   },

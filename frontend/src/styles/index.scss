@@ -16,6 +16,7 @@ $my-dark-theme: mdb-light-theme($my-theme-primary, $my-theme-secondary);
 @import "./components/cars";
 @import "./components/modifprofil";
 @import "./components/backofficeutilisateur";
+@import "./components/backofficeaccueil";
 * {
   margin: 0;
   padding: 0;

@@ -14,7 +14,7 @@ import {
 export default function BackOfficeUtilisateur() {
   const [openNav, setOpenNav] = useState(false);
   const basicData = {
-    columns: ["Name", "Position", "Office", "Age", "Start date", "Salary"],
+    columns: ["Id", "Email", "Prénom", "Nom", "DDN", "CP", "Ville"],
     rows: [
       [
         "Tiger Nixon",
