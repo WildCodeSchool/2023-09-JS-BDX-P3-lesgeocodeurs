@@ -55,8 +55,10 @@
     font-size: "Lato";
     margin-top: 5px;
   }
+
   .the-navbar {
     top: 0;
+    bottom: auto;
     height: 70px;
     flex-direction: row;
     align-items: center;
