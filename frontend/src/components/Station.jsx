@@ -22,5 +22,5 @@ Station.propTypes = {
     consolidated_longitude: PropTypes.number.isRequired,
   }).isRequired,
   setSelectedStation: PropTypes.func.isRequired,
-  clusterer: PropTypes.shape.isRequired,
+  clusterer: PropTypes.shape().isRequired,
 };
