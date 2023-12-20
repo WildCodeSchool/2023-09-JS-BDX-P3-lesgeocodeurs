@@ -3,11 +3,7 @@ import { Link } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function RegisterCars() {
-  const { handleInputRegister, login, setStorage } = useTheContext();
-  const handleSubmitRegister = () => {
-    login();
-    setStorage();
-  };
+  const { handleInputRegister, handleSubmitRegister } = useTheContext();
 
   return (
     <div className="registerInfos-container">
@@ -35,7 +31,7 @@ export default function RegisterCars() {
           onChange={handleInputRegister}
         />
 
-        <Link to="/">
+        <Link to="/login">
           <MDBBtn
             type="button"
             onClick={handleSubmitRegister}
