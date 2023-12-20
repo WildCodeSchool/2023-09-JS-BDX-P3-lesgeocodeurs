@@ -14,6 +14,7 @@ export function ContextProvider({ children }) {
   const [userRegister, setUserRegister] = useState({});
   const [isValidEmail, setIsValidEmail] = useState(false);
 
+  // méthode réutilisable qui stock une clé "key" ayant pour valeur "data" dans le localstorage
   const setStorage = (key, data) => {
     localStorage.setItem(key, JSON.stringify(data));
   };
@@ -45,13 +46,13 @@ export function ContextProvider({ children }) {
         getRegisterStorage.password === logUser.password
       ) {
         setUserConected(true);
+      } else if (
+        getRegisterStorage.email !== logUser.email ||
+        getRegisterStorage.password !== logUser.password
+      ) {
+        alert("try again");
+        Navigate("/login");
       }
-      // else if (
-      //   getRegisterStorage.email !== logUser.email ||
-      //   getRegisterStorage.password !== logUser.password
-      // ) {
-      //   console.error("Erreur de connexion");
-      // }
     }
   };
 
@@ -75,7 +76,7 @@ export function ContextProvider({ children }) {
     checkStorage();
   }, []);
 
-  function calculerAge(dateNaissance) {
+  const calculerAge = (dateNaissance) => {
     const [annee, mois, jour] = dateNaissance.split("-").map(Number);
 
     const dateNaissanceFormat = new Date(annee, mois - 1, jour); // Soustraire 1 au mois car les mois commencent à 0
@@ -98,7 +99,7 @@ export function ContextProvider({ children }) {
     }
 
     return age;
-  }
+  };
 
   const age = getRegisterStorage
     ? calculerAge(getRegisterStorage.birthDate)
@@ -121,6 +122,7 @@ export function ContextProvider({ children }) {
       getRegisterStorage,
       handleSubmitRegister,
       age,
+      calculerAge,
     }),
     [
       userConected,
@@ -138,6 +140,7 @@ export function ContextProvider({ children }) {
       getRegisterStorage,
       handleSubmitRegister,
       age,
+      calculerAge,
     ]
   );
   return (
