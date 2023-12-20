@@ -3,14 +3,42 @@ import { Link } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function RegisterInfos() {
-  const { handleInputRegister } = useTheContext();
+  const { handleInputRegister, userRegister, calculerAge } = useTheContext();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // postUser();
   };
+
+  const formErrors = [];
+  const age = userRegister.birthDate ? calculerAge(userRegister.birthDate) : 0;
+
+  if (
+    userRegister.name?.length < 3 &&
+    userRegister.name?.length > 15 &&
+    userRegister.name === null
+  ) {
+    formErrors.push("Veuillez renseigner un nom valide");
+  }
+  if (userRegister.firstName?.length < 3) {
+    formErrors.push("Veuillez renseigner un prénom valide");
+  }
+  if (age < 18) {
+    formErrors.push("Vous devez avoir plus de 18ans pour vous incrire");
+  }
+  if (age > 100) {
+    formErrors.push("Vous ne devriez pas conduire à cet âge...");
+  }
+  if (/^[0-9]{5}$/.test(userRegister.postal)) {
+    formErrors.push("Le code postal n'est pas valide");
+  }
+  if (
+    userRegister.city?.length < 3 &&
+    /^[a-zA-Z\s-]{1,}$/.test(userRegister.city)
+  ) {
+    formErrors.push("Veuillez renseigner une ville valide");
+  }
   return (
-    <div className="registerInfos-container">
+    <div className="register-container">
       <form className="login-form" onSubmit={handleSubmit}>
         <h1>Mes infos</h1>
         <MDBInput
@@ -51,10 +79,18 @@ export default function RegisterInfos() {
         />
 
         <Link to="/register/cars">
-          <MDBBtn type="submit" className="mb-4" block>
+          <MDBBtn
+            type="submit"
+            className="mb-4"
+            block
+            disabled={formErrors.length !== 0}
+          >
             Suivant
           </MDBBtn>
         </Link>
+        {formErrors.map((error) => (
+          <p key={error}>{error}</p>
+        ))}
       </form>
     </div>
   );

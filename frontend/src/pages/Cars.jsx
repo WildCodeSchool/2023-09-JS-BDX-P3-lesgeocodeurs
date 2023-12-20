@@ -5,12 +5,14 @@ import {
   MDBCardTitle,
   MDBCardText,
 } from "mdb-react-ui-kit";
+import { useTheContext } from "../context/Context";
 
 export default function Cars() {
   function rtn() {
     window.history.back();
   }
 
+  const { getRegisterStorage } = useTheContext();
   return (
     <div className="cars-container">
       <button type="submit" className="back" onClick={rtn}>
@@ -22,8 +24,12 @@ export default function Cars() {
           <div className="one-car">
             <MDBCardBody>
               <div>
-                <MDBCardTitle>Peugeot 200swag</MDBCardTitle>
-                <MDBCardText>Type de prise : ABC</MDBCardText>
+                <MDBCardTitle>
+                  {getRegisterStorage?.brand} {getRegisterStorage?.model}
+                </MDBCardTitle>
+                <MDBCardText>
+                  Type de prise : {getRegisterStorage?.plugType}
+                </MDBCardText>
               </div>
               <div className="btn-delete-car">
                 <MDBBtn size="sm">Supprimer</MDBBtn>

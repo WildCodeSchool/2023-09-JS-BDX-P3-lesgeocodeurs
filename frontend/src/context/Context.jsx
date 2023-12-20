@@ -1,14 +1,23 @@
 import { createContext, useContext, useState, useMemo, useEffect } from "react";
 import validator from "validator";
 import PropTypes from "prop-types";
+import { Navigate } from "react-router-dom";
 
 const theContext = createContext();
 
 export function ContextProvider({ children }) {
+  // statut de connexion
   const [userConected, setUserConected] = useState(false);
+  // information de connexion
   const [logUser, setLogUser] = useState({});
+  // information d'inscription
   const [userRegister, setUserRegister] = useState({});
   const [isValidEmail, setIsValidEmail] = useState(false);
+
+  // méthode réutilisable qui stock une clé "key" ayant pour valeur "data" dans le localstorage
+  const setStorage = (key, data) => {
+    localStorage.setItem(key, JSON.stringify(data));
+  };
 
   const handleInputRegister = (e) => {
     setUserRegister({ ...userRegister, [e.target.name]: e.target.value });
@@ -17,36 +26,84 @@ export function ContextProvider({ children }) {
     }
   };
 
-  const setStorage = () => {
-    localStorage.setItem("user", JSON.stringify(logUser));
-  };
   const handleLogin = (e) => {
     setLogUser({ ...logUser, [e.target.name]: e.target.value });
   };
 
-  const validLogin = () => {
-    setUserConected(true);
-    setStorage();
+  const getRegisterStorage = JSON.parse(localStorage.getItem("userRegister"));
+  const getLogStorage = JSON.parse(localStorage.getItem("logUser"));
+
+  const handleSubmitRegister = () => {
+    setStorage("userRegister", userRegister);
+    Navigate("/login");
   };
 
   const login = () => {
-    setUserConected(true);
+    setStorage("logUser", logUser);
+    if (getRegisterStorage) {
+      if (
+        getRegisterStorage.email === logUser.email &&
+        getRegisterStorage.password === logUser.password
+      ) {
+        setUserConected(true);
+      } else if (
+        getRegisterStorage.email !== logUser.email ||
+        getRegisterStorage.password !== logUser.password
+      ) {
+        alert("try again");
+        Navigate("/login");
+      }
+    }
   };
 
   const logout = () => {
     setUserConected(false);
-    localStorage.removeItem("user");
+    localStorage.removeItem("logUser");
   };
 
   const checkStorage = () => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser) {
-      login();
+    if (getLogStorage) {
+      if (
+        getLogStorage.email === getRegisterStorage.email &&
+        getLogStorage.password === getRegisterStorage.password
+      ) {
+        setUserConected(true);
+      }
     }
   };
+
   useEffect(() => {
     checkStorage();
   }, []);
+
+  const calculerAge = (dateNaissance) => {
+    const [annee, mois, jour] = dateNaissance.split("-").map(Number);
+
+    const dateNaissanceFormat = new Date(annee, mois - 1, jour); // Soustraire 1 au mois car les mois commencent à 0
+
+    const dateActuelle = new Date();
+    let age = dateActuelle.getFullYear() - dateNaissanceFormat.getFullYear();
+
+    // Vérifier si l'anniversaire est déjà passé cette année
+    const moisActuel = dateActuelle.getMonth() + 1;
+    const jourActuel = dateActuelle.getDate();
+    const moisAnniversaire = dateNaissanceFormat.getMonth() + 1;
+    const jourAnniversaire = dateNaissanceFormat.getDate();
+
+    if (
+      moisActuel < moisAnniversaire ||
+      (moisActuel === moisAnniversaire && jourActuel < jourAnniversaire)
+    ) {
+      // eslint-disable-next-line no-plusplus
+      age--;
+    }
+
+    return age;
+  };
+
+  const age = getRegisterStorage
+    ? calculerAge(getRegisterStorage.birthDate)
+    : null;
 
   const memoizedUserValue = useMemo(
     () => ({
@@ -62,7 +119,10 @@ export function ContextProvider({ children }) {
       checkStorage,
       setStorage,
       handleLogin,
-      validLogin,
+      getRegisterStorage,
+      handleSubmitRegister,
+      age,
+      calculerAge,
     }),
     [
       userConected,
@@ -77,7 +137,10 @@ export function ContextProvider({ children }) {
       checkStorage,
       setStorage,
       handleLogin,
-      validLogin,
+      getRegisterStorage,
+      handleSubmitRegister,
+      age,
+      calculerAge,
     ]
   );
   return (
