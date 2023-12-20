@@ -1,8 +1,7 @@
-/* import { Marker } from "@vis.gl/react-google-maps"; */
 import { MarkerF } from "@react-google-maps/api";
 import PropTypes from "prop-types";
 
-export default function Station({ station, setSelectedStation }) {
+export default function Station({ station, setSelectedStation, clusterer }) {
   return (
     <MarkerF
       position={{
@@ -12,6 +11,7 @@ export default function Station({ station, setSelectedStation }) {
       onClick={() => {
         setSelectedStation(station);
       }}
+      clusterer={clusterer}
     />
   );
 }
@@ -22,4 +22,5 @@ Station.propTypes = {
     consolidated_longitude: PropTypes.number.isRequired,
   }).isRequired,
   setSelectedStation: PropTypes.func.isRequired,
+  clusterer: PropTypes.shape.isRequired,
 };

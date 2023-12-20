@@ -1,12 +1,12 @@
-import { GoogleMap, MarkerF } from "@react-google-maps/api";
+import { GoogleMap, MarkerClustererF } from "@react-google-maps/api";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useGeolocated } from "react-geolocated";
 import { MDBBtn } from "mdb-react-ui-kit";
 import Station from "./Station";
 import Places from "./Places";
 import data from "../data-test.json";
-/* import getLocationIcon from "../assets/get-location.svg"; */
-import myLocationIcon from "../assets/my-location.svg";
+/* import getLocationIcon from "../assets/get-location.svg"; 
+import myLocationIcon from "../assets/my-location.svg"; */
 
 export default function Map() {
   /* eslint-disable */
@@ -62,19 +62,37 @@ export default function Map() {
           onLoad={onLoad}
           onClick={() => setSelectedStation(null)}
         >
-          {coords && (
+          {/* {coords && (
             <MarkerF
               position={{ lat: coords.latitude, lng: coords.longitude }}
               icon={myLocationIcon}
             />
-          )}
-          {data.map((station) => (
-            <Station
-              key={station.id_station_itinerance}
-              station={station}
-              setSelectedStation={setSelectedStation}
-            />
-          ))}
+          )} */}
+          <MarkerClustererF>
+            {(clusterer) => (
+              <>
+                {data.map((station) => (
+                  <Station
+                    key={station.id_station_itinerance}
+                    station={station}
+                    setSelectedStation={setSelectedStation}
+                    clusterer={clusterer}
+                  />
+                  /* <MarkerF
+                    key={station.id_station_itinerance}
+                    position={{
+                      lat: station.consolidated_latitude,
+                      lng: station.consolidated_longitude,
+                    }}
+                    onClick={() => {
+                      setSelectedStation(station);
+                    }}
+                    clusterer={clusterer}
+                  /> */
+                ))}
+              </>
+            )}
+          </MarkerClustererF>
         </GoogleMap>
       </div>
       {selectedStation && (
