@@ -19,9 +19,11 @@ export default function Cars() {
             <MDBCardBody>
               <div>
                 <MDBCardTitle>
-                  {getRegisterStorage.brand} {getRegisterStorage.model}
+                  {getRegisterStorage?.brand} {getRegisterStorage?.model}
                 </MDBCardTitle>
-                <MDBCardText>Type de prise : ABC</MDBCardText>
+                <MDBCardText>
+                  Type de prise : {getRegisterStorage?.plugType}
+                </MDBCardText>
               </div>
               <div className="btn-delete-car">
                 <MDBBtn size="sm">Supprimer</MDBBtn>

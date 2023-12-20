@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function MyAccount() {
-  const { logout, getRegisterStorage } = useTheContext();
+  const { logout, getRegisterStorage, age } = useTheContext();
 
   return (
     <div>
@@ -12,11 +12,11 @@ export default function MyAccount() {
         <h1 className="profil-title">Mon Compte</h1>
         <div className="identity">
           <p>
-            {getRegisterStorage.name} {getRegisterStorage.firstName}
+            {getRegisterStorage?.name} {getRegisterStorage?.firstName}
           </p>
-          <p>25 ans</p>
-          <p>{getRegisterStorage.city}</p>
-          <p>{getRegisterStorage.email}</p>
+          <p>{age}</p>
+          <p>{getRegisterStorage?.city}</p>
+          <p>{getRegisterStorage?.email}</p>
         </div>
         <div className="profil-container">
           <Link to="/cars">

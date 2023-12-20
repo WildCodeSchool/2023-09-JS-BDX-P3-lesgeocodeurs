@@ -1,11 +1,5 @@
 import { Link } from "react-router-dom";
-import {
-  MDBInput,
-  MDBCol,
-  MDBRow,
-  MDBCheckbox,
-  MDBBtn,
-} from "mdb-react-ui-kit";
+import { MDBInput, MDBCol, MDBRow, MDBBtn } from "mdb-react-ui-kit";
 import { useTheContext } from "../context/Context";
 
 export default function Login() {
@@ -30,9 +24,6 @@ export default function Login() {
       />
 
       <MDBRow className="mb-4">
-        <MDBCol className="d-flex justify-content-center">
-          <MDBCheckbox label="Se souvenir de moi" defaultChecked />
-        </MDBCol>
         <MDBCol>
           <a href="#!">Mot de passe oublié? </a>
         </MDBCol>
