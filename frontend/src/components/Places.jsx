@@ -5,7 +5,7 @@ import usePlacesAutocomplete, {
 import PropTypes from "prop-types";
 import { MDBAutocomplete } from "mdb-react-ui-kit";
 
-export default function Places({ setCenter }) {
+export default function Places({ setFocus }) {
   const {
     value,
     setValue,
@@ -19,7 +19,7 @@ export default function Places({ setCenter }) {
 
     const results = await getGeocode({ address: val });
     const { lat, lng } = await getLatLng(results[0]);
-    setCenter({ lat, lng });
+    setFocus({ lat, lng }, 10);
   };
 
   const onSearch = (value1) => setValue(value1);
@@ -35,5 +35,5 @@ export default function Places({ setCenter }) {
 }
 
 Places.propTypes = {
-  setCenter: PropTypes.func.isRequired,
+  setFocus: PropTypes.func.isRequired,
 };
