@@ -13,13 +13,19 @@ export default function RegisterInfos() {
   const age = userRegister.birthDate ? calculerAge(userRegister.birthDate) : 0;
 
   if (
-    userRegister.name?.length < 3 &&
-    userRegister.name?.length > 15 &&
-    userRegister.name === null
+    userRegister.name?.length < 3 ||
+    userRegister.name?.length > 15 ||
+    userRegister.name === null ||
+    /^[a-zA-Z\s-]{1,}$/.test(userRegister.name) === false
   ) {
     formErrors.push("Veuillez renseigner un nom valide");
   }
-  if (userRegister.firstName?.length < 3) {
+  if (
+    userRegister.firstName?.length < 3 ||
+    userRegister.firstName?.length > 15 ||
+    userRegister.firstName === null ||
+    /^[a-zA-Z\s-]{1,}$/.test(userRegister.firstName) === false
+  ) {
     formErrors.push("Veuillez renseigner un prénom valide");
   }
   if (age < 18) {
@@ -27,9 +33,6 @@ export default function RegisterInfos() {
   }
   if (age > 100) {
     formErrors.push("Vous ne devriez pas conduire à cet âge...");
-  }
-  if (/^[0-9]{5}$/.test(userRegister.postal)) {
-    formErrors.push("Le code postal n'est pas valide");
   }
   if (
     userRegister.city?.length < 3 &&
@@ -64,7 +67,7 @@ export default function RegisterInfos() {
         />
         <MDBInput
           className="mb-4"
-          type="number"
+          type="string"
           required
           name="Postal"
           label="Code postal"
@@ -78,7 +81,7 @@ export default function RegisterInfos() {
           onChange={handleInputRegister}
         />
 
-        <Link to="/register/cars">
+        <Link to="/register/cars" disabled={formErrors.length !== 0}>
           <MDBBtn
             type="submit"
             className="mb-4"

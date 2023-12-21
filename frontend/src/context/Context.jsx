@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useMemo, useEffect } from "react";
+import axios from "axios";
 import validator from "validator";
 import PropTypes from "prop-types";
 import { Navigate } from "react-router-dom";
@@ -32,8 +33,17 @@ export function ContextProvider({ children }) {
 
   const getRegisterStorage = JSON.parse(localStorage.getItem("userRegister"));
   const getLogStorage = JSON.parse(localStorage.getItem("logUser"));
-  const handleSubmitRegister = () => {
+
+  const handleSubmitRegister = async () => {
     setStorage("userRegister", userRegister);
+    try {
+      await axios.post("http://localhost:3000/api/users", {
+        userRegister,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+
     Navigate("/login");
   };
 
