@@ -1,5 +1,5 @@
 // Initialization for ES Users
-import { MDBInput, MDBCheckbox, MDBBtn } from "mdb-react-ui-kit";
+import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
 import { useState } from "react";
 
 export default function Contact() {
@@ -98,13 +98,6 @@ export default function Contact() {
           label="Message"
           name="message"
           onChange={handleChange}
-        />
-
-        <MDBCheckbox
-          wrapperClass="d-flex justify-content-center mb-4"
-          id="form4Example4"
-          label="Send me a copy of this message"
-          defaultChecked
         />
 
         <MDBBtn
