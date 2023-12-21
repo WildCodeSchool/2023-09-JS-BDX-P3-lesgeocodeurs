@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function MyAccount() {
-  const { logout, getRegisterStorage, age } = useTheContext();
+  const { logout, getRegisterStorage, calculerAge } = useTheContext();
+
+  const userAge = calculerAge(getRegisterStorage.birthDate);
 
   return (
     <div>
@@ -14,7 +16,7 @@ export default function MyAccount() {
           <p>
             {getRegisterStorage?.name} {getRegisterStorage?.firstName}
           </p>
-          <p>{age}</p>
+          <p>{userAge} ans</p>
           <p>{getRegisterStorage?.city}</p>
           <p>{getRegisterStorage?.email}</p>
         </div>

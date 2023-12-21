@@ -13,9 +13,8 @@ export default function RegisterInfos() {
   const age = userRegister.birthDate ? calculerAge(userRegister.birthDate) : 0;
 
   if (
-    userRegister.name?.length < 3 ||
-    userRegister.name?.length > 15 ||
-    userRegister.name === null ||
+    userRegister?.name?.length < 3 ||
+    userRegister?.name?.length > 15 ||
     /^[a-zA-Z\s-]{1,}$/.test(userRegister.name) === false
   ) {
     formErrors.push("Veuillez renseigner un nom valide");

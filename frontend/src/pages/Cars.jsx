@@ -21,32 +21,21 @@ export default function Cars() {
       <h1 className="cars-title">Mes véhicules</h1>
       <div className="my-car">
         <MDBCard border>
-          <div className="one-car">
-            <MDBCardBody>
-              <div>
-                <MDBCardTitle>
-                  {getRegisterStorage?.brand} {getRegisterStorage?.model}
-                </MDBCardTitle>
-                <MDBCardText>
-                  Type de prise : {getRegisterStorage?.plugType}
-                </MDBCardText>
-              </div>
-              <div className="btn-delete-car">
-                <MDBBtn size="sm">Supprimer</MDBBtn>
-              </div>
-            </MDBCardBody>
-          </div>
-        </MDBCard>
-        <MDBCard border>
-          <MDBCardBody>
-            <div>
-              <MDBCardTitle>Peugeot 200swag</MDBCardTitle>
-              <MDBCardText>Type de prise : ABC</MDBCardText>
+          {[getRegisterStorage]?.map((car) => (
+            <div className="one-car">
+              <MDBCardBody>
+                <div>
+                  <MDBCardTitle>
+                    {car.brand} {car.model}
+                  </MDBCardTitle>
+                  <MDBCardText>Type de prise : {car.plugType}</MDBCardText>
+                </div>
+                <div className="btn-delete-car">
+                  <MDBBtn size="sm">Supprimer</MDBBtn>
+                </div>
+              </MDBCardBody>
             </div>
-            <div className="btn-delete-car">
-              <MDBBtn size="sm">Supprimer</MDBBtn>
-            </div>
-          </MDBCardBody>
+          ))}
         </MDBCard>
       </div>
       <div className="add-car">
