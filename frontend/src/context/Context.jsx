@@ -19,6 +19,7 @@ export function ContextProvider({ children }) {
   const setStorage = (key, data) => {
     localStorage.setItem(key, JSON.stringify(data));
   };
+
   // méthode qui stock les champs input du register et qui toggle isValid email
   const handleInputRegister = (e) => {
     setUserRegister({ ...userRegister, [e.target.name]: e.target.value });

@@ -6,7 +6,9 @@ import { useTheContext } from "../context/Context";
 export default function MyAccount() {
   const { logout, getRegisterStorage, calculerAge } = useTheContext();
 
-  const userAge = calculerAge(getRegisterStorage.birthDate);
+  const userAge = calculerAge(
+    getRegisterStorage ? getRegisterStorage.birthDate : "1995-09-11"
+  );
 
   return (
     <div>
@@ -54,7 +56,12 @@ export default function MyAccount() {
             </MDBBtn>
           </Link>
 
-          <MDBBtn className="buttonprofil" color="light" rippleColor="dark">
+          <MDBBtn
+            className="buttonprofil"
+            color="light"
+            rippleColor="dark"
+            onClick={localStorage.clear()}
+          >
             <p>Supprimer mon compte</p>
             <p>&rarr;</p>
           </MDBBtn>
