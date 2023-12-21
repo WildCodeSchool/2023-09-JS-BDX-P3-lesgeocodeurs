@@ -17,13 +17,9 @@ $my-dark-theme: mdb-light-theme($my-theme-primary, $my-theme-secondary);
 @import "./components/modifprofil";
 @import "./components/backofficeutilisateur";
 @import "./components/backofficeaccueil";
+@import "./components/backofficemodifprofil";
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-@media only screen and (min-width: 768px) {
-  .body {
-    padding-top: 100px;
-  }
 }

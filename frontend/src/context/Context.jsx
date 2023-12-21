@@ -32,7 +32,6 @@ export function ContextProvider({ children }) {
 
   const getRegisterStorage = JSON.parse(localStorage.getItem("userRegister"));
   const getLogStorage = JSON.parse(localStorage.getItem("logUser"));
-
   const handleSubmitRegister = () => {
     setStorage("userRegister", userRegister);
     Navigate("/login");
@@ -101,7 +100,7 @@ export function ContextProvider({ children }) {
     return age;
   };
 
-  const age = getRegisterStorage
+  const age = getRegisterStorage?.birthdate
     ? calculerAge(getRegisterStorage.birthDate)
     : null;
 
