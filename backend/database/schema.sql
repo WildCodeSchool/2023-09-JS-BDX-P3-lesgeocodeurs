@@ -1,4 +1,6 @@
-DROP lesgeocodeurs if EXISTS CREATE DATABASE lesgeocodeurs;
+-- DROP DATABASE IF EXISTS lesgeocodeurs;
+
+-- CREATE DATABASE lesgeocodeurs;
 
 use lesgeocodeurs;
 
@@ -15,23 +17,26 @@ CREATE TABLE
         nom VARCHAR(255),
         prenom VARCHAR(255),
         email VARCHAR(255),
-        isMale BOOLEAN,
         isAdmin BOOLEAN,
         Cp INT,
         ville VARCHAR(255),
-        nbr_de_voitures_elec INT,
         mdp VARCHAR(255),
         birth_day DATE
     );
 
+-- Table 'station'
+CREATE TABLE
+    station (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nom VARCHAR(255)
+    );
 -- Table 'bornes'
 CREATE TABLE
     bornes (
-        id AUTO_INCREMENT INT PRIMARY KEY,
+        id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255),
         lat DECIMAL(10, 8),
-        -- Assuming precision for latitude and longitude
-        long DECIMAL(11, 8),
+        lon DECIMAL(11, 8),
         station_id INT,
         FOREIGN KEY (station_id) REFERENCES station(id)
     );
@@ -53,13 +58,17 @@ CREATE TABLE
         PRIMARY KEY (type_de_prise_id, bornes_id)
     );
 
--- Table 'station'
+-- Table 'vehicule'
 CREATE TABLE
-    station (
+    vehicule (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        nom VARCHAR(255)
+        user_id INT,
+        marque VARCHAR(80),
+        model VARCHAR(80),
+        type_de_prise_id INT,
+        FOREIGN KEY (user_id) REFERENCES user(id),
+        FOREIGN KEY (type_de_prise_id) REFERENCES type_de_prise(id)
     );
-
 -- Table 'reservation'
 CREATE TABLE
     reservation (
@@ -77,16 +86,4 @@ CREATE TABLE
         FOREIGN KEY (user_id) REFERENCES user(id),
         FOREIGN KEY (borne_id) REFERENCES bornes(id),
         FOREIGN KEY (vehicule_id) REFERENCES vehicule(id)
-    );
-
--- Table 'vehicule'
-CREATE TABLE
-    vehicule (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        user_id INT,
-        marque VARCHAR(80),
-        model VARCHAR(80),
-        type_de_prise_id INT,
-        FOREIGN KEY (user_id) REFERENCES user(id),
-        FOREIGN KEY (type_de_prise_id) REFERENCES type_de_prise(id)
     );
