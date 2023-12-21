@@ -2,7 +2,6 @@ import { createContext, useContext, useState, useMemo, useEffect } from "react";
 import axios from "axios";
 import validator from "validator";
 import PropTypes from "prop-types";
-import { Navigate } from "react-router-dom";
 
 const theContext = createContext();
 
@@ -42,8 +41,6 @@ export function ContextProvider({ children }) {
     } catch (err) {
       console.error(err);
     }
-
-    Navigate("/login");
   };
 
   // récupère et stock ce qui est à la clé userRegister dans le localstorage
@@ -65,7 +62,6 @@ export function ContextProvider({ children }) {
         getRegisterStorage.password !== logUser.password
       ) {
         alert("try again");
-        Navigate("/login");
       }
     }
   };
@@ -121,10 +117,6 @@ export function ContextProvider({ children }) {
     return age;
   };
 
-  const age = getRegisterStorage?.birthdate
-    ? calculerAge(getRegisterStorage.birthDate)
-    : null;
-
   const memoizedUserValue = useMemo(
     () => ({
       userConected,
@@ -141,7 +133,6 @@ export function ContextProvider({ children }) {
       handleLogin,
       getRegisterStorage,
       handleSubmitRegister,
-      age,
       calculerAge,
     }),
     [
@@ -159,7 +150,6 @@ export function ContextProvider({ children }) {
       handleLogin,
       getRegisterStorage,
       handleSubmitRegister,
-      age,
       calculerAge,
     ]
   );

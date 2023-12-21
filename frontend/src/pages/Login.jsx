@@ -3,7 +3,7 @@ import { MDBInput, MDBCol, MDBRow, MDBBtn } from "mdb-react-ui-kit";
 import { useTheContext } from "../context/Context";
 
 export default function Login() {
-  const { handleLogin, login } = useTheContext();
+  const { handleLogin, login, userConected } = useTheContext();
 
   return (
     <div className="login-form">
@@ -28,7 +28,7 @@ export default function Login() {
           <a href="#!">Mot de passe oublié? </a>
         </MDBCol>
       </MDBRow>
-      <Link to="/">
+      <Link to={!userConected ? "/login" : "/"}>
         <MDBBtn type="submit" className="mb-4" block onClick={login}>
           Connexion
         </MDBBtn>
