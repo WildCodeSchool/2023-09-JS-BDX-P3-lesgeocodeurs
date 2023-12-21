@@ -11,7 +11,6 @@ const itemControllers = require("./controllers/itemControllers");
 const userControllers = require("./controllers/userControllers");
 
 // Route to get a list of items
-router.post("/api/users", userControllers.create);
 router.get("/items", itemControllers.browse);
 
 // Route to get a specific item by ID
@@ -19,6 +18,7 @@ router.get("/items/:id", itemControllers.read);
 
 // Route to add a new item
 router.post("/items", itemControllers.add);
+router.post("/api/users", userControllers.add);
 
 /* ************************************************************************* */
 

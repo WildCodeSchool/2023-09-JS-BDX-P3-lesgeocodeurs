@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS lesgeocodeurs;
+-- DROP DATABASE IF EXISTS lesgeocodeurs;
 
-CREATE DATABASE lesgeocodeurs;
+-- CREATE DATABASE lesgeocodeurs;
 
 use lesgeocodeurs;
 
