@@ -1,22 +1,24 @@
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
 import { useState } from "react";
-import { useTheContext } from "../context/Context";
 
-export default function ModifProfil() {
-  const [modifProfil, setModifProfil] = useState({});
-  const { getRegisterStorage } = useTheContext();
+export default function BackOfficeModifProfi() {
+  const [backOfficemodifProfil, setBackOfficeModifProfil] = useState({});
+
   const onSubmit = (e) => {
     e.preventDefault();
   };
 
   const handleChange = (e) => {
-    setModifProfil({ ...modifProfil, [e.target.name]: e.target.value });
+    setBackOfficeModifProfil({
+      ...backOfficemodifProfil,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
     <div className="modifprofil_container">
       <div className="titlemodifprofil">
-        <h1>Modifier mon Profil</h1>
+        <h1>Modification Profil Utilisateur</h1>
       </div>
       <form>
         <MDBInput
@@ -26,7 +28,8 @@ export default function ModifProfil() {
           label="email"
           onChange={handleChange}
         />
-
+        <span className="material-symbols-outlined">edit</span>
+        <span className="material-symbols-outlined">delete</span>
         <MDBInput
           className="mb-4"
           type="fiestname"
@@ -57,7 +60,6 @@ export default function ModifProfil() {
           id="form1Example2"
           label="Code Postal"
           onChange={handleChange}
-          name={getRegisterStorage.Postal}
         />
 
         <MDBInput

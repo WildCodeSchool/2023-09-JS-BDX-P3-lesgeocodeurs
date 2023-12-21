@@ -8,6 +8,9 @@
   width: 100%;
   z-index: 2;
 
+  .desktop-only-container {
+    display: none;
+  }
   .navbar-title {
     margin-top: 3px;
     margin-bottom: 0;
@@ -25,5 +28,56 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .navbar-button_profil {
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    align-items: center;
+  }
+
+  .navbar-button_connect {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-right: 5px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .the-navbar .desktop-only-container {
+    display: flex;
+    align-items: center;
+    margin-right: 175px;
+  }
+  .the-navbar .home_title {
+    color: white;
+    font-size: "Lato";
+    margin-top: 5px;
+  }
+
+  .the-navbar {
+    top: 0;
+    bottom: auto;
+    height: 70px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .the-navbar .navbar-button {
+    display: flex;
+    flex-direction: row-reverse;
+    margin: 35px;
+  }
+  .the-navbar .navbar-button_profil {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-left: 35px;
+    margin-block: 35px;
+  }
+  .the-navbar .navbar-button_connect {
+    display: flex;
+    align-items: center;
+    margin: 20 px;
   }
 }

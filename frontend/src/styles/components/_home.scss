@@ -67,3 +67,16 @@
     display: flex;
   }
 }
+@media only screen and (min-width: 768px) {
+  .home-container .card {
+    width: 40%;
+    margin: 30px;
+  }
+  .home-container .card-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+}

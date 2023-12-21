@@ -6,6 +6,10 @@ export default function NavBar() {
 
   return (
     <div className="the-navbar">
+      <div className="desktop-only-container">
+        <h1 className="home_title">GEOCODE</h1>
+        <img src="./src/assets/logo-white 1.png" alt="Logo-white" />
+      </div>
       <Link to="/" className="navbar-button">
         <span className="material-symbols-outlined">home</span>
         <p className="navbar-title">Accueil</p>
@@ -14,14 +18,16 @@ export default function NavBar() {
         <span className="material-symbols-outlined">map</span>
         <p className="navbar-title">Carte</p>
       </Link>
-      <Link
-        to={userConected ? "/myaccount" : "/login"}
-        className="navbar-button"
-      >
+      <div className="navbar-button_connect">
+        <Link
+          className="navbar-button_profil"
+          to={userConected ? "/myaccount" : "/login"}
+        >
+          <span className="material-symbols-outlined">account_circle</span>
+          <p className="navbar-title">Compte</p>
+        </Link>
         {userConected ? <span>🟢</span> : <span />}
-        <span className="material-symbols-outlined">account_circle</span>
-        <p className="navbar-title">Compte</p>
-      </Link>
+      </div>
     </div>
   );
 }
