@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 const theContext = createContext();
 
 export function ContextProvider({ children }) {
-  // statut de connexion
   const [userConected, setUserConected] = useState(false);
   // information de connexion
   const [logUser, setLogUser] = useState({});

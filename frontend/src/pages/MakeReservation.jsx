@@ -1,7 +1,5 @@
-import React, { useState } from "react";
 import {
   MDBBtn,
-  MDBSelect,
   MDBDatepicker,
   MDBCard,
   MDBCardBody,
@@ -11,7 +9,6 @@ import {
 } from "mdb-react-ui-kit";
 
 export default function MakeReservation() {
-  const [isOpen, setIsOpen] = useState();
   return (
     <div className="makereservation-container">
       <h1>Réservation</h1>
@@ -30,21 +27,6 @@ export default function MakeReservation() {
         <p className="reservation-select">Choix de l'horaire</p>
         <MDBTimepicker inline format="24h" />
         <p className="reservation-select">Choix du type de prise</p>
-
-        <MDBSelect
-          open={isOpen}
-          onOpen={() => setIsOpen(true)}
-          data={[
-            { text: "AAA", value: 1 },
-            { text: "BBB", value: 2 },
-            { text: "CCC", value: 3 },
-            { text: "DDD", value: 4 },
-            { text: "EEE", value: 5 },
-            { text: "FFF", value: 6 },
-            { text: "GGG", value: 7 },
-            { text: "HHH", value: 8 },
-          ]}
-        />
       </div>
       <div className="btn-reservation">
         <MDBBtn size="sm">Réserver</MDBBtn>

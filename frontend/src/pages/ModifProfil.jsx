@@ -1,12 +1,17 @@
+import { useNavigate } from "react-router-dom";
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
 import { useState } from "react";
 import { useTheContext } from "../context/Context";
 
 export default function ModifProfil() {
+  const navigate = useNavigate();
   const { getRegisterStorage } = useTheContext();
   const [modifProfil, setModifProfil] = useState(getRegisterStorage);
+
   const onSubmit = (e) => {
     e.preventDefault();
+    localStorage.setItem("userRegister", JSON.stringify(modifProfil));
+    navigate("/myaccount");
   };
 
   const handleChange = (e) => {
@@ -19,16 +24,6 @@ export default function ModifProfil() {
         <h1>Modifier mon Profil</h1>
       </div>
       <form>
-        <MDBInput
-          className="mb-4"
-          type="email"
-          id="form1Example2"
-          label="email"
-          name="email"
-          value={modifProfil?.email}
-          onChange={handleChange}
-        />
-
         <MDBInput
           className="mb-4"
           type="firstname"
@@ -51,7 +46,7 @@ export default function ModifProfil() {
 
         <MDBInput
           className="mb-4"
-          type="birthday"
+          type="date"
           id="form1Example2"
           label="Date de naissance"
           name="birthDate"
@@ -78,7 +73,6 @@ export default function ModifProfil() {
           value={modifProfil?.city}
           onChange={handleChange}
         />
-
         <MDBBtn onClick={onSubmit} type="submit" block>
           Enregistrer
         </MDBBtn>
