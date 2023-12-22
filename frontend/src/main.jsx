@@ -24,7 +24,11 @@ import BackOfficeModifProfil from "./pages/backOfficeModifProfil";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <ContextProvider>
+        <App />
+      </ContextProvider>
+    ),
 
     children: [
       {
@@ -88,8 +92,8 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   // <React.StrictMode>
-  <ContextProvider>
-    <RouterProvider router={router} />
-  </ContextProvider>
+
+  <RouterProvider router={router} />
+
   // </React.StrictMode>
 );

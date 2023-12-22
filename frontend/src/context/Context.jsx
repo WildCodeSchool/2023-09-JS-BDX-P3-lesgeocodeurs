@@ -2,10 +2,11 @@ import { createContext, useContext, useState, useMemo, useEffect } from "react";
 import axios from "axios";
 import validator from "validator";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 const theContext = createContext();
-
 export function ContextProvider({ children }) {
+  const navigate = useNavigate();
   // statut de connexion
   const [userConected, setUserConected] = useState(false);
   // information de connexion
@@ -58,11 +59,13 @@ export function ContextProvider({ children }) {
         getRegisterStorage.password === logUser.password
       ) {
         setUserConected(true);
+        navigate("/");
       } else if (
         getRegisterStorage.email !== logUser.email ||
         getRegisterStorage.password !== logUser.password
       ) {
         alert("try again");
+        navigate("/login");
       }
     } else if (!getRegisterStorage) {
       alert("suscribe gros bouff");
