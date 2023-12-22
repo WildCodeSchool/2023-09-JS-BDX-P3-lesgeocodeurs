@@ -64,6 +64,8 @@ export function ContextProvider({ children }) {
       ) {
         alert("try again");
       }
+    } else if (!getRegisterStorage) {
+      alert("suscribe gros bouff");
     }
   };
 
