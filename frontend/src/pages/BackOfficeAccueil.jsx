@@ -1,45 +1,18 @@
 import {
   MDBContainer,
-  MDBNavbar,
-  MDBNavbarBrand,
-  MDBNavbarNav,
-  MDBNavbarItem,
-  MDBNavbarLink,
   MDBRow,
   MDBCard,
   MDBCol,
   MDBCardBody,
 } from "mdb-react-ui-kit";
+import NavBarBackOffice from "../components/NavBarBackOffice";
 
 export default function BAckOfficeAccueil() {
   return (
     <div className="backofficeaccueil_container">
       <h1>BackOffice Acceuil</h1>
-      <MDBNavbar light bgColor="light">
-        <MDBContainer>
-          <MDBNavbarBrand className="title_back" href="#">
-            Back Office
-          </MDBNavbarBrand>
+      <NavBarBackOffice />
 
-          <MDBNavbarNav>
-            <MDBNavbarItem>
-              <MDBNavbarLink
-                active
-                aria-current="page"
-                href="/BackOfficeUtilisateur"
-              >
-                Utilisateurs
-              </MDBNavbarLink>
-            </MDBNavbarItem>
-            <MDBNavbarItem>
-              <MDBNavbarLink href="#">Véhicules</MDBNavbarLink>
-            </MDBNavbarItem>
-            <MDBNavbarItem>
-              <MDBNavbarLink href="#">Bornes</MDBNavbarLink>
-            </MDBNavbarItem>
-          </MDBNavbarNav>
-        </MDBContainer>
-      </MDBNavbar>
       <div className="dashboard_container">
         <MDBContainer fluid>
           <MDBRow className="justify-content-center">

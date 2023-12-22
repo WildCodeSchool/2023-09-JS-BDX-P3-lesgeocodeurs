@@ -1,18 +1,7 @@
-import { useState } from "react";
-import {
-  MDBDatatable,
-  MDBContainer,
-  MDBNavbar,
-  MDBNavbarBrand,
-  MDBNavbarToggler,
-  MDBNavbarNav,
-  MDBNavbarItem,
-  MDBNavbarLink,
-  MDBCollapse,
-} from "mdb-react-ui-kit";
+import { MDBDatatable } from "mdb-react-ui-kit";
+import NavBarBackOffice from "../components/NavBarBackOffice";
 
 export default function BackOfficeUtilisateur() {
-  const [openNav, setOpenNav] = useState(false);
   const basicData = {
     columns: ["Id", "Email", "Prénom", "Nom", "DDN", "CP", "Ville"],
     rows: [
@@ -126,35 +115,8 @@ export default function BackOfficeUtilisateur() {
   return (
     <div className="backofficeutilisateur_container">
       <h1>BackOffice Utilisateur</h1>
+      <NavBarBackOffice />
 
-      <MDBNavbar expand="lg" light bgColor="light">
-        <MDBContainer fluid>
-          <MDBNavbarBrand className="title_back" href="#">
-            Back Office
-          </MDBNavbarBrand>
-          <MDBNavbarToggler
-            type="button"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-            onClick={() => setOpenNav(!openNav)}
-          />
-          <MDBCollapse navbar open={openNav}>
-            <MDBNavbarNav>
-              <MDBNavbarItem>
-                <MDBNavbarLink active aria-current="page" href="#">
-                  Utilisateurs
-                </MDBNavbarLink>
-              </MDBNavbarItem>
-              <MDBNavbarItem>
-                <MDBNavbarLink href="#">Véhicules</MDBNavbarLink>
-              </MDBNavbarItem>
-              <MDBNavbarItem>
-                <MDBNavbarLink href="#">Bornes</MDBNavbarLink>
-              </MDBNavbarItem>
-            </MDBNavbarNav>
-          </MDBCollapse>
-        </MDBContainer>
-      </MDBNavbar>
       <div className="backoffidata">
         <MDBDatatable fixedHeader maxHeight="460px" data={basicData} />
       </div>

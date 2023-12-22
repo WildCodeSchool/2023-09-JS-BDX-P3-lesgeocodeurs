@@ -18,6 +18,8 @@ $my-dark-theme: mdb-light-theme($my-theme-primary, $my-theme-secondary);
 @import "./components/backofficeutilisateur";
 @import "./components/backofficeaccueil";
 @import "./components/backofficemodifprofil";
+@import "./components/makereservation";
+@import "./components/backofficecars";
 * {
   margin: 0;
   padding: 0;
