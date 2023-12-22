@@ -28,16 +28,19 @@ export default function Login() {
           <a href="#!">Mot de passe oublié? </a>
         </MDBCol>
       </MDBRow>
-      <Link to={!userConected ? "/login" : "/"}>
-        <MDBBtn type="submit" className="mb-4" block onClick={login}>
-          Connexion
-        </MDBBtn>
-      </Link>
+
+      <MDBBtn type="submit" className="mb-4" block onClick={login}>
+        Connexion
+      </MDBBtn>
 
       <div className="text-center">
-        <p>
-          Nouveau membre ? <Link to="/register/logs">S'inscrire</Link>
-        </p>
+        {!userConected ? (
+          <p>
+            Nouveau membre ? <Link to="/register/logs">S'inscrire</Link>
+          </p>
+        ) : (
+          <div />
+        )}
       </div>
     </div>
   );

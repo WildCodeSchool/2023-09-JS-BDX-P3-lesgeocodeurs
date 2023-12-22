@@ -10,6 +10,10 @@ export default function MyAccount() {
     getRegisterStorage ? getRegisterStorage.birthDate : "1995-09-11"
   );
 
+  const killStorage = () => {
+    localStorage.clear();
+  };
+
   return (
     <div>
       <div className="myAccount-container">
@@ -60,7 +64,7 @@ export default function MyAccount() {
             className="buttonprofil"
             color="light"
             rippleColor="dark"
-            onClick={localStorage.clear()}
+            onClick={killStorage}
           >
             <p>Supprimer mon compte</p>
             <p>&rarr;</p>
