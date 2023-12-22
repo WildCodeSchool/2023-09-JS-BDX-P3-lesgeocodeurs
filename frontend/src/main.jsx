@@ -20,6 +20,7 @@ import ModifProfil from "./pages/ModifProfil";
 import BackOfficeUtilisateur from "./pages/BackOfficeUtilisateur";
 import BackOfficeAccueil from "./pages/BackOfficeAccueil";
 import BackOfficeModifProfil from "./pages/backOfficeModifProfil";
+import AddCar from "./pages/AddCar";
 
 const router = createBrowserRouter([
   {
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
       {
         path: "/cars",
         element: <Cars />,
+      },
+      {
+        path: "/addcar",
+        element: <AddCar />,
       },
       {
         path: "/reservation",

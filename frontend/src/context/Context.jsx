@@ -37,14 +37,11 @@ export function ContextProvider({ children }) {
   const handleSubmitRegister = async () => {
     setStorage("userRegister", userRegister);
     try {
-      await axios.post("http://localhost:3310/api/users", {
-        userRegister,
-      });
+      await axios.post("http://localhost:3310/api/users", userRegister);
     } catch (err) {
       console.error(err);
     }
   };
-
   // récupère et stock ce qui est à la clé userRegister dans le localstorage
   const getRegisterStorage = JSON.parse(localStorage.getItem("userRegister"));
 
@@ -122,6 +119,11 @@ export function ContextProvider({ children }) {
 
     return age;
   };
+  const killStorage = () => {
+    localStorage.clear();
+    setUserConected(false);
+    navigate("/");
+  };
 
   const memoizedUserValue = useMemo(
     () => ({
@@ -140,6 +142,8 @@ export function ContextProvider({ children }) {
       getRegisterStorage,
       handleSubmitRegister,
       calculerAge,
+      navigate,
+      killStorage,
     }),
     [
       userConected,
@@ -157,6 +161,8 @@ export function ContextProvider({ children }) {
       getRegisterStorage,
       handleSubmitRegister,
       calculerAge,
+      navigate,
+      killStorage,
     ]
   );
   return (

@@ -68,7 +68,7 @@ export default function RegisterInfos() {
           className="mb-4"
           type="string"
           required
-          name="Postal"
+          name="postal"
           label="Code postal"
           onChange={handleInputRegister}
         />

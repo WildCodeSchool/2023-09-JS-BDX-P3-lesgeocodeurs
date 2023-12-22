@@ -16,7 +16,7 @@ class UserManager extends AbstractManager {
       [
         user.email,
         user.password,
-        user.Postal,
+        user.postal,
         user.birthDate,
         user.city,
         user.firstName,

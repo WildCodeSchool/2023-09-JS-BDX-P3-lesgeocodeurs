@@ -4,15 +4,12 @@ import { Link } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function MyAccount() {
-  const { logout, getRegisterStorage, calculerAge } = useTheContext();
+  const { logout, getRegisterStorage, calculerAge, killStorage } =
+    useTheContext();
 
   const userAge = calculerAge(
     getRegisterStorage ? getRegisterStorage.birthDate : "1995-09-11"
   );
-
-  const killStorage = () => {
-    localStorage.clear();
-  };
 
   return (
     <div>

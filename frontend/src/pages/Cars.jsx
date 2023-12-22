@@ -5,6 +5,7 @@ import {
   MDBCardTitle,
   MDBCardText,
 } from "mdb-react-ui-kit";
+import { Link } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function Cars() {
@@ -39,9 +40,11 @@ export default function Cars() {
         </MDBCard>
       </div>
       <div className="add-car">
-        <MDBBtn type="submit" className="mb-4" block>
-          Ajouter un véhicule
-        </MDBBtn>
+        <Link to="/addcar">
+          <MDBBtn type="submit" className="mb-4" block>
+            Ajouter un véhicule
+          </MDBBtn>
+        </Link>
       </div>
     </div>
   );
