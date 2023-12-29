@@ -4,15 +4,9 @@ import { Link } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function MyAccount() {
-  const { logout, getRegisterStorage, calculerAge } = useTheContext();
+  const { logout, user, calculerAge } = useTheContext();
 
-  const userAge = calculerAge(
-    getRegisterStorage ? getRegisterStorage.birthDate : "1995-09-11"
-  );
-
-  const killStorage = () => {
-    localStorage.clear();
-  };
+  const userAge = calculerAge(user ? user.birthDate : "1995-09-11");
 
   return (
     <div>
@@ -20,11 +14,11 @@ export default function MyAccount() {
         <h1 className="profil-title">Mon Compte</h1>
         <div className="identity">
           <p>
-            {getRegisterStorage?.name} {getRegisterStorage?.firstName}
+            {user?.firstName} {user?.name}
           </p>
           <p>{userAge} ans</p>
-          <p>{getRegisterStorage?.city}</p>
-          <p>{getRegisterStorage?.email}</p>
+          <p>{user?.city}</p>
+          <p>{user?.email}</p>
         </div>
         <div className="profil-container">
           <Link to="/cars">
@@ -64,7 +58,7 @@ export default function MyAccount() {
             className="buttonprofil"
             color="light"
             rippleColor="dark"
-            onClick={killStorage}
+            // TO DO : ajouter un onClick ici pour modifier context et localstorage
           >
             <p>Supprimer mon compte</p>
             <p>&rarr;</p>

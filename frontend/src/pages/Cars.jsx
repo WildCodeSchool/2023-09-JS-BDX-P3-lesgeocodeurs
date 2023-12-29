@@ -12,7 +12,7 @@ export default function Cars() {
     window.history.back();
   }
 
-  const { getRegisterStorage } = useTheContext();
+  const { user } = useTheContext();
   return (
     <div className="cars-container">
       <button type="submit" className="back" onClick={rtn}>
@@ -21,7 +21,7 @@ export default function Cars() {
       <h1 className="cars-title">Mes véhicules</h1>
       <div className="my-car">
         <MDBCard border>
-          {[getRegisterStorage]?.map((car) => (
+          {[user]?.map((car) => (
             <div className="one-car">
               <MDBCardBody>
                 <div>

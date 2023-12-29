@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function NavBar() {
-  const { userConected } = useTheContext();
+  const { user } = useTheContext();
 
   return (
     <div className="the-navbar">
@@ -21,12 +21,12 @@ export default function NavBar() {
       <div className="navbar-button_connect">
         <Link
           className="navbar-button_profil"
-          to={userConected ? "/myaccount" : "/login"}
+          to={user ? "/myaccount" : "/login"}
         >
           <span className="material-symbols-outlined">account_circle</span>
           <p className="navbar-title">Compte</p>
         </Link>
-        {userConected ? <span>🟢</span> : <span />}
+        {user ? <span>🟢</span> : <span />}
       </div>
     </div>
   );

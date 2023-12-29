@@ -1,29 +1,34 @@
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function RegisterInfos() {
-  const { handleInputRegister, userRegister, calculerAge } = useTheContext();
+  const { calculerAge } = useTheContext();
+
+  const { formData, setFormData } = useOutletContext();
+
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
 
   const formErrors = [];
-  const age = userRegister.birthDate ? calculerAge(userRegister.birthDate) : 0;
+  const age = formData.birthDate ? calculerAge(formData.birthDate) : 0;
 
   if (
-    userRegister?.name?.length < 3 ||
-    userRegister?.name?.length > 15 ||
-    /^[a-zA-Z\s-]{1,}$/.test(userRegister.name) === false
+    formData?.name?.length < 3 ||
+    formData?.name?.length > 15 ||
+    /^[a-zA-Z\s-]{1,}$/.test(formData.name) === false
   ) {
     formErrors.push("Veuillez renseigner un nom valide");
   }
   if (
-    userRegister.firstName?.length < 3 ||
-    userRegister.firstName?.length > 15 ||
-    userRegister.firstName === null ||
-    /^[a-zA-Z\s-]{1,}$/.test(userRegister.firstName) === false
+    formData.firstName?.length < 3 ||
+    formData.firstName?.length > 15 ||
+    formData.firstName === null ||
+    /^[a-zA-Z\s-]{1,}$/.test(formData.firstName) === false
   ) {
     formErrors.push("Veuillez renseigner un prénom valide");
   }
@@ -33,10 +38,7 @@ export default function RegisterInfos() {
   if (age > 100) {
     formErrors.push("Vous ne devriez pas conduire à cet âge...");
   }
-  if (
-    userRegister.city?.length < 3 &&
-    /^[a-zA-Z\s-]{1,}$/.test(userRegister.city)
-  ) {
+  if (formData.city?.length < 3 && /^[a-zA-Z\s-]{1,}$/.test(formData.city)) {
     formErrors.push("Veuillez renseigner une ville valide");
   }
   return (
@@ -48,21 +50,24 @@ export default function RegisterInfos() {
           type="string"
           name="firstName"
           label="Prenom"
-          onChange={handleInputRegister}
+          value={formData.firstName}
+          onChange={handleChange}
         />
         <MDBInput
           className="mb-4"
           type="string"
           name="name"
           label="Nom"
-          onChange={handleInputRegister}
+          value={formData.name}
+          onChange={handleChange}
         />
         <MDBInput
           className="mb-4"
           type="date"
           name="birthDate"
           label="Date de naissance"
-          onChange={handleInputRegister}
+          value={formData.birthDate}
+          onChange={handleChange}
         />
         <MDBInput
           className="mb-4"
@@ -70,14 +75,16 @@ export default function RegisterInfos() {
           required
           name="Postal"
           label="Code postal"
-          onChange={handleInputRegister}
+          value={formData.Postal}
+          onChange={handleChange}
         />
         <MDBInput
           className="mb-4"
           type="city"
           name="city"
           label="Ville"
-          onChange={handleInputRegister}
+          value={formData.city}
+          onChange={handleChange}
         />
 
         <Link to="/register/cars" disabled={formErrors.length !== 0}>
@@ -85,7 +92,7 @@ export default function RegisterInfos() {
             type="submit"
             className="mb-4"
             block
-            disabled={formErrors.length !== 0}
+            /* disabled={formErrors.length !== 0} */
           >
             Suivant
           </MDBBtn>

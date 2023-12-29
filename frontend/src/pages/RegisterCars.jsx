@@ -1,9 +1,14 @@
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function RegisterCars() {
-  const { handleInputRegister, handleSubmitRegister } = useTheContext();
+  const { register } = useTheContext();
+
+  const { formData, setFormData } = useOutletContext();
+
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   return (
     <div className="registerInfos-container">
@@ -14,27 +19,30 @@ export default function RegisterCars() {
           type="string"
           name="brand"
           label="Marque"
-          onChange={handleInputRegister}
+          value={formData.brand}
+          onChange={handleChange}
         />
         <MDBInput
           className="mb-4"
           type="string"
           name="model"
           label="Modèle"
-          onChange={handleInputRegister}
+          value={formData.model}
+          onChange={handleChange}
         />
         <MDBInput
           className="mb-4"
           type="string"
           name="plugType"
           label="Type de prise"
-          onChange={handleInputRegister}
+          value={formData.plugType}
+          onChange={handleChange}
         />
 
         <Link to="/login">
           <MDBBtn
             type="button"
-            onClick={handleSubmitRegister}
+            onClick={() => register(formData)}
             className="mb-4"
             block
           >

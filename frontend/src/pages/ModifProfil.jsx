@@ -5,12 +5,12 @@ import { useTheContext } from "../context/Context";
 
 export default function ModifProfil() {
   const navigate = useNavigate();
-  const { getRegisterStorage } = useTheContext();
-  const [modifProfil, setModifProfil] = useState(getRegisterStorage);
+  const { user, editUser } = useTheContext();
+  const [modifProfil, setModifProfil] = useState(user);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    localStorage.setItem("userRegister", JSON.stringify(modifProfil));
+    editUser(modifProfil);
     navigate("/myaccount");
   };
 
