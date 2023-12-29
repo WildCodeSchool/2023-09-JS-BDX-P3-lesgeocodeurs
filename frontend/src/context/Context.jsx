@@ -9,8 +9,6 @@ export function ContextProvider({ children }) {
   const navigate = useNavigate();
   // statut de connexion
   const [userConected, setUserConected] = useState(false);
-  // information de connexion
-  const [logUser, setLogUser] = useState({});
   // information d'inscription
   const [userRegister, setUserRegister] = useState({});
   // validation de l'email du register/log
@@ -28,10 +26,6 @@ export function ContextProvider({ children }) {
       setIsValidEmail(validator.isEmail(e.target.value));
     }
   };
-  // * pour les logs user dans la partie connection
-  const handleLogin = (e) => {
-    setLogUser({ ...logUser, [e.target.name]: e.target.value });
-  };
 
   // // récupère et stock ce qui est à la clé userRegister dans le localstorage || en cours post =>> back
   const handleSubmitRegister = async () => {
@@ -48,26 +42,21 @@ export function ContextProvider({ children }) {
   // récupère et stock ce qui est à la clé userRegister dans le localstorage
   const getRegisterStorage = JSON.parse(localStorage.getItem("userRegister"));
 
-  const login = () => {
-    // récupère et stock ce qui est à la clé logUser dans le localstorage
-    setStorage("logUser", logUser);
+  const login = (credentials) => {
     // vérifie l'existence d'un utilistateur enregistré
     if (getRegisterStorage) {
       // si c'est le cas compare l'email et le mot de passe de ce dernier avec la somme des inputs de login stocké dans logUser pour connecter l'utilisateur
       if (
-        getRegisterStorage.email === logUser.email &&
-        getRegisterStorage.password === logUser.password
+        getRegisterStorage.email === credentials.email &&
+        getRegisterStorage.password === credentials.password
       ) {
         setUserConected(true);
         navigate("/");
-      } else if (
-        getRegisterStorage.email !== logUser.email ||
-        getRegisterStorage.password !== logUser.password
-      ) {
+      } else {
         alert("try again");
         navigate("/login");
       }
-    } else if (!getRegisterStorage) {
+    } else {
       alert("suscribe gros bouff");
     }
   };
@@ -136,7 +125,6 @@ export function ContextProvider({ children }) {
       logout,
       checkStorage,
       setStorage,
-      handleLogin,
       getRegisterStorage,
       handleSubmitRegister,
       calculerAge,
@@ -153,7 +141,6 @@ export function ContextProvider({ children }) {
       logout,
       checkStorage,
       setStorage,
-      handleLogin,
       getRegisterStorage,
       handleSubmitRegister,
       calculerAge,
