@@ -1,12 +1,17 @@
+import { useNavigate } from "react-router-dom";
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
 import { useState } from "react";
 import { useTheContext } from "../context/Context";
 
 export default function ModifProfil() {
-  const [modifProfil, setModifProfil] = useState({});
+  const navigate = useNavigate();
   const { getRegisterStorage } = useTheContext();
+  const [modifProfil, setModifProfil] = useState(getRegisterStorage);
+
   const onSubmit = (e) => {
     e.preventDefault();
+    localStorage.setItem("userRegister", JSON.stringify(modifProfil));
+    navigate("/myaccount");
   };
 
   const handleChange = (e) => {
@@ -21,17 +26,11 @@ export default function ModifProfil() {
       <form>
         <MDBInput
           className="mb-4"
-          type="email"
-          id="form1Example2"
-          label="email"
-          onChange={handleChange}
-        />
-
-        <MDBInput
-          className="mb-4"
-          type="fiestname"
+          type="firstname"
           id="form1Example2"
           label="Prénom"
+          name="firstName"
+          value={modifProfil?.firstName}
           onChange={handleChange}
         />
 
@@ -40,14 +39,18 @@ export default function ModifProfil() {
           type="lastname"
           id="form1Example2"
           label="Nom"
+          name="name"
+          value={modifProfil?.name}
           onChange={handleChange}
         />
 
         <MDBInput
           className="mb-4"
-          type="birthday"
+          type="date"
           id="form1Example2"
           label="Date de naissance"
+          name="birthDate"
+          value={modifProfil?.birthDate}
           onChange={handleChange}
         />
 
@@ -56,8 +59,9 @@ export default function ModifProfil() {
           type="codepostal"
           id="form1Example2"
           label="Code Postal"
+          name="Postal"
+          value={modifProfil?.Postal}
           onChange={handleChange}
-          name={getRegisterStorage.Postal}
         />
 
         <MDBInput
@@ -65,9 +69,10 @@ export default function ModifProfil() {
           type="city"
           id="form1Example2"
           label="Ville"
+          name="city"
+          value={modifProfil?.city}
           onChange={handleChange}
         />
-
         <MDBBtn onClick={onSubmit} type="submit" block>
           Enregistrer
         </MDBBtn>
