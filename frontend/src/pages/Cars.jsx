@@ -22,7 +22,7 @@ export default function Cars() {
       <div className="my-car">
         <MDBCard border>
           {[user]?.map((car) => (
-            <div className="one-car">
+            <div className="one-car" key={car.model}>
               <MDBCardBody>
                 <div>
                   <MDBCardTitle>

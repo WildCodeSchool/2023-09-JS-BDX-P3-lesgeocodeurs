@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function MyAccount() {
-  const { logout, user, calculerAge } = useTheContext();
+  const { logout, user, calculerAge, deleteUser } = useTheContext();
 
   const userAge = calculerAge(user ? user.birthDate : "1995-09-11");
 
@@ -59,6 +59,7 @@ export default function MyAccount() {
             color="light"
             rippleColor="dark"
             // TO DO : ajouter un onClick ici pour modifier context et localstorage
+            onClick={() => deleteUser(user.email)}
           >
             <p>Supprimer mon compte</p>
             <p>&rarr;</p>

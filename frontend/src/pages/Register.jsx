@@ -1,14 +1,17 @@
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
-import { Link, useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
+import { useTheContext } from "../context/Context";
 
 export default function Register() {
   const { formData, setFormData } = useOutletContext();
+  const { emailAvailable } = useTheContext();
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const handleSubmitRegister = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    emailAvailable(formData.email);
     // postUser();
   };
   const formErrors = [];
@@ -36,7 +39,7 @@ export default function Register() {
 
   return (
     <div className="register-container">
-      <form className="login-form" onSubmit={handleSubmitRegister}>
+      <form className="login-form" onSubmit={handleSubmit}>
         <h1>S'inscrire</h1>
         <MDBInput
           className="mb-4"
@@ -64,16 +67,14 @@ export default function Register() {
           onChange={handleChange}
         />
 
-        <Link to="/register/infos">
-          <MDBBtn
-            type="submit"
-            className="mb-4"
-            block
-            /* disabled={formErrors.length !== 0} */
-          >
-            Suivant
-          </MDBBtn>
-        </Link>
+        <MDBBtn
+          type="submit"
+          className="mb-4"
+          block
+          /* disabled={formErrors.length !== 0} */
+        >
+          Suivant
+        </MDBBtn>
         {formErrors.map((error) => (
           <p key={error}>{error}</p>
         ))}

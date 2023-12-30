@@ -34,6 +34,16 @@ export function ContextProvider({ children }) {
     }
   };
 
+  // vérifie si on a déjà un compte avec cet adresse mail
+  const emailAvailable = async (emailToCheck) => {
+    const users = getUsers();
+    if (!users.find((userdb) => userdb.email === emailToCheck)) {
+      navigate("/register/infos");
+    } else {
+      alert("Vous êtes déjà inscrit !");
+    }
+  };
+
   // inscription : stocke le nouveau user dans le localstorage
   const register = async (newUser) => {
     const users = getUsers();
@@ -42,22 +52,34 @@ export function ContextProvider({ children }) {
       users.push(newUser);
       localStorage.setItem("users", JSON.stringify(users));
       alert(`Bienvenue ${newUser.firstName} ${newUser.name}`);
+      setUser(newUser);
+      navigate("/");
     } else {
       alert("Vous êtes déjà inscrit !");
+      navigate("/login");
     }
   };
 
   // déconnexion : vide le state "user"
-  const logout = () => setUser(null);
+  const logout = async () => setUser(null);
 
   // modification du profil : modifie le state "user" et le localStorage
-  const editUser = (newData) => {
+  const editUser = async (newData) => {
     const users = getUsers();
     const newUsers = users.map((userdb) =>
       userdb.email === user.email ? newData : userdb
     );
     localStorage.setItem("users", JSON.stringify(newUsers));
     setUser(newData);
+  };
+
+  // suppression du compte : vide le state "user" et modifie le localStorage
+  const deleteUser = async (emailOfUser) => {
+    const users = getUsers();
+    const newUsers = users.filter((userdb) => userdb.email !== emailOfUser);
+    localStorage.setItem("users", JSON.stringify(newUsers));
+    setUser(null);
+    navigate("/");
   };
 
   // elle parle d'elle même, c'est bien évidemment moi qui ai tout écris à la main..
@@ -95,8 +117,10 @@ export function ContextProvider({ children }) {
       register,
       calculerAge,
       editUser,
+      deleteUser,
+      emailAvailable,
     }),
-    [user, login, logout, register, calculerAge, editUser]
+    [user]
   );
 
   return (

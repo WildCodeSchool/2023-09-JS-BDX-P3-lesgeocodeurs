@@ -1,5 +1,5 @@
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
-import { Link, useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function RegisterCars() {
@@ -39,16 +39,14 @@ export default function RegisterCars() {
           onChange={handleChange}
         />
 
-        <Link to="/login">
-          <MDBBtn
-            type="button"
-            onClick={() => register(formData)}
-            className="mb-4"
-            block
-          >
-            Terminer l'inscription
-          </MDBBtn>
-        </Link>
+        <MDBBtn
+          type="button"
+          onClick={() => register(formData)}
+          className="mb-4"
+          block
+        >
+          Terminer l'inscription
+        </MDBBtn>
       </div>
     </div>
   );
