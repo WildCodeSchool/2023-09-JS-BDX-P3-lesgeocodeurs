@@ -36,7 +36,7 @@ export default function Map() {
   };
 
   const { coords, getPosition } = useGeolocated();
-  console.info(coords);
+  // console.info(coords);
 
   const handleClick = () => {
     getPosition();
