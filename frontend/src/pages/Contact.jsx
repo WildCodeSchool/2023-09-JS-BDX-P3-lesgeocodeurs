@@ -78,7 +78,7 @@ export default function Contact() {
           id="form4Example1"
           wrapperClass="mb-4"
           label="Nom"
-          name="name"
+          name="lastName"
           onChange={handleChange}
         />
         <MDBInput

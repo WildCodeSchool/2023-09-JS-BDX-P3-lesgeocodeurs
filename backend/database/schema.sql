@@ -1,89 +1,74 @@
--- DROP DATABASE IF EXISTS lesgeocodeurs;
-
--- CREATE DATABASE lesgeocodeurs;
-
-use lesgeocodeurs;
-
--- create table
---     item (
---         id int unsigned primary key auto_increment not null,
---         title varchar(255) not null
---     );
-
 -- Table 'user'
 CREATE TABLE
     user (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        nom VARCHAR(255),
-        prenom VARCHAR(255),
         email VARCHAR(255),
-        isAdmin BOOLEAN,
-        Cp INT,
-        ville VARCHAR(255),
-        mdp VARCHAR(255),
-        birth_day DATE
+        password VARCHAR(255),
+        first_name VARCHAR(255),
+        last_name VARCHAR(255),
+        birth_date DATE,
+        postal_code INT,
+        city VARCHAR(255),
+        is_admin BOOLEAN DEFAULT 0
     );
 
 -- Table 'station'
 CREATE TABLE
     station (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        nom VARCHAR(255)
+        name VARCHAR(255),
+        address VARCHAR(255),
+        latitude DECIMAL(15, 12),
+        longitude DECIMAL(15, 12)
     );
--- Table 'bornes'
+
+-- Table 'charging_point'
 CREATE TABLE
-    bornes (
+    charging_point (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255),
-        lat DECIMAL(10, 8),
-        lon DECIMAL(11, 8),
         station_id INT,
         FOREIGN KEY (station_id) REFERENCES station(id)
     );
 
--- Table 'type_de_prise'
+-- Table 'plug_type'
 CREATE TABLE
-    type_de_prise (
+    plug_type (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        nom VARCHAR(255)
+        name VARCHAR(255)
     );
 
--- Table 'bornes_type_de_prise' (Many-to-Many Relationship between 'bornes' and 'type_de_prise')
+-- Table 'charging_point_plug_type' (Many-to-Many Relationship between 'charging_point' and 'plug_type')
 CREATE TABLE
-    bornes_type_de_prise (
-        type_de_prise_id INT,
-        bornes_id INT,
-        FOREIGN KEY (type_de_prise_id) REFERENCES type_de_prise(id),
-        FOREIGN KEY (bornes_id) REFERENCES bornes(id),
-        PRIMARY KEY (type_de_prise_id, bornes_id)
+    charging_point_plug_type (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        plug_type_id INT,
+        charging_point_id INT,
+        FOREIGN KEY (plug_type_id) REFERENCES plug_type(id),
+        FOREIGN KEY (charging_point_id) REFERENCES charging_point(id)
     );
 
--- Table 'vehicule'
+-- Table 'vehicle'
 CREATE TABLE
-    vehicule (
+    vehicle (
         id INT AUTO_INCREMENT PRIMARY KEY,
+        brand VARCHAR(255),
+        model VARCHAR(255),
         user_id INT,
-        marque VARCHAR(80),
-        model VARCHAR(80),
-        type_de_prise_id INT,
+        plug_type_id INT,
         FOREIGN KEY (user_id) REFERENCES user(id),
-        FOREIGN KEY (type_de_prise_id) REFERENCES type_de_prise(id)
+        FOREIGN KEY (plug_type_id) REFERENCES plug_type(id)
     );
+
 -- Table 'reservation'
 CREATE TABLE
     reservation (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        prix DECIMAL(10, 2),
-        -- Assuming a decimal value for price
-        date DATE,
-        heure TIME,
-        duree INT,
-        -- Duration in minutes/hours, adjust data type as needed
+        price DECIMAL(5, 2),
+        datetime DATETIME,
+        is_cancelled BOOLEAN DEFAULT 0,
         user_id INT,
-        borne_id INT,
-        vehicule_id INT,
-        is_active BOOLEAN,
+        charging_point_id INT,
         FOREIGN KEY (user_id) REFERENCES user(id),
-        FOREIGN KEY (borne_id) REFERENCES bornes(id),
-        FOREIGN KEY (vehicule_id) REFERENCES vehicule(id)
+        FOREIGN KEY (charging_point_id) REFERENCES charging_point(id)
     );

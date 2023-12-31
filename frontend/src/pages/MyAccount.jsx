@@ -14,7 +14,7 @@ export default function MyAccount() {
         <h1 className="profil-title">Mon Compte</h1>
         <div className="identity">
           <p>
-            {user?.firstName} {user?.name}
+            {user?.firstName} {user?.lastName}
           </p>
           <p>{userAge} ans</p>
           <p>{user?.city}</p>

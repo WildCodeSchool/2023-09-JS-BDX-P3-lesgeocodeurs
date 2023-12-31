@@ -18,9 +18,9 @@ export default function RegisterInfos() {
   const age = formData.birthDate ? calculerAge(formData.birthDate) : 0;
 
   if (
-    formData?.name?.length < 3 ||
-    formData?.name?.length > 15 ||
-    /^[a-zA-Z\s-]{1,}$/.test(formData.name) === false
+    formData?.lastName?.length < 3 ||
+    formData?.lastName?.length > 15 ||
+    /^[a-zA-Z\s-]{1,}$/.test(formData.lastName) === false
   ) {
     formErrors.push("Veuillez renseigner un nom valide");
   }
@@ -56,9 +56,9 @@ export default function RegisterInfos() {
         <MDBInput
           className="mb-4"
           type="string"
-          name="name"
+          name="lastName"
           label="Nom"
-          value={formData.name}
+          value={formData.lastName}
           onChange={handleChange}
         />
         <MDBInput
@@ -73,9 +73,9 @@ export default function RegisterInfos() {
           className="mb-4"
           type="string"
           required
-          name="Postal"
+          name="postalCode"
           label="Code postal"
-          value={formData.Postal}
+          value={formData.postalCode}
           onChange={handleChange}
         />
         <MDBInput

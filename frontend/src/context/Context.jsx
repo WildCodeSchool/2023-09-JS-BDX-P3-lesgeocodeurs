@@ -51,7 +51,7 @@ export function ContextProvider({ children }) {
     if (!users.find((userdb) => userdb.email === newUser.email)) {
       users.push(newUser);
       localStorage.setItem("users", JSON.stringify(users));
-      alert(`Bienvenue ${newUser.firstName} ${newUser.name}`);
+      alert(`Bienvenue ${newUser.firstName} ${newUser.lastName}`);
       setUser(newUser);
       navigate("/");
     } else {
