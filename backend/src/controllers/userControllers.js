@@ -39,7 +39,7 @@ const read = async (req, res, next) => {
 const edit = async (req, res, next) => {
   try {
     // Insert the user into the database
-    const modifiedUser = await tables.user.update(req.body);
+    const modifiedUser = await tables.user.update(req.body, req.params.id);
 
     // Respond with HTTP 201 (Created) and the ID of the newly inserted user
     if (modifiedUser !== null) {
@@ -72,10 +72,10 @@ const add = async (req, res, next) => {
 // This operation is not yet implemented
 const destroy = async (req, res, next) => {
   try {
-    await tables.user.delete(req.params.id);
-    const userDeleted = await tables.user.read(req.params.id);
+    const result = await tables.user.delete(req.params.id);
+    // const userDeleted = await tables.user.read(req.params.id);
 
-    if (userDeleted == null) {
+    if (result.affectedRows !== 0) {
       res.sendStatus(200);
     } else {
       res.sendStatus(404);

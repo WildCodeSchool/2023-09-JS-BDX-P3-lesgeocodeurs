@@ -33,7 +33,7 @@ router.put("/vehicle/:id", vehicleControllers.edit);
 router.delete("/users/:id", userControllers.destroy);
 
 // Route to update a user by id
-router.put("/users", userControllers.edit);
+router.put("/users/:id", userControllers.edit);
 
 /* ************************************************************************* */
 
