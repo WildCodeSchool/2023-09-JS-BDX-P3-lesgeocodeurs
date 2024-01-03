@@ -89,7 +89,7 @@ INSERT INTO
 VALUES (
         1,
         "admin@mail.com",
-        "mdp",
+        "$2b$10$bIrY.CKNOKkg.EQg.NACM.XuQMxy35G9WNjWPI1KiYKZwNYdl3wXS",
         "Jean",
         "Admin",
         "2000-01-01",
@@ -99,7 +99,7 @@ VALUES (
     ), (
         2,
         "antoine@mail.com",
-        "mdp",
+        "$2b$10$A44XwHUG/AbavVxdax0jwuLLBhtX1fWbD4bRDgXNdoc4AmwZGMd/W",
         "Antoine",
         "Cairey",
         "1995-11-24",
@@ -109,7 +109,7 @@ VALUES (
     ), (
         3,
         "aurore@mail.com",
-        "mdp",
+        "$2b$10$wLkcXThGCO1z5KzWdFDMxedwKVThOvUsKjhSj6GQnf37YpQ3b1/VW",
         "Aurore",
         "Valleix",
         "1982-03-15",
@@ -119,7 +119,7 @@ VALUES (
     ), (
         4,
         "lucas@mail.com",
-        "mdp",
+        "$2b$10$CSMQNyVCWNq2lckteJ5b6OC8qvrF5r8HrfkBVXl9325BONc3xC4KW",
         "Lucas",
         "Bordes",
         "1995-09-11",

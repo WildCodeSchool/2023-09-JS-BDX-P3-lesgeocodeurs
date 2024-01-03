@@ -1,4 +1,5 @@
 // Import access to database tables
+const bcrypt = require("bcrypt");
 const tables = require("../tables");
 
 // The B of BREAD - Browse (Read All) operation
@@ -57,6 +58,8 @@ const add = async (req, res, next) => {
   const user = req.body;
 
   try {
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    user.password = hashedPassword;
     // Insert the user into the database
     const insertId = await tables.user.create(user);
 
@@ -86,6 +89,23 @@ const destroy = async (req, res, next) => {
   }
 };
 
+// Login operation
+const login = async (req, res, next) => {
+  const user = await tables.user.findUserByEmail(req.body.email);
+  if (user == null) {
+    res.sendStatus(400);
+  }
+  try {
+    if (await bcrypt.compare(req.body.password, user.password)) {
+      res.json(user);
+    } else {
+      res.sendStatus(401);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
 // Ready to export the controller functions
 module.exports = {
   browse,
@@ -93,4 +113,5 @@ module.exports = {
   edit,
   add,
   destroy,
+  login,
 };
