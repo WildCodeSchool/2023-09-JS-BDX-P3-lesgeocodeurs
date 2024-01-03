@@ -5,12 +5,12 @@ import { useTheContext } from "../context/Context";
 
 export default function ModifProfil() {
   const navigate = useNavigate();
-  const { getRegisterStorage } = useTheContext();
-  const [modifProfil, setModifProfil] = useState(getRegisterStorage);
+  const { user, editUser } = useTheContext();
+  const [modifProfil, setModifProfil] = useState(user);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    localStorage.setItem("userRegister", JSON.stringify(modifProfil));
+    editUser(modifProfil);
     navigate("/myaccount");
   };
 
@@ -39,8 +39,8 @@ export default function ModifProfil() {
           type="lastname"
           id="form1Example2"
           label="Nom"
-          name="name"
-          value={modifProfil?.name}
+          name="lastName"
+          value={modifProfil?.lastName}
           onChange={handleChange}
         />
 
@@ -59,8 +59,8 @@ export default function ModifProfil() {
           type="codepostal"
           id="form1Example2"
           label="Code Postal"
-          name="Postal"
-          value={modifProfil?.Postal}
+          name="postalCode"
+          value={modifProfil?.postalCode}
           onChange={handleChange}
         />
 

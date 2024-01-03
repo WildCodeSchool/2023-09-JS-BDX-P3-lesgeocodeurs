@@ -1,107 +1,93 @@
-import { createContext, useContext, useState, useMemo, useEffect } from "react";
-import axios from "axios";
-import validator from "validator";
+import { createContext, useContext, useState, useMemo } from "react";
+// import axios from "axios";
+// import validator from "validator";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
 const theContext = createContext();
+
 export function ContextProvider({ children }) {
   const navigate = useNavigate();
-  // statut de connexion
-  const [userConected, setUserConected] = useState(false);
-  // information de connexion
-  const [logUser, setLogUser] = useState({});
-  // information d'inscription
-  const [userRegister, setUserRegister] = useState({});
-  // validation de l'email du register/log
-  const [isValidEmail, setIsValidEmail] = useState(false);
+  const getUsers = () => JSON.parse(localStorage.getItem("users") ?? "[]");
 
-  // méthode réutilisable qui stock une clé "key" ayant pour valeur "data" dans le localstorage
-  const setStorage = (key, data) => {
-    localStorage.setItem(key, JSON.stringify(data));
-  };
+  // le state qui contient les infos du user connecté
+  const [user, setUser] = useState(null);
 
-  // méthode qui stock les champs input du register et qui toggle isValid email
-  const handleInputRegister = (e) => {
-    setUserRegister({ ...userRegister, [e.target.name]: e.target.value });
-    if (e.target.name === "email") {
-      setIsValidEmail(validator.isEmail(e.target.value));
-    }
-  };
-  // * pour les logs user dans la partie connection
-  const handleLogin = (e) => {
-    setLogUser({ ...logUser, [e.target.name]: e.target.value });
-  };
+  // connexion : vérifie si les identifiants sont bons et met à jour le state "user"
+  const login = (credentials) => {
+    const users = getUsers();
 
-  // // récupère et stock ce qui est à la clé userRegister dans le localstorage || en cours post =>> back
-  const handleSubmitRegister = async () => {
-    setStorage("userRegister", userRegister);
-    try {
-      await axios.post("http://localhost:3310/api/users", {
-        userRegister,
-      });
-    } catch (err) {
-      console.error(err);
+    // cherche un user avec cet email et mot de passe
+    const userFound = users.find(
+      (userdb) =>
+        userdb.email === credentials.email &&
+        userdb.password === credentials.password
+    );
+
+    if (userFound) {
+      // si user trouvé, le connecte, sinon affiche message d'erreur
+      setUser(userFound);
+      navigate("/");
+    } else {
+      alert("Identifiants incorrects");
+      navigate("/login");
     }
   };
 
-  // récupère et stock ce qui est à la clé userRegister dans le localstorage
-  const getRegisterStorage = JSON.parse(localStorage.getItem("userRegister"));
-
-  const login = () => {
-    // récupère et stock ce qui est à la clé logUser dans le localstorage
-    setStorage("logUser", logUser);
-    // vérifie l'existence d'un utilistateur enregistré
-    if (getRegisterStorage) {
-      // si c'est le cas compare l'email et le mot de passe de ce dernier avec la somme des inputs de login stocké dans logUser pour connecter l'utilisateur
-      if (
-        getRegisterStorage.email === logUser.email &&
-        getRegisterStorage.password === logUser.password
-      ) {
-        setUserConected(true);
-        navigate("/");
-      } else if (
-        getRegisterStorage.email !== logUser.email ||
-        getRegisterStorage.password !== logUser.password
-      ) {
-        alert("try again");
-        navigate("/login");
-      }
-    } else if (!getRegisterStorage) {
-      alert("suscribe gros bouff");
+  // vérifie si on a déjà un compte avec cet adresse mail
+  const emailAvailable = async (emailToCheck) => {
+    const users = getUsers();
+    if (!users.find((userdb) => userdb.email === emailToCheck)) {
+      navigate("/register/infos");
+    } else {
+      alert("Vous êtes déjà inscrit !");
     }
   };
 
-  // récupère et stock ce qui est stocké à la clé logUser dans le localstorage
-  const getLogStorage = JSON.parse(localStorage.getItem("logUser"));
+  // inscription : stocke le nouveau user dans le localstorage
+  const register = async (newUser) => {
+    const users = getUsers();
 
-  // déconnecte l'user et suppr le localstorage à la clé logUser
-  const logout = () => {
-    setUserConected(false);
-    localStorage.removeItem("logUser");
-  };
-
-  // Permet de reconnecter automatiquemennt l'utilisateur à chaque visite tant qu'il ne s'est pas déconnecté
-  const checkStorage = () => {
-    if (getLogStorage) {
-      if (
-        getLogStorage.email === getRegisterStorage.email &&
-        getLogStorage.password === getRegisterStorage.password
-      ) {
-        setUserConected(true);
-      }
+    if (!users.find((userdb) => userdb.email === newUser.email)) {
+      users.push(newUser);
+      localStorage.setItem("users", JSON.stringify(users));
+      alert(`Bienvenue ${newUser.firstName} ${newUser.lastName}`);
+      setUser(newUser);
+      navigate("/");
+    } else {
+      alert("Vous êtes déjà inscrit !");
+      navigate("/login");
     }
   };
 
-  useEffect(() => {
-    checkStorage();
-  }, []);
+  // déconnexion : vide le state "user"
+  const logout = async () => setUser(null);
+
+  // modification du profil : modifie le state "user" et le localStorage
+  const editUser = async (newData) => {
+    const users = getUsers();
+    const newUsers = users.map((userdb) =>
+      userdb.email === user.email ? newData : userdb
+    );
+    localStorage.setItem("users", JSON.stringify(newUsers));
+    setUser(newData);
+  };
+
+  // suppression du compte : vide le state "user" et modifie le localStorage
+  const deleteUser = async (emailOfUser) => {
+    const users = getUsers();
+    const newUsers = users.filter((userdb) => userdb.email !== emailOfUser);
+    localStorage.setItem("users", JSON.stringify(newUsers));
+    setUser(null);
+    navigate("/");
+  };
 
   // elle parle d'elle même, c'est bien évidemment moi qui ai tout écris à la main..
   const calculerAge = (dateNaissance) => {
     const [annee, mois, jour] = dateNaissance.split("-").map(Number);
 
-    const dateNaissanceFormat = new Date(annee, mois - 1, jour); // Soustraire 1 au mois car les mois commencent à 0
+    // Soustraire 1 au mois car les mois commencent à 0
+    const dateNaissanceFormat = new Date(annee, mois - 1, jour);
 
     const dateActuelle = new Date();
     let age = dateActuelle.getFullYear() - dateNaissanceFormat.getFullYear();
@@ -125,45 +111,24 @@ export function ContextProvider({ children }) {
 
   const memoizedUserValue = useMemo(
     () => ({
-      userConected,
-      setUserConected,
-      userRegister,
-      setUserRegister,
-      handleInputRegister,
+      user,
       login,
-      isValidEmail,
-      setIsValidEmail,
       logout,
-      checkStorage,
-      setStorage,
-      handleLogin,
-      getRegisterStorage,
-      handleSubmitRegister,
+      register,
       calculerAge,
+      editUser,
+      deleteUser,
+      emailAvailable,
     }),
-    [
-      userConected,
-      setUserConected,
-      userRegister,
-      setUserRegister,
-      handleInputRegister,
-      login,
-      isValidEmail,
-      setIsValidEmail,
-      logout,
-      checkStorage,
-      setStorage,
-      handleLogin,
-      getRegisterStorage,
-      handleSubmitRegister,
-      calculerAge,
-    ]
+    [user]
   );
+
   return (
     <theContext.Provider value={memoizedUserValue}>
       {children}
     </theContext.Provider>
   );
 }
+
 ContextProvider.propTypes = { children: PropTypes.node.isRequired };
 export const useTheContext = () => useContext(theContext);

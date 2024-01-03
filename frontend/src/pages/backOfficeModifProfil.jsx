@@ -32,7 +32,7 @@ export default function BackOfficeModifProfi() {
         <span className="material-symbols-outlined">delete</span>
         <MDBInput
           className="mb-4"
-          type="fiestname"
+          type="firstname"
           id="form1Example2"
           label="Prénom"
           onChange={handleChange}
