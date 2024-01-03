@@ -22,6 +22,12 @@ router.get("/users/:id", userControllers.read);
 router.post("/items", itemControllers.add);
 router.post("/users", userControllers.add);
 
+// Route to delete a specific user by id
+router.delete("/users/:id", userControllers.destroy);
+
+// Route to update a user by id
+router.put("/users", userControllers.edit);
+
 /* ************************************************************************* */
 
 module.exports = router;
