@@ -54,7 +54,7 @@ const add = async (req, res, next) => {
   }
 };
 
-const deleteVehicle = async (req, res, next) => {
+const destroy = async (req, res, next) => {
   try {
     await tables.vehicle.delete(req.params.id);
     const vehicleDeleted = await tables.vehicle.read(req.params.id);
@@ -68,6 +68,19 @@ const deleteVehicle = async (req, res, next) => {
   }
 };
 
+const edit = async (req, res, next) => {
+  try {
+    const result = await tables.vehicle.update(req.body, req.params.id);
+    if (result.affectedRows === 0) {
+      res.sendStatus(404);
+    } else {
+      res.sendStatus(204);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
 // The D of BREAD - Destroy (Delete) operation
 // This operation is not yet implemented
 
@@ -75,8 +88,7 @@ const deleteVehicle = async (req, res, next) => {
 module.exports = {
   browse,
   read,
-  // edit,
   add,
-  deleteVehicle,
-  // destroy,
+  destroy,
+  edit,
 };

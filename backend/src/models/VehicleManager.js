@@ -39,10 +39,18 @@ class VehicleManager extends AbstractManager {
 
   async delete(id) {
     const result = await this.database.query(
-      `delete from vehicle where id = ?`,
+      `delete from ${this.table} where id = ?`,
       [id]
     );
     return result;
+  }
+
+  async update(vehicle, id) {
+    const [rows] = await this.database.query(
+      `update ${this.table} set brand = ?, model = ?, user_id = ?, plug_type_id = ? where id = ?`,
+      [vehicle.brand, vehicle.model, vehicle.user_id, vehicle.plug_type_id, id]
+    );
+    return rows;
   }
 }
 

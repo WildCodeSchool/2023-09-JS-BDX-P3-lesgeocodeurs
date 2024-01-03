@@ -26,8 +26,9 @@ router.post("/items", itemControllers.add);
 router.post("/users", userControllers.add);
 router.post("/vehicle", vehicleControllers.add);
 
-router.delete("/vehicle/:id", vehicleControllers.deleteVehicle);
+router.delete("/vehicle/:id", vehicleControllers.destroy);
 
+router.put("/vehicle/:id", vehicleControllers.edit);
 /* ************************************************************************* */
 
 module.exports = router;
