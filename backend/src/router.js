@@ -29,6 +29,12 @@ router.post("/vehicle", vehicleControllers.add);
 router.delete("/vehicle/:id", vehicleControllers.destroy);
 
 router.put("/vehicle/:id", vehicleControllers.edit);
+// Route to delete a specific user by id
+router.delete("/users/:id", userControllers.destroy);
+
+// Route to update a user by id
+router.put("/users", userControllers.edit);
+
 /* ************************************************************************* */
 
 module.exports = router;
