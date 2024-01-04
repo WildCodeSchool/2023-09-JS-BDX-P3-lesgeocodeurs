@@ -52,6 +52,9 @@ router.put("/station/:id", stationControllers.edit);
 router.put("/chargingpoint/:id", chargingpointControllers.edit);
 router.put("/reservation/:id", reservationControllers.edit);
 
+// Login route
+router.post("/users/login", userControllers.login);
+
 /* ************************************************************************* */
 
 module.exports = router;
