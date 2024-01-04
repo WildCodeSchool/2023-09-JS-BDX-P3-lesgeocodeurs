@@ -1,6 +1,11 @@
 // Import access to database tables
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const tables = require("../tables");
+
+function generateAccessToken(username) {
+  return jwt.sign(username, process.env.APP_SECRET, { expiresIn: "1800s" });
+}
 
 // The B of BREAD - Browse (Read All) operation
 const browse = async (req, res, next) => {
@@ -97,7 +102,8 @@ const login = async (req, res, next) => {
   }
   try {
     if (await bcrypt.compare(req.body.password, user.password)) {
-      res.json(user);
+      const token = generateAccessToken(user);
+      res.json({ token });
     } else {
       res.sendStatus(401);
     }

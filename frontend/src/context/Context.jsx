@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useMemo } from "react";
-// import axios from "axios";
+import axios from "axios";
 // import validator from "validator";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
@@ -14,24 +14,33 @@ export function ContextProvider({ children }) {
   const [user, setUser] = useState(null);
 
   // connexion : vérifie si les identifiants sont bons et met à jour le state "user"
-  const login = (credentials) => {
-    const users = getUsers();
+  const login = async (credentials) => {
+    // const users = getUsers();
+    try {
+      const { data } = await axios.post(
+        "http://localhost:3310/api/users/login",
+        credentials
+      );
+      localStorage.setItem("token", JSON.stringify(data.token));
+    } catch (err) {
+      console.error(err);
+    }
 
     // cherche un user avec cet email et mot de passe
-    const userFound = users.find(
-      (userdb) =>
-        userdb.email === credentials.email &&
-        userdb.password === credentials.password
-    );
+    // const userFound = users.find(
+    //   (userdb) =>
+    //     userdb.email === credentials.email &&
+    //     userdb.password === credentials.password
+    // );
 
-    if (userFound) {
-      // si user trouvé, le connecte, sinon affiche message d'erreur
-      setUser(userFound);
-      navigate("/");
-    } else {
-      alert("Identifiants incorrects");
-      navigate("/login");
-    }
+    // if (token) {
+    //   // si user trouvé, le connecte, sinon affiche message d'erreur
+    //   setUser(token);
+    //   navigate("/");
+    // } else {
+    //   alert("Identifiants incorrects");
+    //   navigate("/login");
+    // }
   };
 
   // vérifie si on a déjà un compte avec cet adresse mail
