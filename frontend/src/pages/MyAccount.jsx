@@ -6,7 +6,9 @@ import { useTheContext } from "../context/Context";
 export default function MyAccount() {
   const { logout, user, calculerAge, deleteUser } = useTheContext();
 
-  const userAge = calculerAge(user ? user.birthDate : "1995-09-11");
+  const userAge = calculerAge(
+    user ? user.birth_date : "1995-01-01T00:00:00.000Z'"
+  );
 
   return (
     <div>
@@ -14,7 +16,7 @@ export default function MyAccount() {
         <h1 className="profil-title">Mon Compte</h1>
         <div className="identity">
           <p>
-            {user?.firstName} {user?.lastName}
+            {user?.first_name} {user?.last_name}
           </p>
           <p>{userAge} ans</p>
           <p>{user?.city}</p>

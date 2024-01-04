@@ -102,7 +102,10 @@ const login = async (req, res, next) => {
   }
   try {
     if (await bcrypt.compare(req.body.password, user.password)) {
-      const token = generateAccessToken(user);
+      user.password = "";
+      const newUser = { ...user };
+      delete newUser.password;
+      const token = generateAccessToken(newUser);
       res.json({ token });
     } else {
       res.sendStatus(401);

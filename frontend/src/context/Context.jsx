@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useMemo } from "react";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 // import validator from "validator";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
@@ -21,17 +22,13 @@ export function ContextProvider({ children }) {
         "http://localhost:3310/api/users/login",
         credentials
       );
-      localStorage.setItem("token", JSON.stringify(data.token));
+      localStorage.setItem("token", data.token);
+      const tokenData = jwtDecode(data.token);
+      setUser(tokenData);
+      navigate("/");
     } catch (err) {
       console.error(err);
     }
-
-    // cherche un user avec cet email et mot de passe
-    // const userFound = users.find(
-    //   (userdb) =>
-    //     userdb.email === credentials.email &&
-    //     userdb.password === credentials.password
-    // );
 
     // if (token) {
     //   // si user trouvé, le connecte, sinon affiche message d'erreur
@@ -39,7 +36,7 @@ export function ContextProvider({ children }) {
     //   navigate("/");
     // } else {
     //   alert("Identifiants incorrects");
-    //   navigate("/login");
+
     // }
   };
 
@@ -92,31 +89,22 @@ export function ContextProvider({ children }) {
   };
 
   // elle parle d'elle même, c'est bien évidemment moi qui ai tout écris à la main..
-  const calculerAge = (dateNaissance) => {
-    const [annee, mois, jour] = dateNaissance.split("-").map(Number);
+  function calculerAge(dateOfBirth) {
+    // Convertir la chaîne en objet Date
+    const dob = new Date(dateOfBirth);
 
-    // Soustraire 1 au mois car les mois commencent à 0
-    const dateNaissanceFormat = new Date(annee, mois - 1, jour);
+    // Obtenir la date actuelle
+    const currentDate = new Date();
 
-    const dateActuelle = new Date();
-    let age = dateActuelle.getFullYear() - dateNaissanceFormat.getFullYear();
+    // Calculer la différence en millisecondes entre la date actuelle et la date de naissance
+    const timeDifference = currentDate - dob;
 
-    // Vérifier si l'anniversaire est déjà passé cette année
-    const moisActuel = dateActuelle.getMonth() + 1;
-    const jourActuel = dateActuelle.getDate();
-    const moisAnniversaire = dateNaissanceFormat.getMonth() + 1;
-    const jourAnniversaire = dateNaissanceFormat.getDate();
-
-    if (
-      moisActuel < moisAnniversaire ||
-      (moisActuel === moisAnniversaire && jourActuel < jourAnniversaire)
-    ) {
-      // eslint-disable-next-line no-plusplus
-      age--;
-    }
+    // Convertir la différence en années
+    const ageInMilliseconds = new Date(timeDifference);
+    const age = ageInMilliseconds.getUTCFullYear() - 1970;
 
     return age;
-  };
+  }
 
   const memoizedUserValue = useMemo(
     () => ({
