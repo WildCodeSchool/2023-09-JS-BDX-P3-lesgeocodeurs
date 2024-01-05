@@ -40,11 +40,12 @@ export function ContextProvider({ children }) {
     // }
   };
 
+  // eslint-disable-next-line consistent-return
   const fetchProtectedData = async () => {
+    // Récupérer le JWT du stockage local (ou de tout autre endroit où vous le stockez)
+    const jwtToken = localStorage.getItem("token");
+    if (!jwtToken) return null;
     try {
-      // Récupérer le JWT du stockage local (ou de tout autre endroit où vous le stockez)
-      const jwtToken = localStorage.getItem("token");
-
       // Ajouter le JWT à l'en-tête de la requête
       const response = await axios.get("http://localhost:3310/api/check-auth", {
         headers: {
@@ -55,6 +56,7 @@ export function ContextProvider({ children }) {
       // Traitement de la réponse ici
       // eslint-disable-next-line no-restricted-syntax
       console.log("Données protégées:", response.data);
+      setUser(jwtDecode(jwtToken));
     } catch (error) {
       // Gestion des erreurs ici
       console.error(
@@ -90,7 +92,10 @@ export function ContextProvider({ children }) {
   };
 
   // déconnexion : vide le state "user"
-  const logout = async () => setUser(null);
+  const logout = async () => {
+    setUser(null);
+    localStorage.removeItem("token");
+  };
 
   // modification du profil : modifie le state "user" et le localStorage
   const editUser = async (newData) => {
