@@ -40,7 +40,6 @@ export function ContextProvider({ children }) {
     // }
   };
 
-  // eslint-disable-next-line no-unused-vars
   const fetchProtectedData = async () => {
     try {
       // Récupérer le JWT du stockage local (ou de tout autre endroit où vous le stockez)
@@ -140,6 +139,7 @@ export function ContextProvider({ children }) {
       editUser,
       deleteUser,
       emailAvailable,
+      fetchProtectedData,
     }),
     [user]
   );
