@@ -40,6 +40,30 @@ export function ContextProvider({ children }) {
     // }
   };
 
+  // eslint-disable-next-line no-unused-vars
+  const fetchProtectedData = async () => {
+    try {
+      // Récupérer le JWT du stockage local (ou de tout autre endroit où vous le stockez)
+      const jwtToken = localStorage.getItem("token");
+
+      // Ajouter le JWT à l'en-tête de la requête
+      const response = await axios.get("http://localhost:3310/api/check-auth", {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
+
+      // Traitement de la réponse ici
+      // eslint-disable-next-line no-restricted-syntax
+      console.log("Données protégées:", response.data);
+    } catch (error) {
+      // Gestion des erreurs ici
+      console.error(
+        "Erreur lors de la récupération des données protégées:",
+        error.message
+      );
+    }
+  };
   // vérifie si on a déjà un compte avec cet adresse mail
   const emailAvailable = async (emailToCheck) => {
     const users = getUsers();
