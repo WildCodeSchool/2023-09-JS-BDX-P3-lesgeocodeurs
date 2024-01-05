@@ -25,7 +25,7 @@ class UserManager extends AbstractManager {
     );
 
     // Return the ID of the newly inserted user
-    return result.insertId;
+    return result;
   }
 
   // The Rs of CRUD - Read operations
@@ -60,7 +60,7 @@ class UserManager extends AbstractManager {
         user.password,
         user.first_name,
         user.last_name,
-        user.birth_nate,
+        user.birth_date,
         user.postal_code,
         user.city,
         id,

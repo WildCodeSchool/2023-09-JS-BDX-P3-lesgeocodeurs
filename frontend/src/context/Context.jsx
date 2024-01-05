@@ -77,19 +77,30 @@ export function ContextProvider({ children }) {
 
   // inscription : stocke le nouveau user dans le localstorage
   const register = async (newUser) => {
-    const users = getUsers();
-
-    if (!users.find((userdb) => userdb.email === newUser.email)) {
-      users.push(newUser);
-      localStorage.setItem("users", JSON.stringify(users));
-      alert(`Bienvenue ${newUser.firstName} ${newUser.lastName}`);
-      setUser(newUser);
-      navigate("/");
-    } else {
-      alert("Vous êtes déjà inscrit !");
-      navigate("/login");
+    try {
+      const { data } = await axios.post(
+        "http://localhost:3310/api/users",
+        newUser
+      );
+      console.info(data);
+    } catch (err) {
+      console.error(err);
     }
   };
+  // async (newUser) => {
+  //   const users = getUsers();
+
+  //   if (!users.find((userdb) => userdb.email === newUser.email)) {
+  //     users.push(newUser);
+  //     localStorage.setItem("users", JSON.stringify(users));
+  //     alert(`Bienvenue ${newUser.firstName} ${newUser.lastName}`);
+  //     setUser(newUser);
+  //     navigate("/");
+  //   } else {
+  //     alert("Vous êtes déjà inscrit !");
+  //     navigate("/login");
+  //   }
+  // };
 
   // déconnexion : vide le state "user"
   const logout = async () => {

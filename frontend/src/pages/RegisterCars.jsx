@@ -33,7 +33,7 @@ export default function RegisterCars() {
         <MDBInput
           className="mb-4"
           type="string"
-          name="plugType"
+          name="plug_type_id"
           label="Type de prise"
           value={formData.plug_type_id}
           onChange={handleChange}
