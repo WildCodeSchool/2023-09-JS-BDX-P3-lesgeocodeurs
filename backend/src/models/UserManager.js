@@ -16,10 +16,10 @@ class UserManager extends AbstractManager {
       [
         user.email,
         user.password,
-        user.firstName,
-        user.lastName,
-        user.birthDate,
-        user.postalCode,
+        user.first_name,
+        user.last_name,
+        user.birth_date,
+        user.postal_code,
         user.city,
       ]
     );
@@ -58,10 +58,10 @@ class UserManager extends AbstractManager {
       [
         user.email,
         user.password,
-        user.firstName,
-        user.lastName,
-        user.birthDate,
-        user.postalCode,
+        user.first_name,
+        user.last_name,
+        user.birth_nate,
+        user.postal_code,
         user.city,
         id,
       ]

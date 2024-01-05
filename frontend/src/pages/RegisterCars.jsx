@@ -35,7 +35,7 @@ export default function RegisterCars() {
           type="string"
           name="plugType"
           label="Type de prise"
-          value={formData.plugType}
+          value={formData.plug_type_id}
           onChange={handleChange}
         />
 

@@ -10,14 +10,14 @@ export default function RegisterManager() {
     email: "",
     password: "",
     confirmPassword: "",
-    firstName: "",
-    lastName: "",
-    birthDate: "",
-    postalCode: "",
+    first_name: "",
+    last_name: "",
+    birth_date: "",
+    postal_code: "",
     city: "",
     brand: "",
     model: "",
-    plugType: "",
+    plug_type_id: "",
   });
   return (
     <div>

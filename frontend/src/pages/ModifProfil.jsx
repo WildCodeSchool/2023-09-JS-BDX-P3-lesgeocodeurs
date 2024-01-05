@@ -30,7 +30,7 @@ export default function ModifProfil() {
           id="form1Example2"
           label="Prénom"
           name="firstName"
-          value={modifProfil?.firstName}
+          value={modifProfil?.first_name}
           onChange={handleChange}
         />
 
@@ -40,7 +40,7 @@ export default function ModifProfil() {
           id="form1Example2"
           label="Nom"
           name="lastName"
-          value={modifProfil?.lastName}
+          value={modifProfil?.last_ame}
           onChange={handleChange}
         />
 
@@ -50,7 +50,7 @@ export default function ModifProfil() {
           id="form1Example2"
           label="Date de naissance"
           name="birthDate"
-          value={modifProfil?.birthDate}
+          value={modifProfil?.birth_date}
           onChange={handleChange}
         />
 
@@ -60,7 +60,7 @@ export default function ModifProfil() {
           id="form1Example2"
           label="Code Postal"
           name="postalCode"
-          value={modifProfil?.postalCode}
+          value={modifProfil?.postal_code}
           onChange={handleChange}
         />
 
