@@ -13,6 +13,7 @@ const vehicleControllers = require("./controllers/vehicleControllers");
 const stationControllers = require("./controllers/stationControllers");
 const chargingpointControllers = require("./controllers/chargingpointControllers");
 const reservationControllers = require("./controllers/reservationControllers");
+const verifyToken = require("./services/verifyToken");
 
 // Route to get a list of items
 router.get("/items", itemControllers.browse);
@@ -54,6 +55,12 @@ router.put("/reservation/:id", reservationControllers.edit);
 
 // Login route
 router.post("/users/login", userControllers.login);
+
+// Route de vérification du token
+router.get("/check-auth", verifyToken, (req, res) => {
+  // L'utilisateur est authentifié, req.user contient les données du token décodé
+  res.status(200).json({ message: "Authentification réussie", user: req.user });
+});
 
 /* ************************************************************************* */
 
