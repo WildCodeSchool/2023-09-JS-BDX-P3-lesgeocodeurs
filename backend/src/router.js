@@ -57,7 +57,7 @@ router.put("/reservation/:id", reservationControllers.edit);
 router.post("/users/login", userControllers.login);
 
 // Route de vérification du token
-router.get("/check-auth", verifyToken, (req, res) => {
+router.get("/check-auth", verifyToken.verifyToken, (req, res) => {
   // L'utilisateur est authentifié, req.user contient les données du token décodé
   res.status(200).json({ message: "Authentification réussie", user: req.user });
 });
