@@ -29,6 +29,17 @@ class VehicleManager extends AbstractManager {
     return rows[0];
   }
 
+  async readCarByUser(userId) {
+    // Execute the SQL SELECT query to retrieve a specific user by its ID
+    const [rows] = await this.database.query(
+      `select * from ${this.table} where user_id = ?`,
+      [userId]
+    );
+
+    // Return the first row of the result, which represents the user
+    return rows;
+  }
+
   async readAll() {
     // Execute the SQL SELECT query to retrieve all users from the "user" table
     const [rows] = await this.database.query(`select * from ${this.table}`);

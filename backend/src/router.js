@@ -30,7 +30,7 @@ router.get("/vehicle/:id", vehicleControllers.read);
 router.get("/station/:id", stationControllers.read);
 router.get("/chargingpoint/:id", chargingpointControllers.read);
 router.get("/reservation/:id", reservationControllers.read);
-
+router.get("/vehicle/users/:id", vehicleControllers.getCarByUser);
 // Route to add a new item
 router.post("/items", itemControllers.add);
 router.post("/users", userControllers.add);

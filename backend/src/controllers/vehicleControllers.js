@@ -34,6 +34,25 @@ const read = async (req, res, next) => {
   }
 };
 
+const getCarByUser = async (req, res, next) => {
+  try {
+    // Extract the user ID from the request parameters
+    const userId = req.params.id;
+    // Fetch a specific user from the database based on the provided ID
+    const vehicles = await tables.vehicle.readCarByUser(userId);
+
+    // If the user is not found, respond with HTTP 404 (Not Found)
+    // Otherwise, respond with the user in JSON format
+    if (vehicles == null) {
+      res.sendStatus(404);
+    } else {
+      res.json(vehicles);
+    }
+  } catch (err) {
+    // Pass any errors to the error-handling middleware
+    next(err);
+  }
+};
 // The E of BREAD - Edit (Update) operation
 // This operation is not yet implemented
 
@@ -91,4 +110,5 @@ module.exports = {
   add,
   destroy,
   edit,
+  getCarByUser,
 };

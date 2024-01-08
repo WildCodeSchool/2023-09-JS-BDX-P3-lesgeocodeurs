@@ -5,14 +5,29 @@ import {
   MDBCardTitle,
   MDBCardText,
 } from "mdb-react-ui-kit";
-import { useTheContext } from "../context/Context";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function Cars() {
   function rtn() {
     window.history.back();
   }
+  const [vehicles, setVehicles] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3310/api/vehicle/users/1`
+        );
+        setVehicles(response.data);
+      } catch (error) {
+        console.error("Error fetching vehicles:", error);
+      }
+    };
 
-  const { user } = useTheContext();
+    fetchData();
+  }, []);
+
   return (
     <div className="cars-container">
       <button type="submit" className="back" onClick={rtn}>
@@ -21,14 +36,14 @@ export default function Cars() {
       <h1 className="cars-title">Mes véhicules</h1>
       <div className="my-car">
         <MDBCard border>
-          {[user]?.map((car) => (
+          {vehicles.map((car) => (
             <div className="one-car" key={car.model}>
               <MDBCardBody>
                 <div>
                   <MDBCardTitle>
                     {car.brand} {car.model}
                   </MDBCardTitle>
-                  <MDBCardText>Type de prise : {car.plugType}</MDBCardText>
+                  <MDBCardText>Type de prise : {car.plug_type_id}</MDBCardText>
                 </div>
                 <div className="btn-delete-car">
                   <MDBBtn size="sm">Supprimer</MDBBtn>
