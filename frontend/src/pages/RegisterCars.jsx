@@ -1,8 +1,11 @@
 import { MDBInput, MDBBtn, MDBSelect } from "mdb-react-ui-kit";
 import { useOutletContext } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { useTheContext } from "../context/Context";
 
 export default function RegisterCars() {
+  const [plugTypes, setPlugTypes] = useState([]);
   const { register } = useTheContext();
 
   const { formData, setFormData } = useOutletContext();
@@ -10,6 +13,19 @@ export default function RegisterCars() {
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  useEffect(() => {
+    const fetchPlugTypes = async () => {
+      try {
+        const response = await axios.get("http://localhost:3310/api/plugtypes");
+        setPlugTypes(response.data);
+      } catch (error) {
+        console.error("Error fetching plug types:", error);
+      }
+    };
+
+    fetchPlugTypes();
+  }, []);
+  const options = plugTypes;
   return (
     <div className="registerInfos-container">
       <div className="login-form">
@@ -30,26 +46,15 @@ export default function RegisterCars() {
           value={formData.model}
           onChange={handleChange}
         />
-        <MDBInput
-          className="mb-4"
-          type="string"
-          name="plugType"
-          label="Type de prise"
-          value={formData.plug_type_id}
-          onChange={handleChange}
-        />
+
         <MDBSelect
           name="plugType"
           label="Type de prise"
           className="select-btn"
-          data={[
-            { text: "EF", value: 1 },
-            { text: "Type 2", value: 2 },
-            { text: "Combo CCS", value: 3 },
-            { text: "Chademo", value: 4 },
-            { text: "Autre", value: 5 },
-            { text: "Six", value: 6 },
-          ]}
+          data={options.map((plugType) => ({
+            text: plugType.name, // Assurez-vous que la propriété name correspond à la propriété correcte du type de prise
+            value: plugType.id,
+          }))}
         />
 
         <MDBBtn

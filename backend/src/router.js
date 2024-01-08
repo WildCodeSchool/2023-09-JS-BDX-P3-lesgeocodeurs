@@ -13,6 +13,7 @@ const vehicleControllers = require("./controllers/vehicleControllers");
 const stationControllers = require("./controllers/stationControllers");
 const chargingpointControllers = require("./controllers/chargingpointControllers");
 const reservationControllers = require("./controllers/reservationControllers");
+const plugTypesControllers = require("./controllers/plugTypesControllers");
 const verifyToken = require("./services/verifyToken");
 
 // Route to get a list of items
@@ -22,7 +23,7 @@ router.get("/vehicle", vehicleControllers.browse);
 router.get("/station", stationControllers.browse);
 router.get("/chargingpoint", chargingpointControllers.browse);
 router.get("/reservation", reservationControllers.browse);
-
+router.get("/plugtypes", plugTypesControllers.browse);
 // Route to get a specific item by ID
 router.get("/items/:id", itemControllers.read);
 router.get("/users/:id", userControllers.read);
@@ -31,6 +32,7 @@ router.get("/station/:id", stationControllers.read);
 router.get("/chargingpoint/:id", chargingpointControllers.read);
 router.get("/reservation/:id", reservationControllers.read);
 router.get("/vehicle/users/:id", vehicleControllers.getCarByUser);
+router.get("/plugtypes/:id", plugTypesControllers.read);
 // Route to add a new item
 router.post("/items", itemControllers.add);
 router.post("/users", userControllers.add);
