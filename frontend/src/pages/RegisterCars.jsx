@@ -1,4 +1,4 @@
-import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
+import { MDBInput, MDBBtn, MDBSelect } from "mdb-react-ui-kit";
 import { useOutletContext } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
@@ -37,6 +37,19 @@ export default function RegisterCars() {
           label="Type de prise"
           value={formData.plug_type_id}
           onChange={handleChange}
+        />
+        <MDBSelect
+          name="plugType"
+          label="Type de prise"
+          className="select-btn"
+          data={[
+            { text: "EF", value: 1 },
+            { text: "Type 2", value: 2 },
+            { text: "Combo CCS", value: 3 },
+            { text: "Chademo", value: 4 },
+            { text: "Autre", value: 5 },
+            { text: "Six", value: 6 },
+          ]}
         />
 
         <MDBBtn
