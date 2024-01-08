@@ -67,9 +67,10 @@ const add = async (req, res, next) => {
     user.password = hashedPassword;
     // Insert the user into the database
     const insertId = await tables.user.create(user);
+    const newVehicle = await tables.vehicle.create(user);
 
     // Respond with HTTP 201 (Created) and the ID of the newly inserted user
-    res.status(201).json({ insertId });
+    res.status(201).json({ insertId, newVehicle });
   } catch (err) {
     // Pass any errors to the error-handling middleware
     next(err);
