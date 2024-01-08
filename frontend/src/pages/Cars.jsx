@@ -7,6 +7,7 @@ import {
 } from "mdb-react-ui-kit";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Cars() {
   function rtn() {
@@ -28,6 +29,18 @@ export default function Cars() {
     fetchData();
   }, []);
 
+  const handleDeleteCar = async (carId) => {
+    try {
+      // Appeler l'API Backend pour supprimer le véhicule
+      await axios.delete(`http://localhost:3310/api/vehicules/${carId}`);
+
+      // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
+      // ...
+    } catch (error) {
+      console.error("Error deleting car:", error);
+    }
+  };
+
   return (
     <div className="cars-container">
       <button type="submit" className="back" onClick={rtn}>
@@ -46,18 +59,22 @@ export default function Cars() {
                   <MDBCardText>Type de prise : {car.plug_type_id}</MDBCardText>
                 </div>
                 <div className="btn-delete-car">
-                  <MDBBtn size="sm">Supprimer</MDBBtn>
+                  <MDBBtn size="sm" onClick={() => handleDeleteCar(car.id)}>
+                    Supprimer
+                  </MDBBtn>
                 </div>
               </MDBCardBody>
             </div>
           ))}
         </MDBCard>
       </div>
-      <div className="add-car">
-        <MDBBtn type="submit" className="mb-4" block>
-          Ajouter un véhicule
-        </MDBBtn>
-      </div>
+      <Link to="/register/cars">
+        <div className="add-car">
+          <MDBBtn type="submit" className="mb-4" block>
+            Ajouter un véhicule
+          </MDBBtn>
+        </div>
+      </Link>
     </div>
   );
 }
