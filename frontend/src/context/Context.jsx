@@ -14,30 +14,31 @@ export function ContextProvider({ children }) {
   // le state qui contient les infos du user connecté
   const [user, setUser] = useState(null);
 
+  const getUserInfos = async () => {
+    const jwtToken = localStorage.getItem("token");
+    const token = jwtDecode(jwtToken);
+    const { data } = await axios.get(
+      `http://localhost:3310/api/users/${token.id}`
+    );
+    setUser(data);
+    const toLSData = JSON.stringify(data);
+    localStorage.setItem("userInfos", toLSData);
+  };
+
   // connexion : vérifie si les identifiants sont bons et met à jour le state "user"
   const login = async (credentials) => {
-    // const users = getUsers();
     try {
       const { data } = await axios.post(
         "http://localhost:3310/api/users/login",
         credentials
       );
       localStorage.setItem("token", data.token);
-      const tokenData = jwtDecode(data.token);
-      setUser(tokenData);
+      getUserInfos();
       navigate("/");
     } catch (err) {
       console.error(err);
+      alert("wrong cred");
     }
-
-    // if (token) {
-    //   // si user trouvé, le connecte, sinon affiche message d'erreur
-    //   setUser(token);
-    //   navigate("/");
-    // } else {
-    //   alert("Identifiants incorrects");
-
-    // }
   };
 
   // eslint-disable-next-line consistent-return
@@ -56,7 +57,6 @@ export function ContextProvider({ children }) {
       // Traitement de la réponse ici
       // eslint-disable-next-line no-restricted-syntax
       console.log("Données protégées:", response.data);
-      setUser(jwtDecode(jwtToken));
     } catch (error) {
       // Gestion des erreurs ici
       console.error(
@@ -65,6 +65,7 @@ export function ContextProvider({ children }) {
       );
     }
   };
+
   // vérifie si on a déjà un compte avec cet adresse mail
   const emailAvailable = async (emailToCheck) => {
     const users = getUsers();
@@ -82,7 +83,7 @@ export function ContextProvider({ children }) {
         "http://localhost:3310/api/users",
         newUser
       );
-      console.info(data);
+      localStorage.setItem("token", data.token);
     } catch (err) {
       console.error(err);
     }
@@ -106,6 +107,7 @@ export function ContextProvider({ children }) {
   const logout = async () => {
     setUser(null);
     localStorage.removeItem("token");
+    localStorage.removeItem("userInfos");
   };
 
   // modification du profil : modifie le state "user" et le localStorage
@@ -156,6 +158,7 @@ export function ContextProvider({ children }) {
       deleteUser,
       emailAvailable,
       fetchProtectedData,
+      getUserInfos,
     }),
     [user]
   );

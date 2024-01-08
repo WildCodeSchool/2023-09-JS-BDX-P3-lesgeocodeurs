@@ -67,10 +67,9 @@ const add = async (req, res, next) => {
     user.password = hashedPassword;
     // Insert the user into the database
     const insertId = await tables.user.create(user);
-    const newVehicle = await tables.vehicle.create(user);
-
+    const token = generateAccessToken({ insertId });
     // Respond with HTTP 201 (Created) and the ID of the newly inserted user
-    res.status(201).json({ insertId, newVehicle });
+    res.status(201).json({ token });
   } catch (err) {
     // Pass any errors to the error-handling middleware
     next(err);
@@ -103,7 +102,6 @@ const login = async (req, res, next) => {
   }
   try {
     if (await bcrypt.compare(req.body.password, user.password)) {
-      user.password = "";
       const newUser = { ...user };
       delete newUser.password;
       const token = generateAccessToken(newUser);

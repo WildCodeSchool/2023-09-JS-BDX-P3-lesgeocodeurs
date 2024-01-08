@@ -4,9 +4,10 @@ import NavBar from "./components/NavBar";
 import { useTheContext } from "./context/Context";
 
 function App() {
-  const { fetchProtectedData } = useTheContext();
+  const { fetchProtectedData, getUserInfos } = useTheContext();
   useEffect(() => {
     fetchProtectedData();
+    getUserInfos();
   }, []);
 
   return (

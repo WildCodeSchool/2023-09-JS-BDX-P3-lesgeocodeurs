@@ -11,7 +11,7 @@ class UserManager extends AbstractManager {
 
   async create(user) {
     // Execute the SQL INSERT query to add a new user to the "user" table
-    const result = await this.database.query(
+    const [result] = await this.database.query(
       `INSERT INTO ${this.table} (email, password, first_name, last_name, birth_date, postal_code, city) VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [
         user.email,
@@ -25,7 +25,7 @@ class UserManager extends AbstractManager {
     );
 
     // Return the ID of the newly inserted user
-    return result;
+    return result.insertId;
   }
 
   // The Rs of CRUD - Read operations
@@ -33,7 +33,7 @@ class UserManager extends AbstractManager {
   async read(id) {
     // Execute the SQL SELECT query to retrieve a specific user by its ID
     const [rows] = await this.database.query(
-      `select * from ${this.table} where id = ?`,
+      `select email, first_name, last_name, birth_date, postal_code, city from ${this.table} where id = ?`,
       [id]
     );
 
@@ -83,7 +83,7 @@ class UserManager extends AbstractManager {
   // Find user by email (for login)
   async findUserByEmail(email) {
     const [rows] = await this.database.query(
-      `select * from ${this.table} where email = ?`,
+      `select id, password from ${this.table} where email = ?`,
       [email]
     );
     return rows[0];

@@ -3,7 +3,7 @@ import { Link, useOutletContext } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function RegisterInfos() {
-  const { calculerAge } = useTheContext();
+  const { calculerAge, register } = useTheContext();
 
   const { formData, setFormData } = useOutletContext();
 
@@ -90,6 +90,7 @@ export default function RegisterInfos() {
         <Link to="/register/cars" disabled={formErrors.length !== 0}>
           <MDBBtn
             type="submit"
+            onClick={() => register(formData)}
             className="mb-4"
             block
             /* disabled={formErrors.length !== 0} */
