@@ -1,17 +1,18 @@
 import { MDBInput, MDBBtn, MDBSelect } from "mdb-react-ui-kit";
-import { useOutletContext } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useTheContext } from "../context/Context";
 
 export default function RegisterCars() {
   const [plugTypes, setPlugTypes] = useState([]);
-  const { register } = useTheContext();
 
-  const { formData, setFormData } = useOutletContext();
+  const [vFormData, setvFormData] = useState({
+    brand: "",
+    model: "",
+    plugTypes: "",
+  });
 
   const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setvFormData({ ...vFormData, [e.target.name]: e.target.value });
 
   useEffect(() => {
     const fetchPlugTypes = async () => {
@@ -35,7 +36,7 @@ export default function RegisterCars() {
           type="string"
           name="brand"
           label="Marque"
-          value={formData.brand}
+          value={vFormData.brand}
           onChange={handleChange}
         />
         <MDBInput
@@ -43,7 +44,7 @@ export default function RegisterCars() {
           type="string"
           name="model"
           label="Modèle"
-          value={formData.model}
+          value={vFormData.model}
           onChange={handleChange}
         />
 
@@ -59,7 +60,7 @@ export default function RegisterCars() {
 
         <MDBBtn
           type="button"
-          onClick={() => register(formData)}
+          // onClick={() => register(vFormData)}
           className="mb-4"
           block
         >

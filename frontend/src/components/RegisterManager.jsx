@@ -15,9 +15,6 @@ export default function RegisterManager() {
     birth_date: "",
     postal_code: "",
     city: "",
-    brand: "",
-    model: "",
-    plug_type_id: "",
   });
   return (
     <div>

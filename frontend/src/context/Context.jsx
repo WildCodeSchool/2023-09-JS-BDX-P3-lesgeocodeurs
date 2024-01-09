@@ -14,30 +14,56 @@ export function ContextProvider({ children }) {
   // le state qui contient les infos du user connecté
   const [user, setUser] = useState(null);
 
+  const getUserInfos = async () => {
+    const jwtToken = localStorage.getItem("token");
+    const token = jwtDecode(jwtToken);
+    const { data } = await axios.get(
+      `http://localhost:3310/api/users/${token.id}`
+    );
+    setUser(data);
+    const toLSData = JSON.stringify(data);
+    localStorage.setItem("userInfos", toLSData);
+  };
+
   // connexion : vérifie si les identifiants sont bons et met à jour le state "user"
   const login = async (credentials) => {
-    // const users = getUsers();
     try {
       const { data } = await axios.post(
         "http://localhost:3310/api/users/login",
         credentials
       );
       localStorage.setItem("token", data.token);
-      const tokenData = jwtDecode(data.token);
-      setUser(tokenData);
+      getUserInfos();
       navigate("/");
     } catch (err) {
       console.error(err);
+      alert("wrong cred");
     }
+  };
 
-    // if (token) {
-    //   // si user trouvé, le connecte, sinon affiche message d'erreur
-    //   setUser(token);
-    //   navigate("/");
-    // } else {
-    //   alert("Identifiants incorrects");
+  // eslint-disable-next-line consistent-return
+  const fetchProtectedData = async () => {
+    // Récupérer le JWT du stockage local (ou de tout autre endroit où vous le stockez)
+    const jwtToken = localStorage.getItem("token");
+    if (!jwtToken) return null;
+    try {
+      // Ajouter le JWT à l'en-tête de la requête
+      const response = await axios.get("http://localhost:3310/api/check-auth", {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
 
-    // }
+      // Traitement de la réponse ici
+      // eslint-disable-next-line no-restricted-syntax
+      console.log("Données protégées:", response.data);
+    } catch (error) {
+      // Gestion des erreurs ici
+      console.error(
+        "Erreur lors de la récupération des données protégées:",
+        error.message
+      );
+    }
   };
 
   // vérifie si on a déjà un compte avec cet adresse mail
@@ -52,22 +78,37 @@ export function ContextProvider({ children }) {
 
   // inscription : stocke le nouveau user dans le localstorage
   const register = async (newUser) => {
-    const users = getUsers();
-
-    if (!users.find((userdb) => userdb.email === newUser.email)) {
-      users.push(newUser);
-      localStorage.setItem("users", JSON.stringify(users));
-      alert(`Bienvenue ${newUser.firstName} ${newUser.lastName}`);
-      setUser(newUser);
-      navigate("/");
-    } else {
-      alert("Vous êtes déjà inscrit !");
-      navigate("/login");
+    try {
+      const { data } = await axios.post(
+        "http://localhost:3310/api/users",
+        newUser
+      );
+      localStorage.setItem("token", data.token);
+    } catch (err) {
+      console.error(err);
     }
   };
+  // async (newUser) => {
+  //   const users = getUsers();
+
+  //   if (!users.find((userdb) => userdb.email === newUser.email)) {
+  //     users.push(newUser);
+  //     localStorage.setItem("users", JSON.stringify(users));
+  //     alert(`Bienvenue ${newUser.firstName} ${newUser.lastName}`);
+  //     setUser(newUser);
+  //     navigate("/");
+  //   } else {
+  //     alert("Vous êtes déjà inscrit !");
+  //     navigate("/login");
+  //   }
+  // };
 
   // déconnexion : vide le state "user"
-  const logout = async () => setUser(null);
+  const logout = async () => {
+    setUser(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("userInfos");
+  };
 
   // modification du profil : modifie le state "user" et le localStorage
   const editUser = async (newData) => {
@@ -116,6 +157,8 @@ export function ContextProvider({ children }) {
       editUser,
       deleteUser,
       emailAvailable,
+      fetchProtectedData,
+      getUserInfos,
     }),
     [user]
   );
