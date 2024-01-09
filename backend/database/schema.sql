@@ -153,7 +153,7 @@ VALUES (
         "Aubervilliers - Lab Village mobilité",
         "102 rue du Port 93300 Aubervilliers",
         48.91973300,
-        48.91973300
+        2.37351000
     );
 
 INSERT INTO

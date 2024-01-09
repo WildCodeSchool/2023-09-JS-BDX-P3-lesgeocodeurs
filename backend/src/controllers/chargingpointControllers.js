@@ -5,7 +5,9 @@ const tables = require("../tables");
 const browse = async (req, res, next) => {
   try {
     // Fetch all users from the database
-    const chargingpoints = await tables.charging_point.readAll();
+    const chargingpoints = await tables.charging_point.readAll(
+      req.query?.station_id
+    );
 
     // Respond with the users in JSON format
     res.json(chargingpoints);

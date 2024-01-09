@@ -1,16 +1,36 @@
 import { MarkerF } from "@react-google-maps/api";
+import axios from "axios";
 import PropTypes from "prop-types";
 
-export default function Station({ station, setSelectedStation, clusterer }) {
+export default function Station({
+  station,
+  clusterer,
+  setSelectedStation,
+  setChargingPoints,
+}) {
+  const fetchChargingPoints = async (stationId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3310/api/chargingpoint?station_id=${stationId}`
+      );
+      setChargingPoints(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleClick = () => {
+    setSelectedStation(station);
+    fetchChargingPoints(station.id);
+  };
+
   return (
     <MarkerF
       position={{
-        lat: station.consolidated_latitude,
-        lng: station.consolidated_longitude,
+        lat: station.latitude,
+        lng: station.longitude,
       }}
-      onClick={() => {
-        setSelectedStation(station);
-      }}
+      onClick={handleClick}
       clusterer={clusterer}
     />
   );
@@ -18,9 +38,11 @@ export default function Station({ station, setSelectedStation, clusterer }) {
 
 Station.propTypes = {
   station: PropTypes.shape({
-    consolidated_latitude: PropTypes.number.isRequired,
-    consolidated_longitude: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
+    latitude: PropTypes.number.isRequired,
+    longitude: PropTypes.number.isRequired,
   }).isRequired,
-  setSelectedStation: PropTypes.func.isRequired,
   clusterer: PropTypes.shape().isRequired,
+  setSelectedStation: PropTypes.func.isRequired,
+  setChargingPoints: PropTypes.func.isRequired,
 };

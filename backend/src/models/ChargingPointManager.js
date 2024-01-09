@@ -29,12 +29,20 @@ class ChargingPointManager extends AbstractManager {
     return rows[0];
   }
 
-  async readAll() {
+  async readAll(stationId) {
     // Execute the SQL SELECT query to retrieve all users from the "user" table
-    const [rows] = await this.database.query(`select * from ${this.table}`);
+    let result;
+    if (stationId) {
+      result = await this.database.query(
+        `select * from ${this.table} where station_id = ?`,
+        [stationId]
+      );
+    } else {
+      result = await this.database.query(`select * from ${this.table}`);
+    }
 
     // Return the array of users
-    return rows;
+    return result[0];
   }
 
   async delete(id) {
