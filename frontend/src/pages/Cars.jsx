@@ -6,6 +6,7 @@ import {
   MDBCardText,
 } from "mdb-react-ui-kit";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -13,12 +14,32 @@ export default function Cars() {
   function rtn() {
     window.history.back();
   }
+  const [plugTypes, setPlugTypes] = useState([]);
+
+  useEffect(() => {
+    const fetchPlugTypes = async () => {
+      try {
+        const response = await axios.get("http://localhost:3310/api/plugTypes");
+        setPlugTypes(response.data);
+      } catch (error) {
+        console.error("Error fetching plug types:", error);
+      }
+    };
+
+    fetchPlugTypes();
+  }, []);
+  function getPlugTypeName(plugTypeId) {
+    const plugType = plugTypes.find((type) => type.id === plugTypeId);
+    return plugType ? plugType.name : "Type inconnu";
+  }
   const [vehicles, setVehicles] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
+      const jwtToken = localStorage.getItem("token");
+      const token = jwtDecode(jwtToken);
       try {
         const response = await axios.get(
-          `http://localhost:3310/api/vehicle/users/1`
+          `http://localhost:3310/api/vehicle/users/${token.id}`
         );
         setVehicles(response.data);
       } catch (error) {
@@ -56,7 +77,9 @@ export default function Cars() {
                   <MDBCardTitle>
                     {car.brand} {car.model}
                   </MDBCardTitle>
-                  <MDBCardText>Type de prise : {car.plug_type_id}</MDBCardText>
+                  <MDBCardText>
+                    Type de prise : {getPlugTypeName(car.plug_type_id)}
+                  </MDBCardText>
                 </div>
                 <div className="btn-delete-car">
                   <MDBBtn size="sm" onClick={() => handleDeleteCar(car.id)}>
@@ -68,13 +91,13 @@ export default function Cars() {
           ))}
         </MDBCard>
       </div>
-      <Link to="/register/cars">
-        <div className="add-car">
+      <div className="add-car">
+        <Link to="/register/cars">
           <MDBBtn type="submit" className="mb-4" block>
             Ajouter un véhicule
           </MDBBtn>
-        </div>
-      </Link>
+        </Link>
+      </div>
     </div>
   );
 }
