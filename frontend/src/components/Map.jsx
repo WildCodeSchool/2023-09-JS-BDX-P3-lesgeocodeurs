@@ -74,6 +74,7 @@ export default function Map() {
             <span className="material-symbols-outlined">my_location</span>
           </MDBBtn>
         </div>
+
         <GoogleMap
           zoom={5}
           center={position}
@@ -107,17 +108,23 @@ export default function Map() {
           )}
         </GoogleMap>
       </div>
+
       {selectedStation && (
         <div className="station-modal">
           <strong>{selectedStation.name}</strong>
           <div>{selectedStation.address}</div>
-
           <br />
           <strong>Bornes</strong>
           {chargingPoints?.map((cp) => (
             <div key={cp.id}>
               <span>{cp.name}</span>
               <span> ({cp.power} kW)</span>
+              <div>
+                {cp.plug_type?.map((pt) => (
+                  <span key={pt}>{pt} </span>
+                ))}
+              </div>
+              <br />
             </div>
           ))}
         </div>

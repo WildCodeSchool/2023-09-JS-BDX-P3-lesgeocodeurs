@@ -2,11 +2,47 @@ const AbstractManager = require("./AbstractManager");
 
 class ChargingPointManager extends AbstractManager {
   constructor() {
-    // Call the constructor of the parent class (AbstractManager)
-    // and pass the table name "user" as configuration
     super({ table: "charging_point" });
   }
 
+  // Morceau de SQL commun aux 2 requêtes READ
+  baseSql = `select cp.*, pt.name as plug_type
+  from charging_point cp
+  join charging_point_plug_type cppt on cp.id = cppt.charging_point_id
+  join plug_type pt on pt.id = cppt.plug_type_id`;
+
+  async read(id) {
+    // Construire et exécuter la requête SQL
+    const where = " where cp.id = ?";
+    const [rows] = await this.database.query(this.baseSql + where, [id]);
+
+    // Regrouper les résultats en 1 seule borne qui a une liste de prises
+    const result = rows[0];
+    result.plug_type = rows.map((row) => row.plug_type);
+    return result;
+  }
+
+  async readAll(stationId) {
+    // Construire et exécuter la requête SQL
+    const where = stationId ? " where station_id = ?" : "";
+    const sqlValues = stationId ? [stationId] : [];
+    const [rows] = await this.database.query(this.baseSql + where, sqlValues);
+
+    // Regrouper les résultats par borne (chaque borne a une liste de prises)
+    const result = {};
+    rows.forEach((row) => {
+      if (!result[row.id]) {
+        result[row.id] = { ...row, plug_type: [] };
+      }
+      result[row.id].plug_type.push(row.plug_type);
+    });
+
+    // Transformer l'objet "result" en tableau "array"
+    const array = Object.values(result);
+    return array;
+  }
+
+  /*
   async create(ChargingPoint) {
     // Execute the SQL INSERT query to add a new user to the "user" table
     const result = await this.database.query(
@@ -18,32 +54,6 @@ class ChargingPointManager extends AbstractManager {
     return result.insertId;
   }
 
-  async read(id) {
-    // Execute the SQL SELECT query to retrieve a specific user by its ID
-    const [rows] = await this.database.query(
-      `select * from ${this.table} where id = ?`,
-      [id]
-    );
-
-    // Return the first row of the result, which represents the user
-    return rows[0];
-  }
-
-  async readAll(stationId) {
-    // Execute the SQL SELECT query to retrieve all users from the "user" table
-    let result;
-    if (stationId) {
-      result = await this.database.query(
-        `select * from ${this.table} where station_id = ?`,
-        [stationId]
-      );
-    } else {
-      result = await this.database.query(`select * from ${this.table}`);
-    }
-
-    // Return the array of users
-    return result[0];
-  }
 
   async delete(id) {
     const result = await this.database.query(
@@ -60,6 +70,7 @@ class ChargingPointManager extends AbstractManager {
     );
     return rows;
   }
+  */
 }
 
 module.exports = ChargingPointManager;
