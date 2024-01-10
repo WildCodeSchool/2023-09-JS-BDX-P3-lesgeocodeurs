@@ -22,6 +22,7 @@ import BackOfficeAccueil from "./pages/BackOfficeAccueil";
 import BackOfficeModifProfil from "./pages/backOfficeModifProfil";
 import MakeReservation from "./pages/MakeReservation";
 import BackOfficeCars from "./pages/BackOfficeCars";
+import NewCar from "./pages/NewCar";
 
 const router = createBrowserRouter([
   {
@@ -55,9 +56,9 @@ const router = createBrowserRouter([
         children: [
           { path: "/register/logs", element: <Register /> },
           { path: "/register/infos", element: <RegisterInfos /> },
-          { path: "/register/cars", element: <RegisterCars /> },
         ],
       },
+      { path: "/register/cars", element: <RegisterCars /> },
       {
         path: "/contact",
         element: <Contact />,
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
       {
         path: "/cars",
         element: <Cars />,
+      },
+      {
+        path: "/newcar",
+        element: <NewCar />,
       },
       {
         path: "/reservation",

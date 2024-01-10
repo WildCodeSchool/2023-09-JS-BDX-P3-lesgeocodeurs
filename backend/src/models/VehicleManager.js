@@ -10,8 +10,8 @@ class VehicleManager extends AbstractManager {
   async create(vehicle) {
     // Execute the SQL INSERT query to add a new user to the "user" table
     const result = await this.database.query(
-      `INSERT INTO ${this.table} (brand, model, user_id) VALUES (?, ?, ?)`,
-      [vehicle.brand, vehicle.model, vehicle.user_id]
+      `INSERT INTO ${this.table} (brand, model, user_id, plug_type_id) VALUES (?, ?, ?, ?)`,
+      [vehicle.brand, vehicle.model, vehicle.user_id, vehicle.plug_type_id]
     );
 
     // Return the ID of the newly inserted user
@@ -27,6 +27,17 @@ class VehicleManager extends AbstractManager {
 
     // Return the first row of the result, which represents the user
     return rows[0];
+  }
+
+  async readCarByUser(userId) {
+    // Execute the SQL SELECT query to retrieve a specific user by its ID
+    const [rows] = await this.database.query(
+      `select * from ${this.table} where user_id = ?`,
+      [userId]
+    );
+
+    // Return the first row of the result, which represents the user
+    return rows;
   }
 
   async readAll() {

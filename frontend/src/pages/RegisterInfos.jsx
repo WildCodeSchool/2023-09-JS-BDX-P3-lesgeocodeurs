@@ -15,20 +15,20 @@ export default function RegisterInfos() {
   };
 
   const formErrors = [];
-  const age = formData.birth_date ? calculerAge(formData.birth_date) : 0;
+  const age = formData.birthDate ? calculerAge(formData.birthDate) : 0;
 
   if (
-    formData?.last_name?.length < 3 ||
-    formData?.last_name?.length > 15 ||
-    /^[a-zA-Z\s-]{1,}$/.test(formData.last_name) === false
+    formData?.lastName?.length < 3 ||
+    formData?.lastName?.length > 15 ||
+    /^[a-zA-Z\s-]{1,}$/.test(formData.lastName) === false
   ) {
     formErrors.push("Veuillez renseigner un nom valide");
   }
   if (
-    formData.first_name?.length < 3 ||
-    formData.first_name?.length > 15 ||
-    formData.first_name === null ||
-    /^[a-zA-Z\s-]{1,}$/.test(formData.first_name) === false
+    formData.firstName?.length < 3 ||
+    formData.firstName?.length > 15 ||
+    formData.firstName === null ||
+    /^[a-zA-Z\s-]{1,}$/.test(formData.firstName) === false
   ) {
     formErrors.push("Veuillez renseigner un prénom valide");
   }
@@ -48,34 +48,34 @@ export default function RegisterInfos() {
         <MDBInput
           className="mb-4"
           type="string"
-          name="first_name"
+          name="firstName"
           label="Prenom"
-          value={formData.first_name}
+          value={formData.firstName}
           onChange={handleChange}
         />
         <MDBInput
           className="mb-4"
           type="string"
-          name="last_name"
+          name="lastName"
           label="Nom"
-          value={formData.last_name}
+          value={formData.lastName}
           onChange={handleChange}
         />
         <MDBInput
           className="mb-4"
           type="date"
-          name="birth_date"
+          name="birthDate"
           label="Date de naissance"
-          value={formData.birth_date}
+          value={formData.birthDate}
           onChange={handleChange}
         />
         <MDBInput
           className="mb-4"
           type="string"
           required
-          name="postal_code"
+          name="postalCode"
           label="Code postal"
-          value={formData.postal_code}
+          value={formData.postalCode}
           onChange={handleChange}
         />
         <MDBInput

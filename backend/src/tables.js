@@ -9,6 +9,7 @@ const VehicleManager = require("./models/VehicleManager");
 const StationManager = require("./models/StationManager");
 const ChargingPointManager = require("./models/ChargingPointManager");
 const ReservationManager = require("./models/ReservationManager");
+const PlugTypesManager = require("./models/PlugTypesManager");
 
 const managers = [
   ItemManager,
@@ -17,6 +18,7 @@ const managers = [
   StationManager,
   ChargingPointManager,
   ReservationManager,
+  PlugTypesManager,
   // Add other managers here
 ];
 
