@@ -4,14 +4,13 @@ import { useTheContext } from "../context/Context";
 
 export default function Register() {
   const { formData, setFormData } = useOutletContext();
-  const { emailAvailable } = useTheContext();
+  const { register } = useTheContext();
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    emailAvailable(formData.email);
   };
   const formErrors = [];
 
@@ -70,6 +69,7 @@ export default function Register() {
           type="submit"
           className="mb-4"
           block
+          onClick={() => register(formData)}
           /* disabled={formErrors.length !== 0} */
         >
           Suivant

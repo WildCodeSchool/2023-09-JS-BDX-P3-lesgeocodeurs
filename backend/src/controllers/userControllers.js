@@ -49,7 +49,7 @@ const edit = async (req, res, next) => {
 
     // Respond with HTTP 201 (Created) and the ID of the newly inserted user
     if (modifiedUser !== null) {
-      res.status(201).json({ modifiedUser });
+      res.status(201).json({ req: "worked" });
     }
   } catch (err) {
     // Pass any errors to the error-handling middleware
@@ -59,19 +59,31 @@ const edit = async (req, res, next) => {
 
 // The A of BREAD - Add (Create) operation
 const add = async (req, res, next) => {
-  // Extract the user data from the request body
   const user = req.body;
+  const notHashedPassword = user.password;
 
   try {
     const hashedPassword = await bcrypt.hash(user.password, 10);
     user.password = hashedPassword;
-    // Insert the user into the database
-    const insertId = await tables.user.create(user);
-    const token = generateAccessToken({ insertId });
-    // Respond with HTTP 201 (Created) and the ID of the newly inserted user
+    const id = await tables.user.create(user);
+    const token = generateAccessToken({ id });
     res.status(201).json({ token });
   } catch (err) {
-    // Pass any errors to the error-handling middleware
+    if (err.code === "ER_DUP_ENTRY") {
+      const mayUser = await tables.user.getEmail(user.email);
+      if (await bcrypt.compare(notHashedPassword, mayUser.password)) {
+        // eslint-disable-next-line prefer-destructuring
+        const id = mayUser.id;
+        if (mayUser.birth_date) {
+          res.status(409).json({ err: "Compte existant" });
+        } else {
+          const tokenHR = generateAccessToken({ id });
+          res.status(409).json({ token: tokenHR, err: "Half-register" });
+        }
+      } else {
+        res.status(409).json({ err: "Email indisponible" });
+      }
+    }
     next(err);
   }
 };
