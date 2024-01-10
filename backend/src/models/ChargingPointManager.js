@@ -5,41 +5,47 @@ class ChargingPointManager extends AbstractManager {
     super({ table: "charging_point" });
   }
 
-  // Morceau de SQL commun aux 2 requêtes READ
-  baseSql = `select cp.*, pt.name as plug_type
-  from charging_point cp
-  join charging_point_plug_type cppt on cp.id = cppt.charging_point_id
-  join plug_type pt on pt.id = cppt.plug_type_id`;
+  async readPlugTypesOfChargingPoint(chargingPointId) {
+    // Récupérer les types de prise d'une borne
+    const [plugTypes] = await this.database.query(
+      `select name from plug_type pt 
+      join charging_point_plug_type cppt on pt.id = cppt.plug_type_id
+      where charging_point_id = ?`,
+      [chargingPointId]
+    );
+    return plugTypes.map((type) => type.name);
+  }
 
   async read(id) {
-    // Construire et exécuter la requête SQL
-    const where = " where cp.id = ?";
-    const [rows] = await this.database.query(this.baseSql + where, [id]);
-
-    // Regrouper les résultats en 1 seule borne qui a une liste de prises
+    // Récupérer la borne
+    const [rows] = await this.database.query(
+      "select * from charging_point where id = ?",
+      [id]
+    );
     const result = rows[0];
-    result.plug_type = rows.map((row) => row.plug_type);
+
+    // Récupérer les types de prise de cette borne
+    result.plug_types = await this.readPlugTypesOfChargingPoint(result.id);
     return result;
   }
 
   async readAll(stationId) {
-    // Construire et exécuter la requête SQL
-    const where = stationId ? " where station_id = ?" : "";
-    const sqlValues = stationId ? [stationId] : [];
-    const [rows] = await this.database.query(this.baseSql + where, sqlValues);
+    // Récupérer les bornes (filtrées ou non par station)
+    let sql = "select * from charging_point";
+    const sqlValues = [];
+    if (stationId) {
+      sql += " where station_id = ?";
+      sqlValues.push(stationId);
+    }
+    const [rows] = await this.database.query(sql, sqlValues);
 
-    // Regrouper les résultats par borne (chaque borne a une liste de prises)
-    const result = {};
-    rows.forEach((row) => {
-      if (!result[row.id]) {
-        result[row.id] = { ...row, plug_type: [] };
-      }
-      result[row.id].plug_type.push(row.plug_type);
-    });
-
-    // Transformer l'objet "result" en tableau "array"
-    const array = Object.values(result);
-    return array;
+    // Récupérer les types de prise de chaque borne
+    /* eslint-disable */
+    for (const row of rows) {
+      row.plug_types = await this.readPlugTypesOfChargingPoint(row.id);
+    }
+    return rows;
+    /* eslint-enable */
   }
 
   /*

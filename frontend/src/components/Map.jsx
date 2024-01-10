@@ -120,7 +120,7 @@ export default function Map() {
               <span>{cp.name}</span>
               <span> ({cp.power} kW)</span>
               <div>
-                {cp.plug_type?.map((pt) => (
+                {cp.plug_types?.map((pt) => (
                   <span key={pt}>{pt} </span>
                 ))}
               </div>
