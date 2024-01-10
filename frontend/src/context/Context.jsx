@@ -68,11 +68,14 @@ export function ContextProvider({ children }) {
 
   // vérifie si on a déjà un compte avec cet adresse mail
   const emailAvailable = async (emailToCheck) => {
-    const users = getUsers();
-    if (!users.find((userdb) => userdb.email === emailToCheck)) {
-      navigate("/register/infos");
-    } else {
-      alert("Vous êtes déjà inscrit !");
+    try {
+      const { data } = await axios.post(
+        `http://localhost:3310/api/users/emailToCheck`,
+        emailToCheck
+      );
+      console.info(data);
+    } catch (err) {
+      console.error(err);
     }
   };
 

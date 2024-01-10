@@ -12,7 +12,6 @@ export default function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
     emailAvailable(formData.email);
-    // postUser();
   };
   const formErrors = [];
 

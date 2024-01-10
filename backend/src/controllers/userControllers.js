@@ -114,6 +114,13 @@ const login = async (req, res, next) => {
   }
 };
 
+const checkEmail = async (req, res) => {
+  const emailToCheck = tables.user.getEmail(req.body.email);
+  if (emailToCheck) {
+    res.sendStatus(404).json({ message: "" });
+  }
+};
+
 // Ready to export the controller functions
 module.exports = {
   browse,
@@ -122,4 +129,5 @@ module.exports = {
   add,
   destroy,
   login,
+  checkEmail,
 };

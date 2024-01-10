@@ -38,6 +38,7 @@ router.post("/vehicle", vehicleControllers.add);
 router.post("/station", stationControllers.add);
 router.post("/chargingpoint", chargingpointControllers.add);
 router.post("/reservation", reservationControllers.add);
+router.post("/users/emailToCheck", userControllers.checkEmail);
 
 // Route to delete a specific user by id
 router.delete("/users/:id", userControllers.destroy);
