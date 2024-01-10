@@ -16,11 +16,11 @@ export default function MyAccount() {
         <h1 className="profil-title">Mon Compte</h1>
         <div className="identity">
           <p>
-            {user?.first_name} {user?.last_name}
+            {user.first_name} {user.last_name}
           </p>
           <p>{userAge} ans</p>
-          <p>{user?.city}</p>
-          <p>{user?.email}</p>
+          <p>{user.city}</p>
+          <p>{user.email}</p>
         </div>
         <div className="profil-container">
           <Link to="/cars">
@@ -37,7 +37,7 @@ export default function MyAccount() {
           </Link>
 
           <div className="modification-profil" />
-          <Link to="/modifprofil">
+          <Link to="/register/infos">
             <MDBBtn className="buttonprofil" color="light" rippleColor="dark">
               <p>Modifier mon profil</p>
               <p>&rarr;</p>

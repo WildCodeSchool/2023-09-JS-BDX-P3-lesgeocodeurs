@@ -14,7 +14,29 @@ export function ContextProvider({ children }) {
   // le state qui contient les infos du user connecté
   const [user, setUser] = useState(null);
 
+  // eslint-disable-next-line consistent-return
+  const fetchProtectedData = async () => {
+    const jwtToken = localStorage.getItem("token");
+    if (!jwtToken) return null;
+    try {
+      const response = await axios.get("http://localhost:3310/api/check-auth", {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
+      // eslint-disable-next-line no-restricted-syntax
+      console.log("Données protégées:", response.data);
+    } catch (error) {
+      // Gestion des erreurs ici
+      console.error(
+        "Erreur lors de la récupération des données protégées:",
+        error.message
+      );
+    }
+  };
+
   const getUserInfos = async () => {
+    fetchProtectedData();
     const jwtToken = localStorage.getItem("token");
     const token = jwtDecode(jwtToken);
     const { data } = await axios.get(
@@ -41,41 +63,6 @@ export function ContextProvider({ children }) {
     }
   };
 
-  // eslint-disable-next-line consistent-return
-  const fetchProtectedData = async () => {
-    // Récupérer le JWT du stockage local (ou de tout autre endroit où vous le stockez)
-    const jwtToken = localStorage.getItem("token");
-    if (!jwtToken) return null;
-    try {
-      // Ajouter le JWT à l'en-tête de la requête
-      const response = await axios.get("http://localhost:3310/api/check-auth", {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      });
-
-      // Traitement de la réponse ici
-      // eslint-disable-next-line no-restricted-syntax
-      console.log("Données protégées:", response.data);
-    } catch (error) {
-      // Gestion des erreurs ici
-      console.error(
-        "Erreur lors de la récupération des données protégées:",
-        error.message
-      );
-    }
-  };
-
-  // vérifie si on a déjà un compte avec cet adresse mail
-  const emailAvailable = async (emailToCheck) => {
-    const users = getUsers();
-    if (!users.find((userdb) => userdb.email === emailToCheck)) {
-      navigate("/register/infos");
-    } else {
-      alert("Vous êtes déjà inscrit !");
-    }
-  };
-
   // inscription : stocke le nouveau user dans le localstorage
   const register = async (newUser) => {
     try {
@@ -83,27 +70,32 @@ export function ContextProvider({ children }) {
         "http://localhost:3310/api/users",
         newUser
       );
+
       localStorage.setItem("token", data.token);
+      navigate("/register/infos");
     } catch (err) {
-      console.error(err);
+      if (err.response) {
+        const errorResolve = err.response.data.err;
+        const token = JSON.stringify(err.response.data.token);
+        if (errorResolve === "Compte existant") {
+          alert(errorResolve);
+          navigate("/login");
+        } else if (errorResolve === "Half-register") {
+          localStorage.setItem("token", token);
+          navigate("/register/infos");
+        } else {
+          alert(errorResolve);
+        }
+      } else if (err.request) {
+        console.error("Pas de réponse du serveur");
+      } else {
+        console.error(
+          "Erreur lors de la préparation de la requête:",
+          err.message
+        );
+      }
     }
   };
-  // async (newUser) => {
-  //   const users = getUsers();
-
-  //   if (!users.find((userdb) => userdb.email === newUser.email)) {
-  //     users.push(newUser);
-  //     localStorage.setItem("users", JSON.stringify(users));
-  //     alert(`Bienvenue ${newUser.firstName} ${newUser.lastName}`);
-  //     setUser(newUser);
-  //     navigate("/");
-  //   } else {
-  //     alert("Vous êtes déjà inscrit !");
-  //     navigate("/login");
-  //   }
-  // };
-
-  // déconnexion : vide le state "user"
   const logout = async () => {
     setUser(null);
     localStorage.removeItem("token");
@@ -112,12 +104,18 @@ export function ContextProvider({ children }) {
 
   // modification du profil : modifie le state "user" et le localStorage
   const editUser = async (newData) => {
-    const users = getUsers();
-    const newUsers = users.map((userdb) =>
-      userdb.email === user.email ? newData : userdb
-    );
-    localStorage.setItem("users", JSON.stringify(newUsers));
-    setUser(newData);
+    fetchProtectedData();
+    const jwtToken = localStorage.getItem("token");
+    const token = jwtDecode(jwtToken);
+    try {
+      const response = await axios.put(
+        `http://localhost:3310/api//users/${token.id}`,
+        newData
+      );
+      console.info(response);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   // suppression du compte : vide le state "user" et modifie le localStorage
@@ -156,7 +154,6 @@ export function ContextProvider({ children }) {
       calculerAge,
       editUser,
       deleteUser,
-      emailAvailable,
       fetchProtectedData,
       getUserInfos,
     }),
