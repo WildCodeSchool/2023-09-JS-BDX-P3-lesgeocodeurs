@@ -153,7 +153,7 @@ VALUES (
         "Aubervilliers - Lab Village mobilité",
         "102 rue du Port 93300 Aubervilliers",
         48.91973300,
-        48.91973300
+        2.37351000
     );
 
 INSERT INTO
@@ -170,7 +170,7 @@ INSERT INTO
         charging_point_id,
         plug_type_id
     )
-VALUES (1, 1, 3), (2, 2, 3), (3, 3, 3), (4, 4, 3), (5, 5, 3);
+VALUES (1, 1, 3), (2, 2, 2), (3, 2, 3), (4, 3, 2), (5, 3, 3), (6, 4, 3), (7, 5, 3);
 
 INSERT INTO
     vehicle (
