@@ -88,6 +88,7 @@ export function ContextProvider({ children }) {
       console.error(err);
     }
   };
+
   // async (newUser) => {
   //   const users = getUsers();
 

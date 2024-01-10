@@ -92,7 +92,7 @@ export default function Cars() {
         </MDBCard>
       </div>
       <div className="add-car">
-        <Link to="/register/cars">
+        <Link to="/newcar">
           <MDBBtn type="submit" className="mb-4" block>
             Ajouter un véhicule
           </MDBBtn>
