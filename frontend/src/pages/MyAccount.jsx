@@ -16,11 +16,11 @@ export default function MyAccount() {
         <h1 className="profil-title">Mon Compte</h1>
         <div className="identity">
           <p>
-            {user.first_name} {user.last_name}
+            {user?.first_name} {user?.last_name}
           </p>
           <p>{userAge} ans</p>
-          <p>{user.city}</p>
-          <p>{user.email}</p>
+          <p>{user?.city}</p>
+          <p>{user?.email}</p>
         </div>
         <div className="profil-container">
           <Link to="/cars">
@@ -61,7 +61,7 @@ export default function MyAccount() {
             color="light"
             rippleColor="dark"
             // TO DO : ajouter un onClick ici pour modifier context et localstorage
-            onClick={() => deleteUser(user.email)}
+            onClick={() => deleteUser()}
           >
             <p>Supprimer mon compte</p>
             <p>&rarr;</p>
