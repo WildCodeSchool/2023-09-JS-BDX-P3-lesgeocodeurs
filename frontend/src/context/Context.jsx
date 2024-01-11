@@ -13,10 +13,18 @@ export function ContextProvider({ children }) {
   // le state qui contient les infos du user connecté
   const [user, setUser] = useState(null);
 
+  const logout = async () => {
+    setUser(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("userInfos");
+    navigate("/");
+  };
   // eslint-disable-next-line consistent-return
   const fetchProtectedData = async () => {
     const jwtToken = localStorage.getItem("token");
-    if (!jwtToken) return null;
+    if (!jwtToken) {
+      logout();
+    }
     try {
       const response = await axios.get("http://localhost:3310/api/check-auth", {
         headers: {
@@ -26,7 +34,7 @@ export function ContextProvider({ children }) {
       // eslint-disable-next-line no-restricted-syntax
       console.log("Données protégées:", response.data);
     } catch (error) {
-      // Gestion des erreurs ici
+      logout();
       console.error(
         "Erreur lors de la récupération des données protégées:",
         error.message
@@ -95,12 +103,6 @@ export function ContextProvider({ children }) {
       }
     }
   };
-  const logout = async () => {
-    setUser(null);
-    localStorage.removeItem("token");
-    localStorage.removeItem("userInfos");
-    navigate("/");
-  };
 
   // modification du profil : modifie le state "user" et le localStorage
   const editUser = async (newData) => {
@@ -113,6 +115,7 @@ export function ContextProvider({ children }) {
         newData
       );
       console.info(response);
+      getUserInfos();
     } catch (err) {
       console.error(err);
     }
