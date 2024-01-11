@@ -9,7 +9,6 @@ const theContext = createContext();
 
 export function ContextProvider({ children }) {
   const navigate = useNavigate();
-  const getUsers = () => JSON.parse(localStorage.getItem("users") ?? "[]");
 
   // le state qui contient les infos du user connecté
   const [user, setUser] = useState(null);
@@ -100,6 +99,7 @@ export function ContextProvider({ children }) {
     setUser(null);
     localStorage.removeItem("token");
     localStorage.removeItem("userInfos");
+    navigate("/");
   };
 
   // modification du profil : modifie le state "user" et le localStorage
@@ -119,14 +119,18 @@ export function ContextProvider({ children }) {
   };
 
   // suppression du compte : vide le state "user" et modifie le localStorage
-  const deleteUser = async (emailOfUser) => {
-    const users = getUsers();
-    const newUsers = users.filter((userdb) => userdb.email !== emailOfUser);
-    localStorage.setItem("users", JSON.stringify(newUsers));
-    setUser(null);
-    navigate("/");
-  };
+  const deleteUser = async () => {
+    const jwtToken = localStorage.getItem("token");
+    const token = jwtDecode(jwtToken);
+    try {
+      await axios.delete(`http://localhost:3310/api/users/${token.id}`);
+      logout();
 
+      alert("Votre compte a bien été supprimé");
+    } catch (err) {
+      console.error(err);
+    }
+  };
   // elle parle d'elle même, c'est bien évidemment moi qui ai tout écris à la main..
   function calculerAge(dateOfBirth) {
     // Convertir la chaîne en objet Date
@@ -144,7 +148,22 @@ export function ContextProvider({ children }) {
 
     return age;
   }
-
+  const createNewCar = async (newCar) => {
+    const jwtToken = localStorage.getItem("token");
+    const token = jwtDecode(jwtToken);
+    const completeCar = newCar;
+    completeCar.user_id = token.id;
+    try {
+      await axios.post(`http://localhost:3310/api/vehicle`, completeCar);
+      if (user) {
+        navigate("/cars");
+      } else {
+        navigate("/myaccount");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
   const memoizedUserValue = useMemo(
     () => ({
       user,
@@ -156,6 +175,7 @@ export function ContextProvider({ children }) {
       deleteUser,
       fetchProtectedData,
       getUserInfos,
+      createNewCar,
     }),
     [user]
   );
