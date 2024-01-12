@@ -2,6 +2,7 @@ import { GoogleMap, MarkerClustererF, MarkerF } from "@react-google-maps/api";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useGeolocated } from "react-geolocated";
 import { MDBBtn } from "mdb-react-ui-kit";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import Station from "./Station";
 import Places from "./Places";
@@ -124,7 +125,12 @@ export default function Map() {
                   <span key={pt}>{pt} </span>
                 ))}
               </div>
-              <br />
+              <Link
+                to={`/newreservation/${cp.id}`}
+                state={{ station: selectedStation, cp }}
+              >
+                Réserver cette borne
+              </Link>
             </div>
           ))}
         </div>
