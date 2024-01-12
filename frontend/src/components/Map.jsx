@@ -125,9 +125,12 @@ export default function Map() {
                   <span key={pt}>{pt} </span>
                 ))}
               </div>
-              <Link to="/newreservation">Réserver cette borne</Link>
-              <br />
-              <br />
+              <Link
+                to={`/newreservation/${cp.id}`}
+                state={{ station: selectedStation, cp }}
+              >
+                Réserver cette borne
+              </Link>
             </div>
           ))}
         </div>

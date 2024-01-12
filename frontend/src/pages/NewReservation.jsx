@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { DateTime } from "luxon";
 import { MDBBtn, MDBSelect } from "mdb-react-ui-kit";
 
 export default function NewReservation() {
+  const { state } = useLocation();
+
   const [selectedDate, setSelectedDate] = useState(
-    DateTime.local().toISODate()
+    DateTime.local().plus({ days: 1 }).toISODate()
   );
   const [selectedTime, setSelectedTime] = useState("00:00");
 
@@ -70,8 +73,8 @@ export default function NewReservation() {
 
       <h2>Réservation</h2>
 
-      <div>Station ABCDE</div>
-      <div>Borne #1</div>
+      <div>Station : {state?.station?.name}</div>
+      <div>Borne : {state?.cp?.name}</div>
 
       <MDBSelect
         label="Date"
