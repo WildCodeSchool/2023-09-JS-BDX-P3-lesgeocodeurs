@@ -26,21 +26,21 @@ export default function ModifProfil() {
       <form>
         <MDBInput
           className="mb-4"
-          type="firstname"
+          type="string"
           id="form1Example2"
           label="Prénom"
-          name="firstName"
+          name="first_name"
           value={modifProfil?.first_name}
           onChange={handleChange}
         />
 
         <MDBInput
           className="mb-4"
-          type="lastname"
+          type="last_name"
           id="form1Example2"
           label="Nom"
-          name="lastName"
-          value={modifProfil?.last_ame}
+          name="last_name"
+          value={modifProfil?.last_name}
           onChange={handleChange}
         />
 
@@ -49,8 +49,8 @@ export default function ModifProfil() {
           type="date"
           id="form1Example2"
           label="Date de naissance"
-          name="birthDate"
-          value={modifProfil?.birth_date}
+          name="birth_date"
+          value={modifProfil?.birth_date.substring(0, 10)}
           onChange={handleChange}
         />
 
@@ -59,7 +59,7 @@ export default function ModifProfil() {
           type="codepostal"
           id="form1Example2"
           label="Code Postal"
-          name="postalCode"
+          name="postal_code"
           value={modifProfil?.postal_code}
           onChange={handleChange}
         />

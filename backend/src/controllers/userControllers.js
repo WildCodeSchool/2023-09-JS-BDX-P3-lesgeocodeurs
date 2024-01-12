@@ -115,6 +115,7 @@ const destroy = async (req, res, next) => {
     }
   } catch (err) {
     // Pass any errors to the error-handling middleware
+    console.error(err);
     next(err);
   }
 };
