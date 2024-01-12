@@ -57,7 +57,7 @@ CREATE TABLE
         model VARCHAR(255),
         user_id INT,
         plug_type_id INT,
-        FOREIGN KEY (user_id) REFERENCES user(id),
+        FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
         FOREIGN KEY (plug_type_id) REFERENCES plug_type(id)
     );
 
@@ -69,7 +69,8 @@ CREATE TABLE
         is_cancelled BOOLEAN DEFAULT 0,
         user_id INT,
         charging_point_id INT,
-        FOREIGN KEY (user_id) REFERENCES user(id),
+        FOREIGN KEY (user_id) REFERENCES user(id)
+         ON DELETE CASCADE,
         FOREIGN KEY (charging_point_id) REFERENCES charging_point(id)
     );
 

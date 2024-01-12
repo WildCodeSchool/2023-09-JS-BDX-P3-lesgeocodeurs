@@ -21,6 +21,19 @@ const browse = async (req, res, next) => {
   }
 };
 
+const usersCount = async (req, res, next) => {
+  try {
+    // Fetch all users from the database
+    const users = await tables.user.countAll();
+
+    // Respond with the users in JSON format
+    res.json(users);
+  } catch (err) {
+    // Pass any errors to the error-handling middleware
+    next(err);
+  }
+};
+
 // The R of BREAD - Read operation
 const read = async (req, res, next) => {
   try {
@@ -95,13 +108,14 @@ const destroy = async (req, res, next) => {
     const result = await tables.user.delete(req.params.id);
     // const userDeleted = await tables.user.read(req.params.id);
 
-    if (result.affectedRows !== 0) {
+    if (result.affectedRows === 0) {
       res.sendStatus(200);
     } else {
       res.sendStatus(404);
     }
   } catch (err) {
     // Pass any errors to the error-handling middleware
+    console.error(err);
     next(err);
   }
 };
@@ -142,4 +156,5 @@ module.exports = {
   destroy,
   login,
   checkEmail,
+  usersCount,
 };

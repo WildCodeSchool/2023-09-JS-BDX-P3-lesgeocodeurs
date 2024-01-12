@@ -9,15 +9,22 @@ const theContext = createContext();
 
 export function ContextProvider({ children }) {
   const navigate = useNavigate();
-  const getUsers = () => JSON.parse(localStorage.getItem("users") ?? "[]");
 
   // le state qui contient les infos du user connecté
   const [user, setUser] = useState(null);
 
+  const logout = async () => {
+    setUser(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("userInfos");
+    navigate("/");
+  };
   // eslint-disable-next-line consistent-return
   const fetchProtectedData = async () => {
     const jwtToken = localStorage.getItem("token");
-    if (!jwtToken) return null;
+    if (!jwtToken) {
+      logout();
+    }
     try {
       const response = await axios.get("http://localhost:3310/api/check-auth", {
         headers: {
@@ -27,7 +34,7 @@ export function ContextProvider({ children }) {
       // eslint-disable-next-line no-restricted-syntax
       console.log("Données protégées:", response.data);
     } catch (error) {
-      // Gestion des erreurs ici
+      logout();
       console.error(
         "Erreur lors de la récupération des données protégées:",
         error.message
@@ -96,11 +103,6 @@ export function ContextProvider({ children }) {
       }
     }
   };
-  const logout = async () => {
-    setUser(null);
-    localStorage.removeItem("token");
-    localStorage.removeItem("userInfos");
-  };
 
   // modification du profil : modifie le state "user" et le localStorage
   const editUser = async (newData) => {
@@ -113,20 +115,33 @@ export function ContextProvider({ children }) {
         newData
       );
       console.info(response);
+      getUserInfos();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const countUsers = async () => {
+    try {
+      await axios.get(`http://localhost:3310/api/userscount`);
     } catch (err) {
       console.error(err);
     }
   };
 
   // suppression du compte : vide le state "user" et modifie le localStorage
-  const deleteUser = async (emailOfUser) => {
-    const users = getUsers();
-    const newUsers = users.filter((userdb) => userdb.email !== emailOfUser);
-    localStorage.setItem("users", JSON.stringify(newUsers));
-    setUser(null);
-    navigate("/");
-  };
+  const deleteUser = async () => {
+    const jwtToken = localStorage.getItem("token");
+    const token = jwtDecode(jwtToken);
+    try {
+      await axios.delete(`http://localhost:3310/api/users/${token.id}`);
+      logout();
 
+      alert("Votre compte a bien été supprimé");
+    } catch (err) {
+      console.error(err);
+    }
+  };
   // elle parle d'elle même, c'est bien évidemment moi qui ai tout écris à la main..
   function calculerAge(dateOfBirth) {
     // Convertir la chaîne en objet Date
@@ -144,7 +159,22 @@ export function ContextProvider({ children }) {
 
     return age;
   }
-
+  const createNewCar = async (newCar) => {
+    const jwtToken = localStorage.getItem("token");
+    const token = jwtDecode(jwtToken);
+    const completeCar = newCar;
+    completeCar.user_id = token.id;
+    try {
+      await axios.post(`http://localhost:3310/api/vehicle`, completeCar);
+      if (user) {
+        navigate("/cars");
+      } else {
+        navigate("/myaccount");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
   const memoizedUserValue = useMemo(
     () => ({
       user,
@@ -156,6 +186,8 @@ export function ContextProvider({ children }) {
       deleteUser,
       fetchProtectedData,
       getUserInfos,
+      createNewCar,
+      countUsers,
     }),
     [user]
   );

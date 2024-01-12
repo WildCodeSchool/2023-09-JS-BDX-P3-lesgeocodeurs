@@ -8,14 +8,14 @@ import {
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Cars() {
   function rtn() {
     window.history.back();
   }
   const [plugTypes, setPlugTypes] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchPlugTypes = async () => {
       try {
@@ -32,6 +32,17 @@ export default function Cars() {
     const plugType = plugTypes.find((type) => type.id === plugTypeId);
     return plugType ? plugType.name : "Type inconnu";
   }
+  const handleDeleteCar = async (carId) => {
+    try {
+      // Appeler l'API Backend pour supprimer le véhicule
+      await axios.delete(`http://localhost:3310/api/vehicle/${carId}`);
+      navigate("/cars");
+      // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
+      // ...
+    } catch (error) {
+      console.error("Error deleting car:", error);
+    }
+  };
   const [vehicles, setVehicles] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -48,19 +59,7 @@ export default function Cars() {
     };
 
     fetchData();
-  }, []);
-
-  const handleDeleteCar = async (carId) => {
-    try {
-      // Appeler l'API Backend pour supprimer le véhicule
-      await axios.delete(`http://localhost:3310/api/vehicules/${carId}`);
-
-      // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
-      // ...
-    } catch (error) {
-      console.error("Error deleting car:", error);
-    }
-  };
+  }, [handleDeleteCar]);
 
   return (
     <div className="cars-container">

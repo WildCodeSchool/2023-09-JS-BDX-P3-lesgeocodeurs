@@ -5,16 +5,22 @@ import { useTheContext } from "../context/Context";
 
 export default function RegisterCars() {
   const [plugTypes, setPlugTypes] = useState([]);
-  const { register } = useTheContext();
+  const { createNewCar } = useTheContext();
 
   const [vFormData, setvFormData] = useState({
     brand: "",
     model: "",
-    plugTypes: "",
+    plug_type_id: 2,
   });
 
   const handleChange = (e) =>
     setvFormData({ ...vFormData, [e.target.name]: e.target.value });
+  // le composant select de mdbootstrap fonctionne différement des autres ("e.value" au lieu de "e.target.value")
+  const handleSelect = (e) =>
+    setvFormData({
+      ...vFormData,
+      plug_type_id: e.value,
+    });
 
   useEffect(() => {
     const fetchPlugTypes = async () => {
@@ -54,15 +60,17 @@ export default function RegisterCars() {
           name="plugType"
           label="Type de prise"
           className="select-btn"
+          value={vFormData.plug_type_id}
           data={options.map((plugType) => ({
             text: plugType.name, // Assurez-vous que la propriété name correspond à la propriété correcte du type de prise
             value: plugType.id,
           }))}
+          onValueChange={handleSelect}
         />
 
         <MDBBtn
           type="button"
-          onClick={() => register(vFormData)}
+          onClick={() => createNewCar(vFormData)}
           className="mb-4"
           block
         >

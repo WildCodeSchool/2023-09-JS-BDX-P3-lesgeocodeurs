@@ -1,29 +1,16 @@
 import { MDBInput, MDBBtn, MDBSelect } from "mdb-react-ui-kit";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import { useTheContext } from "../context/Context";
 
 export default function NewCar() {
   const [plugTypes, setPlugTypes] = useState([]);
-
+  const { createNewCar } = useTheContext();
   const [vFormData, setvFormData] = useState({
     brand: "",
     model: "",
     plug_type_id: 2,
   });
-
-  const createNewCar = async (newCar) => {
-    const jwtToken = localStorage.getItem("token");
-    const token = jwtDecode(jwtToken);
-    const completeCar = newCar;
-    completeCar.user_id = token.id;
-    try {
-      await axios.post(`http://localhost:3310/api/vehicle`, completeCar);
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   const handleChange = (e) =>
     setvFormData({
@@ -83,16 +70,15 @@ export default function NewCar() {
           }))}
           onValueChange={handleSelect}
         />
-        <Link to="/cars">
-          <MDBBtn
-            type="submit"
-            className="mb-4"
-            block
-            onClick={() => createNewCar(vFormData)}
-          >
-            Enregistrer le nouveau véhicule
-          </MDBBtn>
-        </Link>
+
+        <MDBBtn
+          type="submit"
+          className="mb-4"
+          block
+          onClick={() => createNewCar(vFormData)}
+        >
+          Enregistrer le nouveau véhicule
+        </MDBBtn>
       </div>
     </div>
   );
