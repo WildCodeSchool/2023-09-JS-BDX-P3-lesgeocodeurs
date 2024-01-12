@@ -118,6 +118,14 @@ export function ContextProvider({ children }) {
     }
   };
 
+  const countUsers = async () => {
+    try {
+      await axios.get(`http://localhost:3310/api/userscount`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   // suppression du compte : vide le state "user" et modifie le localStorage
   const deleteUser = async () => {
     const jwtToken = localStorage.getItem("token");
@@ -176,6 +184,7 @@ export function ContextProvider({ children }) {
       fetchProtectedData,
       getUserInfos,
       createNewCar,
+      countUsers,
     }),
     [user]
   );
