@@ -1,26 +1,51 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
+
 import { MDBDatatable } from "mdb-react-ui-kit";
 import NavBarBackOffice from "../components/NavBarBackOffice";
 
 export default function BackOfficeCars() {
-  const basicData = {
-    columns: ["Id", "type de prise", "brand", "model"],
-    rows: [
-      ["Tiger Nixon", "System Architect", "Edinburgh", "61"],
-      ["Garrett Winters", "Accountant", "Tokyo", "63"],
-      ["Ashton Cox", "Junior Technical Author", "San Francisco", "66"],
-      ["Cedric Kelly", "Senior Javascript Developer", "Edinburgh", "22"],
-      ["Airi Satou", "Accountant", "Tokyo", "33"],
-      ["Brielle Williamson", "Integration Specialist", "New York", "61"],
-      ["Herrod Chandler", "Sales Assistant", "San Francisco", "59"],
-      ["Rhona Davidson", "Integration Specialist", "Tokyo", "55"],
-      ["Colleen Hurst", "Javascript Developer", "San Francisco", "39"],
-      ["Sonya Frost", "Software Engineer", "Edinburgh", "23"],
-      ["Jena Gaines", "Office Manager", "London", "30"],
-      ["Quinn Flynn", "Support Lead", "Edinburgh", "22"],
-      ["Charde Marshall", "Regional Director", "San Francisco", "36"],
-      ["Haley Kennedy", "Senior Marketing Designer", "London", "43"],
-    ],
-  };
+  const [userData, setUserData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3310/api/vehicle`);
+        setUserData(response.data);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des données :", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  const [plugTypes, setPlugTypes] = useState([]);
+  useEffect(() => {
+    const fetchPlugTypes = async () => {
+      try {
+        const response = await axios.get("http://localhost:3310/api/plugTypes");
+        setPlugTypes(response.data);
+      } catch (error) {
+        console.error("Error fetching plug types:", error);
+      }
+    };
+
+    fetchPlugTypes();
+  }, []);
+  function getPlugTypeName(plugTypeId) {
+    const plugType = plugTypes.find((type) => type.id === plugTypeId);
+    return plugType ? plugType.name : "Type inconnu";
+  }
+  const columns = ["id", "brand", "model", "type de prise"];
+  const rows = userData.map((vehicle) => [
+    vehicle.id,
+    vehicle.brand,
+    vehicle.model,
+    getPlugTypeName(vehicle.plug_type_id),
+  ]);
+
+  const basicData = { columns, rows };
+
   return (
     <div className="backofficeutilisateur_container">
       <h1>BackOffice Véhicules</h1>
