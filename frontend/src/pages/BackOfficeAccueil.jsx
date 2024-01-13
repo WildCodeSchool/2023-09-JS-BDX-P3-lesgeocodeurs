@@ -12,6 +12,8 @@ import NavBarBackOffice from "../components/NavBarBackOffice";
 
 export default function BAckOfficeAccueil() {
   const [usersNbr, setUsersNbr] = useState();
+  const [vehicleNbr, setVehicleNbr] = useState();
+  const [chargingpointNbr, setchargingpointNbr] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,6 +28,34 @@ export default function BAckOfficeAccueil() {
     };
     fetchData();
   }, []); // Ajout d'une dépendance vide pour exécuter useEffect une seule fois
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3310/api/vehiclecount`
+        );
+        setVehicleNbr(response.data);
+      } catch (error) {
+        console.error("Error fetching vehicleCount:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3310/api/chargingpointcount`
+        );
+        setchargingpointNbr(response.data);
+      } catch (error) {
+        console.error("Error fetching chargingpointCount:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className="backofficeaccueil_container">
@@ -56,7 +86,9 @@ export default function BAckOfficeAccueil() {
                     <MDBCard>
                       <MDBCardBody>
                         <p className="text-muted mb-1">Véhicules Enregistrés</p>
-                        <h2 className="mb-0">146,926</h2>
+                        <h2 className="mb-0">
+                          {vehicleNbr && vehicleNbr.vehicle_count}
+                        </h2>
                       </MDBCardBody>
                     </MDBCard>
                   </MDBCol>
@@ -65,7 +97,10 @@ export default function BAckOfficeAccueil() {
                     <MDBCard>
                       <MDBCardBody>
                         <p className="text-muted mb-1">Bornes Répertoriées</p>
-                        <h2 className="mb-0">24.57%</h2>
+                        <h2 className="mb-0">
+                          {chargingpointNbr &&
+                            chargingpointNbr.charging_point_count}
+                        </h2>
                       </MDBCardBody>
                     </MDBCard>
                   </MDBCol>

@@ -129,6 +129,22 @@ export function ContextProvider({ children }) {
     }
   };
 
+  const countVehicle = async () => {
+    try {
+      await axios.get(`http://localhost:3310/api/vehiclecount`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const countChargingpoint = async () => {
+    try {
+      await axios.get(`http://localhost:3310/api/chargingpointcount`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   // suppression du compte : vide le state "user" et modifie le localStorage
   const deleteUser = async () => {
     const jwtToken = localStorage.getItem("token");
@@ -188,6 +204,8 @@ export function ContextProvider({ children }) {
       getUserInfos,
       createNewCar,
       countUsers,
+      countVehicle,
+      countChargingpoint,
     }),
     [user]
   );

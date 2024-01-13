@@ -48,6 +48,15 @@ class ChargingPointManager extends AbstractManager {
     /* eslint-enable */
   }
 
+  async countAll() {
+    // Execute the SQL SELECT query to retrieve all users from the "user" table
+    const [rows] = await this.database
+      .query(`SELECT COUNT(*) AS charging_point_count FROM
+    ${this.table}`);
+
+    // Return the array of users
+    return rows[0];
+  }
   /*
   async create(ChargingPoint) {
     // Execute the SQL INSERT query to add a new user to the "user" table

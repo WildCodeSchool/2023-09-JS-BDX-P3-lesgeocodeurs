@@ -85,6 +85,18 @@ const edit = async (req, res, next) => {
   }
 };
 
+const chargingpointCount = async (req, res, next) => {
+  try {
+    // Fetch all users from the database
+    const users = await tables.charging_point.countAll();
+
+    // Respond with the users in JSON format
+    res.json(users);
+  } catch (err) {
+    // Pass any errors to the error-handling middleware
+    next(err);
+  }
+};
 // The D of BREAD - Destroy (Delete) operation
 // This operation is not yet implemented
 
@@ -95,4 +107,5 @@ module.exports = {
   add,
   destroy,
   edit,
+  chargingpointCount,
 };

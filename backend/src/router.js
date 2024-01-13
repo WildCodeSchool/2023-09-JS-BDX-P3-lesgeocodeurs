@@ -25,6 +25,8 @@ router.get("/chargingpoint", chargingpointControllers.browse);
 router.get("/reservation", reservationControllers.browse);
 router.get("/plugtypes", plugTypesControllers.browse);
 router.get("/userscount", userControllers.usersCount);
+router.get("/vehiclecount", vehicleControllers.vehicleCount);
+router.get("/chargingpointcount", chargingpointControllers.chargingpointCount);
 
 // Route to get a specific item by ID
 router.get("/items/:id", itemControllers.read);
