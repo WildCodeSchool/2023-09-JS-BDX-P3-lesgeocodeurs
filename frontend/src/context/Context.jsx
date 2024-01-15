@@ -111,7 +111,7 @@ export function ContextProvider({ children }) {
     const token = jwtDecode(jwtToken);
     try {
       const response = await axios.put(
-        `http://localhost:3310/api//users/${token.id}`,
+        `http://localhost:3310/api/users/${token.id}`,
         newData
       );
       console.info(response);
@@ -124,6 +124,22 @@ export function ContextProvider({ children }) {
   const countUsers = async () => {
     try {
       await axios.get(`http://localhost:3310/api/userscount`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const countVehicle = async () => {
+    try {
+      await axios.get(`http://localhost:3310/api/vehiclecount`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const countChargingpoint = async () => {
+    try {
+      await axios.get(`http://localhost:3310/api/chargingpointcount`);
     } catch (err) {
       console.error(err);
     }
@@ -188,6 +204,8 @@ export function ContextProvider({ children }) {
       getUserInfos,
       createNewCar,
       countUsers,
+      countVehicle,
+      countChargingpoint,
     }),
     [user]
   );

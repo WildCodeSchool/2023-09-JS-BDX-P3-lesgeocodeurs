@@ -48,6 +48,16 @@ class VehicleManager extends AbstractManager {
     return rows;
   }
 
+  async countAll() {
+    // Execute the SQL SELECT query to retrieve all users from the "user" table
+    const [rows] = await this.database
+      .query(`SELECT COUNT(*) AS vehicle_count FROM
+    ${this.table}`);
+
+    // Return the array of users
+    return rows[0];
+  }
+
   async delete(id) {
     const result = await this.database.query(
       `delete from ${this.table} where id = ?`,

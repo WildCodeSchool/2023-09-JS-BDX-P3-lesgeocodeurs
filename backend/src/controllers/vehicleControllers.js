@@ -99,7 +99,18 @@ const edit = async (req, res, next) => {
     next(err);
   }
 };
+const vehicleCount = async (req, res, next) => {
+  try {
+    // Fetch all users from the database
+    const users = await tables.vehicle.countAll();
 
+    // Respond with the users in JSON format
+    res.json(users);
+  } catch (err) {
+    // Pass any errors to the error-handling middleware
+    next(err);
+  }
+};
 // The D of BREAD - Destroy (Delete) operation
 // This operation is not yet implemented
 
@@ -111,4 +122,5 @@ module.exports = {
   destroy,
   edit,
   getCarByUser,
+  vehicleCount,
 };
