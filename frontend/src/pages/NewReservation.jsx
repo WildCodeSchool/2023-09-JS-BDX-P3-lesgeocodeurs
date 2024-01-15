@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { DateTime } from "luxon";
 import { MDBBtn, MDBSelect } from "mdb-react-ui-kit";
 
 export default function NewReservation() {
-  const { state } = useLocation();
+  const chargingPoint = useLoaderData();
 
   const [selectedDate, setSelectedDate] = useState(
     DateTime.local().plus({ days: 1 }).toISODate()
@@ -73,8 +73,8 @@ export default function NewReservation() {
 
       <h2>Réservation</h2>
 
-      <div>Station : {state?.station?.name}</div>
-      <div>Borne : {state?.cp?.name}</div>
+      <div>Stationg : {chargingPoint?.station_name}</div>
+      <div>Borne : {chargingPoint?.name}</div>
 
       <MDBSelect
         label="Date"

@@ -35,6 +35,7 @@ router.get("/chargingpoint/:id", chargingpointControllers.read);
 router.get("/reservation/:id", reservationControllers.read);
 router.get("/vehicle/users/:id", vehicleControllers.getCarByUser);
 router.get("/plugtypes/:id", plugTypesControllers.read);
+
 // Route to add a new item
 router.post("/items", itemControllers.add);
 router.post("/users", userControllers.add);

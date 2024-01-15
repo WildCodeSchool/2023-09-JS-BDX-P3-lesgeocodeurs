@@ -19,7 +19,10 @@ class ChargingPointManager extends AbstractManager {
   async read(id) {
     // Récupérer la borne
     const [rows] = await this.database.query(
-      "select * from charging_point where id = ?",
+      `select cp.*, s.name as station_name, s.address as station_address
+      from charging_point cp
+      join station s on s.id = cp.station_id
+      where cp.id = ?`,
       [id]
     );
     const result = rows[0];
