@@ -9,7 +9,7 @@ import { useTheContext } from "../context/Context";
 
 export default function BackOfficeUtilisateur() {
   const [userData, setUserData] = useState([]);
-  const { deleteUser, getUserInfos } = useTheContext();
+  const { deleteUser } = useTheContext();
   const navigate = useNavigate(); // Utilisation de useNavigate pour la navigation
 
   useEffect(() => {
@@ -25,9 +25,8 @@ export default function BackOfficeUtilisateur() {
     fetchData();
   }, []);
 
-  const handleEdit = (user) => {
-    getUserInfos(user.id);
-    navigate("/modifprofil"); // Utilisation de navigate pour la redirection
+  const handleEdit = (userId) => {
+    navigate(`/backofficemodifprofil/${userId}`); // Utilisation de navigate pour la redirection
   };
 
   const columns = [

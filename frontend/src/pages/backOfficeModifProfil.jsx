@@ -1,18 +1,50 @@
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
-import { useState } from "react";
+import axios from "axios";
 
-export default function BackOfficeModifProfi() {
-  const [backOfficemodifProfil, setBackOfficeModifProfil] = useState({});
+export default function BackOfficeModifProfil() {
+  const navigate = useNavigate();
+  const [modifProfil, setModifProfil] = useState();
+
+  const { userId } = useParams();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3310/api/users/${userId}`
+        );
+        setModifProfil(response.data);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des données :", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const editNewProfil = async (newData) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3310/api/users/${userId}`,
+        newData
+      );
+      console.info(response);
+      //    getUserInfos();
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
+    editNewProfil(modifProfil);
+    navigate("/backofficeutilisateur");
   };
 
   const handleChange = (e) => {
-    setBackOfficeModifProfil({
-      ...backOfficemodifProfil,
-      [e.target.name]: e.target.value,
-    });
+    setModifProfil({ ...modifProfil, [e.target.name]: e.target.value });
   };
 
   return (
@@ -26,6 +58,7 @@ export default function BackOfficeModifProfi() {
           type="email"
           id="form1Example2"
           label="email"
+          value={modifProfil?.email}
           onChange={handleChange}
         />
         <span className="material-symbols-outlined">edit</span>
@@ -35,6 +68,7 @@ export default function BackOfficeModifProfi() {
           type="firstname"
           id="form1Example2"
           label="Prénom"
+          value={modifProfil?.first_name}
           onChange={handleChange}
         />
 
@@ -43,6 +77,7 @@ export default function BackOfficeModifProfi() {
           type="lastname"
           id="form1Example2"
           label="Nom"
+          value={modifProfil?.last_name}
           onChange={handleChange}
         />
 
@@ -51,6 +86,7 @@ export default function BackOfficeModifProfi() {
           type="birthday"
           id="form1Example2"
           label="Date de naissance"
+          value={modifProfil?.birth_date.substring(0, 10)}
           onChange={handleChange}
         />
 
@@ -59,6 +95,7 @@ export default function BackOfficeModifProfi() {
           type="codepostal"
           id="form1Example2"
           label="Code Postal"
+          value={modifProfil?.postal_code}
           onChange={handleChange}
         />
 
@@ -67,6 +104,7 @@ export default function BackOfficeModifProfi() {
           type="city"
           id="form1Example2"
           label="Ville"
+          value={modifProfil?.city}
           onChange={handleChange}
         />
 

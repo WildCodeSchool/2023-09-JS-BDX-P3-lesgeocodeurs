@@ -88,7 +88,7 @@ const router = createBrowserRouter([
         element: <BackOfficeAccueil />,
       },
       {
-        path: "/backofficemodifprofil",
+        path: "/backofficemodifprofil/:userId",
         element: <BackOfficeModifProfil />,
       },
       {
