@@ -19,7 +19,7 @@ class ApiService {
   getConfig() {
     const config = { headers: {} };
     if (this.#token) {
-      config.headers.Authorization = `bearer ${this.#token}`;
+      config.headers.Authorization = `Bearer ${this.#token}`;
     }
     return config;
   }
