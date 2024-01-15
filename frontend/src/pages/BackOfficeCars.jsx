@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { MDBDatatable } from "mdb-react-ui-kit";
 import NavBarBackOffice from "../components/NavBarBackOffice";
 
@@ -36,12 +37,28 @@ export default function BackOfficeCars() {
     const plugType = plugTypes.find((type) => type.id === plugTypeId);
     return plugType ? plugType.name : "Type inconnu";
   }
+
+  const handleDeleteCar = async (carId) => {
+    try {
+      // Appeler l'API Backend pour supprimer le véhicule
+      await axios.delete(`http://localhost:3310/api/vehicle/${carId}`);
+    } catch (error) {
+      console.error("Error deleting car:", error);
+    }
+  };
+
   const columns = ["id", "brand", "model", "type de prise"];
   const rows = userData.map((vehicle) => [
     vehicle.id,
     vehicle.brand,
     vehicle.model,
     getPlugTypeName(vehicle.plug_type_id),
+
+    //  <FontAwesomeIcon icon={faEdit} onClick={() => handleEdit(vehicle.id)} />,
+    <FontAwesomeIcon
+      icon={faTrash}
+      onClick={() => handleDeleteCar(vehicle.id)}
+    />,
   ]);
 
   const basicData = { columns, rows };

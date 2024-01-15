@@ -111,7 +111,7 @@ export function ContextProvider({ children }) {
     const token = jwtDecode(jwtToken);
     try {
       const response = await axios.put(
-        `http://localhost:3310/api//users/${token.id}`,
+        `http://localhost:3310/api/users/${token.id}`,
         newData
       );
       console.info(response);
