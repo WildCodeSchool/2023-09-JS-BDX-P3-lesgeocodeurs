@@ -12,6 +12,7 @@
     "axios": "^1.6.2",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
+    "luxon": "^3.4.4",
     "mdb-react-ui-kit": "./mdb-react-ui-kit-pro-advanced.tgz",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",

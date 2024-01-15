@@ -23,6 +23,7 @@ import BackOfficeModifProfil from "./pages/backOfficeModifProfil";
 import MakeReservation from "./pages/MakeReservation";
 import BackOfficeCars from "./pages/BackOfficeCars";
 import NewCar from "./pages/NewCar";
+import NewReservation from "./pages/NewReservation";
 
 const router = createBrowserRouter([
   {
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
       {
         path: "/reservation",
         element: <Reservation />,
+      },
+      {
+        path: "/newreservation/:id",
+        element: <NewReservation />,
       },
       {
         path: "/modifprofil",
