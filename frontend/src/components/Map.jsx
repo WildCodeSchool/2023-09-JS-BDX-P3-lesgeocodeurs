@@ -1,17 +1,16 @@
 import { GoogleMap, MarkerClustererF, MarkerF } from "@react-google-maps/api";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { useGeolocated } from "react-geolocated";
 import { MDBBtn } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import PropTypes from "prop-types";
 import Station from "./Station";
 import Places from "./Places";
 // import data from "../data-test.json";
 // import getLocationIcon from "../assets/get-location.svg";
 import myLocationIcon from "../assets/my-location.svg";
 
-export default function Map() {
-  const [stations, setStations] = useState(null);
+export default function Map({ stations }) {
   const [selectedStation, setSelectedStation] = useState(null);
   const [chargingPoints, setChargingPoints] = useState(null);
 
@@ -21,18 +20,6 @@ export default function Map() {
     () => ({ lat: 46.57829080854987, lng: 2.528225829979713 }),
     []
   );
-
-  useEffect(() => {
-    const fetchStations = async () => {
-      try {
-        const response = await axios.get("http://localhost:3310/api/station");
-        setStations(response.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchStations();
-  }, []);
 
   const onLoad = useCallback((map) => {
     mapRef.current = map;
@@ -125,12 +112,7 @@ export default function Map() {
                   <span key={pt}>{pt} </span>
                 ))}
               </div>
-              <Link
-                to={`/newreservation/${cp.id}`}
-                state={{ station: selectedStation, cp }}
-              >
-                Réserver cette borne
-              </Link>
+              <Link to={`/newreservation/${cp.id}`}>Réserver cette borne</Link>
             </div>
           ))}
         </div>
@@ -138,3 +120,7 @@ export default function Map() {
     </>
   );
 }
+
+Map.propTypes = {
+  stations: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+};

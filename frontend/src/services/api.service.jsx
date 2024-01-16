@@ -13,40 +13,47 @@ class ApiService {
 
   setToken(token) {
     this.#token = token;
-
     return this;
   }
 
   getConfig() {
     const config = { headers: {} };
-
     if (this.#token) {
       config.headers.Authorization = `Bearer ${this.#token}`;
     }
-
     return config;
   }
 
   async get(url) {
-    return axios.get(url, this.getConfig());
+    try {
+      const response = await axios.get(url, this.getConfig());
+      return response.data;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
   }
 
   async post(url, content) {
-    const { data } = await axios.post(url, content, this.getConfig());
-    return data;
+    try {
+      const response = await axios.post(url, content, this.getConfig());
+      return response.data;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
   }
 
   async put(url, content) {
-    const { data } = await axios.put(url, content, this.getConfig());
-    return data;
-  }
-
-  async delete(url, content) {
-    const { data } = await axios.delete(url, content, this.getConfig());
-    return data;
+    try {
+      const response = await axios.put(url, content, this.getConfig());
+      return response.data;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
   }
 }
 
 const apiService = new ApiService();
-
 export default apiService;

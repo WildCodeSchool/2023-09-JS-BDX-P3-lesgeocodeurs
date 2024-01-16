@@ -28,7 +28,7 @@ export function ContextProvider({ children }) {
     }
     const token = jwtDecode(jwtToken);
     try {
-      const { data } = await apiService.get(
+      const data = await apiService.get(
         `http://localhost:3310/api/users/${token.id}`
       );
       setUser(data);
