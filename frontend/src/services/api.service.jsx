@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default class ApiService {
+class ApiService {
   #token;
 
   constructor() {
@@ -21,7 +21,7 @@ export default class ApiService {
     const config = { headers: {} };
 
     if (this.#token) {
-      config.headers.Authorization = `bearer ${this.#token}`;
+      config.headers.Authorization = `Bearer ${this.#token}`;
     }
 
     return config;
@@ -36,3 +36,7 @@ export default class ApiService {
     return data;
   }
 }
+
+const apiService = new ApiService();
+
+export default apiService;

@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 // import validator from "validator";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import apiService from "../services/api.service";
 
 const theContext = createContext();
 
@@ -19,42 +20,28 @@ export function ContextProvider({ children }) {
     navigate("/");
   };
   // eslint-disable-next-line consistent-return
-  const fetchProtectedData = async () => {
+
+  const getUserInfos = async () => {
     const jwtToken = localStorage.getItem("token");
     if (!jwtToken) {
       logout();
     }
-    try {
-      const response = await axios.get("http://localhost:3310/api/check-auth", {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      });
-      // eslint-disable-next-line no-restricted-syntax
-      console.log("Données protégées:", response.data);
-    } catch (error) {
-      logout();
-      console.error(
-        "Erreur lors de la récupération des données protégées:",
-        error.message
-      );
-    }
-  };
-
-  const getUserInfos = async () => {
-    fetchProtectedData();
-    const jwtToken = localStorage.getItem("token");
     const token = jwtDecode(jwtToken);
-    const { data } = await axios.get(
-      `http://localhost:3310/api/users/${token.id}`
-    );
-    setUser(data);
+    try {
+      const { data } = await apiService.get(
+        `http://localhost:3310/api/users/${token.id}`
+      );
+      setUser(data);
+    } catch (error) {
+      console.error(error.message);
+      logout();
+    }
   };
 
   // connexion : vérifie si les identifiants sont bons et met à jour le state "user"
   const login = async (credentials) => {
     try {
-      const { data } = await axios.post(
+      const data = await apiService.post(
         "http://localhost:3310/api/users/login",
         credentials
       );
@@ -103,7 +90,6 @@ export function ContextProvider({ children }) {
 
   // modification du profil : modifie le state "user" et le localStorage
   const editUser = async (newData) => {
-    fetchProtectedData();
     const jwtToken = localStorage.getItem("token");
     const token = jwtDecode(jwtToken);
     try {
@@ -197,7 +183,6 @@ export function ContextProvider({ children }) {
       calculerAge,
       editUser,
       deleteUser,
-      fetchProtectedData,
       getUserInfos,
       createNewCar,
       countUsers,

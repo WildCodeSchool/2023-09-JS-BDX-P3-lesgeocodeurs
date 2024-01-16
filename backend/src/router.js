@@ -32,7 +32,7 @@ router.get("/vehiclecount", vehicleControllers.vehicleCount);
 router.get("/chargingpointcount", chargingpointControllers.chargingpointCount);
 
 // Route to get a specific item by ID
-router.get("/users/:id", userControllers.read);
+router.get("/users/:id", verifyToken.verifyToken, userControllers.read);
 router.get("/vehicle/:id", vehicleControllers.read);
 router.get("/station/:id", stationControllers.read);
 router.get("/chargingpoint/:id", chargingpointControllers.read);
@@ -65,12 +65,6 @@ router.put("/reservation/:id", reservationControllers.edit);
 router.post("/users/login", userControllers.login);
 
 router.get("/modifprofil/users/:id", userControllers.edit);
-
-// Route de vérification du token
-router.get("/check-auth", verifyToken.verifyToken, (req, res) => {
-  // L'utilisateur est authentifié, req.user contient les données du token décodé
-  res.status(200).json({ message: "Authentification réussie", user: req.user });
-});
 
 /* ************************************************************************* */
 
