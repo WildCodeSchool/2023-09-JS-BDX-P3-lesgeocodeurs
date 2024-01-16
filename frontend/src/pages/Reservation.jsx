@@ -14,27 +14,27 @@ import apiService from "../services/api.service";
 export default function Reservation() {
   const [reservations, setReservations] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const jwtToken = localStorage.getItem("token");
-      const token = jwtDecode(jwtToken);
-      try {
-        const { data } = await axios.get(
-          `http://localhost:3310/api/reservation/users/${token.id}`
-        );
-        setReservations(
-          data
-            .map((r) => ({
-              ...r,
-              datetime: DateTime.fromISO(r.datetime),
-            }))
-            .filter((r) => r.is_cancelled === 0)
-        );
-      } catch (error) {
-        console.error("Error fetching reservations:", error);
-      }
-    };
+  const fetchData = async () => {
+    const jwtToken = localStorage.getItem("token");
+    const token = jwtDecode(jwtToken);
+    try {
+      const { data } = await axios.get(
+        `http://localhost:3310/api/reservation/users/${token.id}`
+      );
+      setReservations(
+        data
+          .map((r) => ({
+            ...r,
+            datetime: DateTime.fromISO(r.datetime),
+          }))
+          .filter((r) => r.is_cancelled === 0)
+      );
+    } catch (error) {
+      console.error("Error fetching reservations:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -46,8 +46,9 @@ export default function Reservation() {
     .filter((r) => r.datetime < now)
     .sort((a, b) => b.datetime - a.datetime);
 
-  const handleCancel = (id) => {
-    apiService.put(`http://localhost:3310/api/reservation/cancel/${id}`);
+  const handleCancel = async (id) => {
+    await apiService.put(`http://localhost:3310/api/reservation/cancel/${id}`);
+    fetchData();
   };
 
   return (
