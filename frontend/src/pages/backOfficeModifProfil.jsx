@@ -5,7 +5,15 @@ import axios from "axios";
 
 export default function BackOfficeModifProfil() {
   const navigate = useNavigate();
-  const [modifProfil, setModifProfil] = useState();
+
+  const [modifProfil, setModifProfil] = useState({
+    email: "",
+    first_name: "",
+    last_name: "",
+    birth_date: "",
+    postal_code: "",
+    city: "",
+  });
 
   const { userId } = useParams();
 
@@ -22,7 +30,7 @@ export default function BackOfficeModifProfil() {
     };
 
     fetchData();
-  }, []);
+  }, [userId]);
 
   const editNewProfil = async (newData) => {
     try {
@@ -31,7 +39,6 @@ export default function BackOfficeModifProfil() {
         newData
       );
       console.info(response);
-      //    getUserInfos();
     } catch (err) {
       console.error(err);
     }
@@ -58,6 +65,7 @@ export default function BackOfficeModifProfil() {
           type="email"
           id="form1Example2"
           label="email"
+          name="email"
           value={modifProfil?.email}
           onChange={handleChange}
         />
@@ -65,27 +73,30 @@ export default function BackOfficeModifProfil() {
         <span className="material-symbols-outlined">delete</span>
         <MDBInput
           className="mb-4"
-          type="firstname"
+          type="string"
           id="form1Example2"
           label="Prénom"
+          name="first_name"
           value={modifProfil?.first_name}
           onChange={handleChange}
         />
 
         <MDBInput
           className="mb-4"
-          type="lastname"
+          type="last_name"
           id="form1Example2"
           label="Nom"
+          name="last_name"
           value={modifProfil?.last_name}
           onChange={handleChange}
         />
 
         <MDBInput
           className="mb-4"
-          type="birthday"
+          type="date"
           id="form1Example2"
           label="Date de naissance"
+          name="birth_date"
           value={modifProfil?.birth_date.substring(0, 10)}
           onChange={handleChange}
         />
@@ -95,6 +106,7 @@ export default function BackOfficeModifProfil() {
           type="codepostal"
           id="form1Example2"
           label="Code Postal"
+          name="postal_code"
           value={modifProfil?.postal_code}
           onChange={handleChange}
         />
@@ -104,6 +116,7 @@ export default function BackOfficeModifProfil() {
           type="city"
           id="form1Example2"
           label="Ville"
+          name="city"
           value={modifProfil?.city}
           onChange={handleChange}
         />

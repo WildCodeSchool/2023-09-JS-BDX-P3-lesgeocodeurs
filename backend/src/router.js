@@ -63,8 +63,6 @@ router.put("/reservation/:id", reservationControllers.edit);
 // Login route
 router.post("/users/login", userControllers.login);
 
-router.get("/modifprofil/users/:id", userControllers.edit);
-
 // Route de vérification du token
 router.get("/check-auth", verifyToken.verifyToken, (req, res) => {
   // L'utilisateur est authentifié, req.user contient les données du token décodé
