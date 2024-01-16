@@ -25,7 +25,7 @@ export default function Reservation() {
         data
           .map((r) => ({
             ...r,
-            datetime: DateTime.fromISO(r.datetime),
+            datetime: DateTime.fromSQL(r.datetime),
           }))
           .filter((r) => r.is_cancelled === 0)
       );
