@@ -33,8 +33,12 @@ router.get("/vehicle/:id", vehicleControllers.read);
 router.get("/station/:id", stationControllers.read);
 router.get("/chargingpoint/:id", chargingpointControllers.read);
 router.get("/reservation/:id", reservationControllers.read);
-router.get("/vehicle/users/:id", vehicleControllers.getCarByUser);
 router.get("/plugtypes/:id", plugTypesControllers.read);
+router.get("/vehicle/users/:id", vehicleControllers.getCarByUser);
+router.get(
+  "/reservation/users/:id",
+  reservationControllers.getReservationByUser
+);
 
 // Route to add a new item
 router.post("/items", itemControllers.add);
@@ -50,14 +54,14 @@ router.delete("/users/:id", userControllers.destroy);
 router.delete("/vehicle/:id", vehicleControllers.destroy);
 router.delete("/station/:id", stationControllers.destroy);
 router.delete("/chargingpoint/:id", chargingpointControllers.destroy);
-router.delete("/reservation/:id", reservationControllers.destroy);
+/* router.delete("/reservation/:id", reservationControllers.destroy); */
 
 // Route to update a user by id
 router.put("/users/:id", userControllers.edit);
 router.put("/vehicle/:id", vehicleControllers.edit);
 router.put("/station/:id", stationControllers.edit);
 router.put("/chargingpoint/:id", chargingpointControllers.edit);
-router.put("/reservation/:id", reservationControllers.edit);
+router.put("/reservation/cancel/:id", reservationControllers.cancel);
 
 // Login route
 router.post("/users/login", userControllers.login);

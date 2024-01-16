@@ -34,6 +34,26 @@ const read = async (req, res, next) => {
   }
 };
 
+const getReservationByUser = async (req, res, next) => {
+  try {
+    // Extract the user ID from the request parameters
+    const userId = req.params.id;
+    // Fetch a specific user from the database based on the provided ID
+    const reservations = await tables.reservation.readReservationByUser(userId);
+
+    // If the user is not found, respond with HTTP 404 (Not Found)
+    // Otherwise, respond with the user in JSON format
+    if (reservations == null) {
+      res.sendStatus(404);
+    } else {
+      res.json(reservations);
+    }
+  } catch (err) {
+    // Pass any errors to the error-handling middleware
+    next(err);
+  }
+};
+
 // The E of BREAD - Edit (Update) operation
 // This operation is not yet implemented
 
@@ -54,7 +74,20 @@ const add = async (req, res, next) => {
   }
 };
 
-const destroy = async (req, res, next) => {
+const cancel = async (req, res, next) => {
+  try {
+    const result = await tables.reservation.cancel(req.params.id);
+    if (result.affectedRows === 0) {
+      res.sendStatus(404);
+    } else {
+      res.sendStatus(204);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+/* const destroy = async (req, res, next) => {
   try {
     await tables.reservation.delete(req.params.id);
     const reservationDeleted = await tables.reservation.read(req.params.id);
@@ -79,7 +112,7 @@ const edit = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-};
+}; */
 
 // The D of BREAD - Destroy (Delete) operation
 // This operation is not yet implemented
@@ -89,6 +122,6 @@ module.exports = {
   browse,
   read,
   add,
-  destroy,
-  edit,
+  cancel,
+  getReservationByUser,
 };

@@ -43,6 +43,16 @@ class ApiService {
       throw err;
     }
   }
+
+  async put(url, content) {
+    try {
+      const response = await axios.put(url, content, this.getConfig());
+      return response.data;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  }
 }
 
 const apiService = new ApiService();
