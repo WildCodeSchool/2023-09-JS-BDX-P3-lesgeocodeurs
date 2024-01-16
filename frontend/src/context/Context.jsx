@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 // import validator from "validator";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import apiService from "../services/api.service";
 
 const theContext = createContext();
 
@@ -14,54 +15,38 @@ export function ContextProvider({ children }) {
   const [user, setUser] = useState(null);
 
   const logout = async () => {
-    setUser(null);
+    await setUser(null);
     localStorage.removeItem("token");
-    localStorage.removeItem("userInfos");
     navigate("/");
   };
   // eslint-disable-next-line consistent-return
-  const fetchProtectedData = async () => {
+
+  const getUserInfos = async () => {
     const jwtToken = localStorage.getItem("token");
     if (!jwtToken) {
       logout();
     }
-    try {
-      const response = await axios.get("http://localhost:3310/api/check-auth", {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      });
-      // eslint-disable-next-line no-restricted-syntax
-      console.log("Données protégées:", response.data);
-    } catch (error) {
-      logout();
-      console.error(
-        "Erreur lors de la récupération des données protégées:",
-        error.message
-      );
-    }
-  };
-
-  const getUserInfos = async () => {
-    fetchProtectedData();
-    const jwtToken = localStorage.getItem("token");
     const token = jwtDecode(jwtToken);
-    const { data } = await axios.get(
-      `http://localhost:3310/api/users/${token.id}`
-    );
-    setUser(data);
-    const toLSData = JSON.stringify(data);
-    localStorage.setItem("userInfos", toLSData);
+    try {
+      const { data } = await apiService.get(
+        `http://localhost:3310/api/users/${token.id}`
+      );
+      setUser(data);
+    } catch (error) {
+      console.error(error.message);
+      logout();
+    }
   };
 
   // connexion : vérifie si les identifiants sont bons et met à jour le state "user"
   const login = async (credentials) => {
     try {
-      const { data } = await axios.post(
+      const data = await apiService.post(
         "http://localhost:3310/api/users/login",
         credentials
       );
       localStorage.setItem("token", data.token);
+      apiService.setToken(data.token);
       getUserInfos();
       navigate("/");
     } catch (err) {
@@ -73,25 +58,25 @@ export function ContextProvider({ children }) {
   // inscription : stocke le nouveau user dans le localstorage
   const register = async (newUser) => {
     try {
-      const { data } = await axios.post(
+      const data = await apiService.post(
         "http://localhost:3310/api/users",
         newUser
       );
-
       localStorage.setItem("token", data.token);
+      apiService.setToken(data.token);
       navigate("/register/infos");
     } catch (err) {
       if (err.response) {
-        const errorResolve = err.response.data.err;
+        const error = err.response.data.err;
         const token = JSON.stringify(err.response.data.token);
-        if (errorResolve === "Compte existant") {
-          alert(errorResolve);
+        if (error === "Compte existant") {
+          alert(error);
           navigate("/login");
-        } else if (errorResolve === "Half-register") {
+        } else if (error === "Half-register") {
           localStorage.setItem("token", token);
           navigate("/register/infos");
         } else {
-          alert(errorResolve);
+          alert(error);
         }
       } else if (err.request) {
         console.error("Pas de réponse du serveur");
@@ -106,12 +91,13 @@ export function ContextProvider({ children }) {
 
   // modification du profil : modifie le state "user" et le localStorage
   const editUser = async (newData) => {
-    fetchProtectedData();
-    const jwtToken = localStorage.getItem("token");
+    const jwtToken = apiService.getToken();
+    // apiService.setToken(jwtToken);
+
     const token = jwtDecode(jwtToken);
     try {
-      const response = await axios.put(
-        `http://localhost:3310/api//users/${token.id}`,
+      const response = await apiService.put(
+        `http://localhost:3310/api/users/${token.id}`,
         newData
       );
       console.info(response);
@@ -129,12 +115,28 @@ export function ContextProvider({ children }) {
     }
   };
 
+  const countVehicle = async () => {
+    try {
+      await axios.get(`http://localhost:3310/api/vehiclecount`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const countChargingpoint = async () => {
+    try {
+      await axios.get(`http://localhost:3310/api/chargingpointcount`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   // suppression du compte : vide le state "user" et modifie le localStorage
   const deleteUser = async () => {
-    const jwtToken = localStorage.getItem("token");
+    const jwtToken = apiService.getToken();
     const token = jwtDecode(jwtToken);
     try {
-      await axios.delete(`http://localhost:3310/api/users/${token.id}`);
+      await apiService.delete(`http://localhost:3310/api/users/${token.id}`);
       logout();
 
       alert("Votre compte a bien été supprimé");
@@ -184,10 +186,11 @@ export function ContextProvider({ children }) {
       calculerAge,
       editUser,
       deleteUser,
-      fetchProtectedData,
       getUserInfos,
       createNewCar,
       countUsers,
+      countVehicle,
+      countChargingpoint,
     }),
     [user]
   );

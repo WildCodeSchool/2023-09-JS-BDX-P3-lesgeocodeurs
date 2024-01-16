@@ -94,6 +94,14 @@ class UserManager extends AbstractManager {
     );
     return rows[0];
   }
+
+  async isAdmin(id) {
+    const [rows] = await this.database.query(
+      `select is_admin from ${this.table} where id = ?`,
+      [id]
+    );
+    return rows[0];
+  }
 }
 
 module.exports = UserManager;
