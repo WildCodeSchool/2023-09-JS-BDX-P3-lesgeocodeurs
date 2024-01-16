@@ -46,6 +46,7 @@ export function ContextProvider({ children }) {
         credentials
       );
       localStorage.setItem("token", data.token);
+      apiService.setToken(data.token);
       getUserInfos();
       navigate("/");
     } catch (err) {
