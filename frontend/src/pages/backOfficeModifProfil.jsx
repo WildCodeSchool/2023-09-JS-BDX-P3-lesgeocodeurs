@@ -1,40 +1,46 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
-import axios from "axios";
+import apiService from "../services/api.service";
 
 export default function BackOfficeModifProfil() {
+  const loaderData = useLoaderData();
   const navigate = useNavigate();
 
   const [modifProfil, setModifProfil] = useState({
-    email: "",
-    first_name: "",
-    last_name: "",
-    birth_date: "",
-    postal_code: "",
-    city: "",
+    email: loaderData?.preloadedUserData?.email ?? "",
+    first_name: loaderData?.preloadedUserData?.first_name ?? "",
+    last_name: loaderData?.preloadedUserData?.last_name ?? "",
+    birth_date: loaderData?.preloadedUserData?.birth_date ?? "",
+    postal_code: loaderData?.preloadedUserData?.postal_code ?? "",
+    city: loaderData?.preloadedUserData?.city ?? "",
   });
 
   const { userId } = useParams();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:3310/api/users/${userId}`
-        );
-        setModifProfil(response.data);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des données :", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await apiService.get(
+  //         `http://localhost:3310/api/users/${userId}`
+  //       );
+  //       console.log(response);
+  //       setModifProfil(response.data);
+  //       // setModifProfil({
+  //       //   ...modifProfil,
+  //       //   birth_date: modifProfil?.birth_date.substring(0, 10),
+  //       // });
+  //     } catch (error) {
+  //       console.error("Erreur lors de la récupération des données :", error);
+  //     }
+  //   };
 
-    fetchData();
-  }, [userId]);
+  //   fetchData();
+  // }, [userId]);
 
   const editNewProfil = async (newData) => {
     try {
-      const response = await axios.put(
+      const response = await apiService.put(
         `http://localhost:3310/api/users/${userId}`,
         newData
       );

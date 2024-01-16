@@ -102,6 +102,18 @@ const router = createBrowserRouter([
       {
         path: "/backofficemodifprofil/:userId",
         element: <BackOfficeModifProfil />,
+        loader: async ({ params }) => {
+          try {
+            const data = await apiService.get(
+              `http://localhost:3310/api/users/${params.userId}`
+            );
+
+            return { preloadedUserData: data };
+          } catch (error) {
+            // TODO: redirect to other page
+            return null;
+          }
+        },
       },
       {
         path: "/makereservation",
