@@ -13,7 +13,7 @@ export default function NewReservation() {
   const [selectedDate, setSelectedDate] = useState(
     DateTime.local().plus({ days: 1 }).toISODate()
   );
-  const [selectedTime, setSelectedTime] = useState("00:00");
+  const [selectedTime, setSelectedTime] = useState("07:00");
 
   // Générer la liste des 7 prochains jours
   const generateDateOptions = () => {
