@@ -58,10 +58,6 @@ export default function NewReservation() {
     const selectedDateTime = DateTime.fromISO(
       `${selectedDate}T${selectedTime}`
     );
-    console.info(
-      "Rendez-vous programmé pour:",
-      selectedDateTime.toFormat("dd/MM/yyyy HH:mm")
-    );
     const newReservation = {
       datetime: selectedDateTime,
       is_cancelled: 0,
