@@ -55,7 +55,7 @@ router.delete("/chargingpoint/:id", chargingpointControllers.destroy);
 router.delete("/reservation/:id", reservationControllers.destroy);
 
 // Route to update a user by id
-router.put("/users/:id", userControllers.edit);
+router.put("/users/:id", verifyToken.verifyToken, userControllers.edit);
 router.put("/vehicle/:id", vehicleControllers.edit);
 router.put("/station/:id", stationControllers.edit);
 router.put("/chargingpoint/:id", chargingpointControllers.edit);

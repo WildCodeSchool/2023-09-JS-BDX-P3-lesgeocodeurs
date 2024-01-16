@@ -58,25 +58,25 @@ export function ContextProvider({ children }) {
   // inscription : stocke le nouveau user dans le localstorage
   const register = async (newUser) => {
     try {
-      const { data } = await axios.post(
+      const data = await apiService.post(
         "http://localhost:3310/api/users",
         newUser
       );
-
       localStorage.setItem("token", data.token);
+      apiService.setToken(data.token);
       navigate("/register/infos");
     } catch (err) {
       if (err.response) {
-        const errorResolve = err.response.data.err;
+        const error = err.response.data.err;
         const token = JSON.stringify(err.response.data.token);
-        if (errorResolve === "Compte existant") {
-          alert(errorResolve);
+        if (error === "Compte existant") {
+          alert(error);
           navigate("/login");
-        } else if (errorResolve === "Half-register") {
+        } else if (error === "Half-register") {
           localStorage.setItem("token", token);
           navigate("/register/infos");
         } else {
-          alert(errorResolve);
+          alert(error);
         }
       } else if (err.request) {
         console.error("Pas de réponse du serveur");
@@ -91,10 +91,12 @@ export function ContextProvider({ children }) {
 
   // modification du profil : modifie le state "user" et le localStorage
   const editUser = async (newData) => {
-    const jwtToken = localStorage.getItem("token");
+    const jwtToken = apiService.getToken();
+    // apiService.setToken(jwtToken);
+
     const token = jwtDecode(jwtToken);
     try {
-      const response = await axios.put(
+      const response = await apiService.put(
         `http://localhost:3310/api/users/${token.id}`,
         newData
       );
@@ -131,10 +133,10 @@ export function ContextProvider({ children }) {
 
   // suppression du compte : vide le state "user" et modifie le localStorage
   const deleteUser = async () => {
-    const jwtToken = localStorage.getItem("token");
+    const jwtToken = apiService.getToken();
     const token = jwtDecode(jwtToken);
     try {
-      await axios.delete(`http://localhost:3310/api/users/${token.id}`);
+      await apiService.delete(`http://localhost:3310/api/users/${token.id}`);
       logout();
 
       alert("Votre compte a bien été supprimé");
