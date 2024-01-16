@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheContext } from "../context/Context";
 
 export default function ModifProfil() {
@@ -13,6 +13,13 @@ export default function ModifProfil() {
     editUser(modifProfil);
     navigate("/myaccount");
   };
+
+  useEffect(() => {
+    setModifProfil({
+      ...modifProfil,
+      birth_date: modifProfil?.birth_date.substring(0, 10),
+    });
+  }, []);
 
   const handleChange = (e) => {
     setModifProfil({ ...modifProfil, [e.target.name]: e.target.value });

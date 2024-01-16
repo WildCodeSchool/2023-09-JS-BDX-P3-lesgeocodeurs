@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ContextProvider } from "./context/Context";
+import apiService from "./services/api.service";
+// import functionsService from "./services/functions.service";
 import "./styles/index.scss";
 
 import App from "./App";
@@ -42,6 +44,7 @@ const router = createBrowserRouter([
       {
         path: "/map",
         element: <MapPage />,
+        loader: async () => apiService.get("http://localhost:3310/api/station"),
       },
       {
         path: "/myaccount",
@@ -79,6 +82,10 @@ const router = createBrowserRouter([
       {
         path: "/newreservation/:id",
         element: <NewReservation />,
+        loader: async ({ params }) =>
+          apiService.get(
+            `http://localhost:3310/api/chargingpoint/${params.id}`
+          ),
       },
       {
         path: "/modifprofil",

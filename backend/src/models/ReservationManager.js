@@ -34,6 +34,22 @@ class ReservationManager extends AbstractManager {
     return rows[0];
   }
 
+  async readReservationByUser(userId) {
+    // Execute the SQL SELECT query to retrieve a specific user by its ID
+    const [rows] = await this.database.query(
+      `select r.*, cp.name as charging_point_name,
+        s.name as station_name, s.address as station_address
+      from reservation r
+      join charging_point cp on cp.id = r.charging_point_id
+      join station s on s.id = cp.station_id
+      where r.user_id = ?`,
+      [userId]
+    );
+
+    // Return the first row of the result, which represents the user
+    return rows;
+  }
+
   async readAll() {
     // Execute the SQL SELECT query to retrieve all users from the "user" table
     const [rows] = await this.database.query(`select * from ${this.table}`);
@@ -42,7 +58,15 @@ class ReservationManager extends AbstractManager {
     return rows;
   }
 
-  async delete(id) {
+  async cancel(id) {
+    const [rows] = await this.database.query(
+      `update ${this.table} set is_cancelled = 1 where id = ?`,
+      [id]
+    );
+    return rows;
+  }
+
+  /*   async delete(id) {
     const result = await this.database.query(
       `delete from ${this.table} where id = ?`,
       [id]
@@ -62,7 +86,7 @@ class ReservationManager extends AbstractManager {
       ]
     );
     return rows;
-  }
+  } */
 }
 
 module.exports = ReservationManager;

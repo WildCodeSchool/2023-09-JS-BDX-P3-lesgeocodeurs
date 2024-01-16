@@ -1,4 +1,5 @@
 .reservation-container {
+  margin-bottom: 100px;
   .back {
     font-size: 18px;
     margin-left: 50px;
@@ -11,6 +12,7 @@
   }
   .btn-delete-reservation {
     display: flex;
+    align-self: flex-end;
     height: 30px;
     border-radius: 10px;
   }
@@ -28,8 +30,9 @@
   }
   .card-body {
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
-    align-items: center;
+    align-items: flex-start;
     box-shadow: 14px 18px 9px 5px rgba(0, 0, 0, 0.1);
   }
 }

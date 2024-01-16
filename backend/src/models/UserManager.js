@@ -25,7 +25,7 @@ class UserManager extends AbstractManager {
   async read(id) {
     // Execute the SQL SELECT query to retrieve a specific user by its ID
     const [rows] = await this.database.query(
-      `select email, first_name, last_name, birth_date, postal_code, city from ${this.table} where id = ?`,
+      `select * from ${this.table} where id = ?`,
       [id]
     );
 
@@ -91,6 +91,14 @@ class UserManager extends AbstractManager {
     const [rows] = await this.database.query(
       `select * from ${this.table} where email = ?`,
       [email]
+    );
+    return rows[0];
+  }
+
+  async isAdmin(id) {
+    const [rows] = await this.database.query(
+      `select is_admin from ${this.table} where id = ?`,
+      [id]
     );
     return rows[0];
   }
