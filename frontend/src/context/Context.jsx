@@ -16,7 +16,6 @@ export function ContextProvider({ children }) {
   const logout = async () => {
     setUser(null);
     localStorage.removeItem("token");
-    localStorage.removeItem("userInfos");
     navigate("/");
   };
   // eslint-disable-next-line consistent-return
@@ -50,8 +49,6 @@ export function ContextProvider({ children }) {
       `http://localhost:3310/api/users/${token.id}`
     );
     setUser(data);
-    const toLSData = JSON.stringify(data);
-    localStorage.setItem("userInfos", toLSData);
   };
 
   // connexion : vérifie si les identifiants sont bons et met à jour le state "user"
