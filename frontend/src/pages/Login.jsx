@@ -16,7 +16,7 @@ export default function Login() {
         className="mb-4"
         type="email"
         name="email"
-        label="Addresse email"
+        label="Adresse email"
         value={formData.email}
         onChange={handleChange}
       />

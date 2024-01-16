@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const tables = require("../tables");
 
 function generateAccessToken(username) {
-  return jwt.sign(username, process.env.APP_SECRET, { expiresIn: "1600s" });
+  return jwt.sign(username, process.env.APP_SECRET, { expiresIn: "5s" });
 }
 
 // The B of BREAD - Browse (Read All) operation
