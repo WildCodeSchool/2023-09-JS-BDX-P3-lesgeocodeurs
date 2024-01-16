@@ -34,14 +34,14 @@ export function ContextProvider({ children }) {
       setUser(data);
     } catch (error) {
       console.error(error.message);
-      // logout();
+      logout();
     }
   };
 
   // connexion : vérifie si les identifiants sont bons et met à jour le state "user"
   const login = async (credentials) => {
     try {
-      const { data } = await axios.post(
+      const data = await apiService.post(
         "http://localhost:3310/api/users/login",
         credentials
       );
