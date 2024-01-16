@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const tables = require("../tables");
 
 // Middleware de vérification du JWT
 const verifyToken = (req, res, next) => {
@@ -8,24 +9,40 @@ const verifyToken = (req, res, next) => {
   if (!token) {
     return res.status(401).json({ message: "Authentification requise" });
   }
+  try {
+    jwt.verify(token.replace("Bearer ", ""), process.env.APP_SECRET);
+    next();
+  } catch (err) {
+    return res.status(403).json({ message: "Token invalide" });
+  }
 
-  // Vérifier le JWT
-  jwt.verify(
-    token.replace("Bearer ", ""),
-    process.env.APP_SECRET,
-    (err, decoded) => {
-      if (err) {
-        return res.status(403).json({ message: "Token invalide" });
-      }
+  return null;
+};
 
-      req.user = decoded.user;
+const verifyAdminToken = async (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(401).json({ message: "Authentification requise" });
+  }
+  try {
+    const tok = jwt.verify(
+      token.replace("Bearer ", ""),
+      process.env.APP_SECRET
+    );
+    const checkIsAdmin = await tables.user.isAdmin(tok.id);
+    if (checkIsAdmin.is_admin === 1) {
       next();
-      return null;
+    } else {
+      res.status(403).json({ message: "Not admin" });
     }
-  );
+  } catch (err) {
+    return res.status(403).json({ message: "Token invalide" });
+  }
+
   return null;
 };
 
 module.exports = {
   verifyToken,
+  verifyAdminToken,
 };

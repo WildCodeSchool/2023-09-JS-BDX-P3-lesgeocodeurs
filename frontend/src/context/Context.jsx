@@ -14,7 +14,7 @@ export function ContextProvider({ children }) {
   const [user, setUser] = useState(null);
 
   const logout = async () => {
-    setUser(null);
+    await setUser(null);
     localStorage.removeItem("token");
     navigate("/");
   };

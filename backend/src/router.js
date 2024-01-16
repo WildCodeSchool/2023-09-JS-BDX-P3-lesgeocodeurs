@@ -16,7 +16,12 @@ const plugTypesControllers = require("./controllers/plugTypesControllers");
 const verifyToken = require("./services/verifyToken");
 
 // Route to get a list of items
-router.get("/users", userControllers.browse);
+router.get(
+  "/users",
+  verifyToken.verifyToken,
+  verifyToken.verifyAdminToken,
+  userControllers.browse
+);
 router.get("/vehicle", vehicleControllers.browse);
 router.get("/station", stationControllers.browse);
 router.get("/chargingpoint", chargingpointControllers.browse);
