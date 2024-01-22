@@ -28,6 +28,42 @@ export default function Cars() {
 
     fetchPlugTypes();
   }, []);
+
+  // État pour gérer l'affichage de la boîte de dialogue de confirmation
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  // État pour stocker l'ID du véhicule à supprimer
+  const [vehicleToDelete, setVehicleToDelete] = useState(null);
+  const [confirmedDelete, setConfirmedDelete] = useState(false);
+  console.info(confirmedDelete);
+  // Fonction pour ouvrir la boîte de dialogue de confirmation
+  const openConfirmationDialog = (carId) => {
+    setVehicleToDelete(carId);
+    setShowConfirmation(true);
+  };
+  const cancelDeleteCar = () => {
+    // Annuler la suppression en fermant la boîte de dialogue
+    setShowConfirmation(false);
+  };
+
+  // Fonction pour confirmer la suppression du véhicule
+  const confirmDeleteCar = async () => {
+    try {
+      await axios.delete(
+        `http://localhost:3310/api/vehicle/${vehicleToDelete}`
+      );
+      // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
+      // ...
+      // Réinitialiser l'ID du véhicule à supprimer
+      setVehicleToDelete(null);
+      // Marquer la confirmation de suppression
+      setConfirmedDelete(true);
+      // Fermer la boîte de dialogue après la suppression réussie
+    } catch (error) {
+      console.error("Error deleting car:", error);
+    }
+    cancelDeleteCar();
+  };
+
   function getPlugTypeName(plugTypeId) {
     const plugType = plugTypes.find((type) => type.id === plugTypeId);
     return plugType ? plugType.name : "Type inconnu";
@@ -60,6 +96,18 @@ export default function Cars() {
 
     fetchData();
   }, [handleDeleteCar]);
+  // Position de la boîte de dialogue de confirmation
+  const [dialogStyle, setDialogStyle] = useState({
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: "white",
+    padding: "20px",
+    zIndex: "1000",
+    textAlign: "center",
+  });
+  console.info(setDialogStyle);
 
   return (
     <div className="cars-container">
@@ -81,7 +129,10 @@ export default function Cars() {
                   </MDBCardText>
                 </div>
                 <div className="btn-delete-car">
-                  <MDBBtn size="sm" onClick={() => handleDeleteCar(car.id)}>
+                  <MDBBtn
+                    size="sm"
+                    onClick={() => openConfirmationDialog(car.id)}
+                  >
                     Supprimer
                   </MDBBtn>
                 </div>
@@ -90,6 +141,18 @@ export default function Cars() {
           ))}
         </MDBCard>
       </div>
+      {/* Boîte de dialogue de confirmation */}
+      {showConfirmation && (
+        <div className="confirmation-dialog" style={dialogStyle}>
+          <p>Voulez-vous vraiment supprimer ce véhicule ?</p>
+          <MDBBtn size="sm" onClick={confirmDeleteCar}>
+            Oui
+          </MDBBtn>
+          <MDBBtn size="sm" onClick={cancelDeleteCar}>
+            Annuler
+          </MDBBtn>
+        </div>
+      )}
       <div className="add-car">
         <Link to="/newcar">
           <MDBBtn type="submit" className="mb-4" block>
