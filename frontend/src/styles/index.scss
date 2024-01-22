@@ -1,0 +1,30 @@
+@import "mdb-react-ui-kit/dist/scss/mdb.pro.scss";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+// DARK SKIN
+$my-theme-primary: #21a89a;
+$my-theme-secondary: #e3ebf7;
+$my-dark-theme: mdb-light-theme($my-theme-primary, $my-theme-secondary);
+@include mdb-theme($my-dark-theme);
+
+@import "./components/navBar";
+@import "./components/map";
+@import "./components/myAccount";
+@import "./components/home";
+@import "./components/login";
+@import "./components/register";
+@import "./components/reservation";
+@import "./components/cars";
+@import "./components/modifprofil";
+@import "./components/backofficeutilisateur";
+@import "./components/backofficeaccueil";
+@import "./components/backofficemodifprofil";
+@import "./components/makereservation";
+@import "./components/backofficecars";
+@import "./components/registercars";
+@import "./components/newreservation";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}

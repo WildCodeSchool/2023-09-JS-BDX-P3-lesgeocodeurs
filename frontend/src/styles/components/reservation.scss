@@ -1,0 +1,38 @@
+.reservation-container {
+  margin-bottom: 100px;
+  .back {
+    font-size: 18px;
+    margin-left: 50px;
+    margin-block: 25px;
+    border: none;
+    background-color: white;
+  }
+  .reservation-title {
+    margin-left: 50px;
+  }
+  .btn-delete-reservation {
+    display: flex;
+    align-self: flex-end;
+    height: 30px;
+    border-radius: 10px;
+  }
+
+  .history-reservation {
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 50px;
+    margin-top: 40px;
+    margin-bottom: 5px;
+  }
+  .past-reservation {
+    align-items: flex-start;
+    padding-right: 50%;
+  }
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    box-shadow: 14px 18px 9px 5px rgba(0, 0, 0, 0.1);
+  }
+}

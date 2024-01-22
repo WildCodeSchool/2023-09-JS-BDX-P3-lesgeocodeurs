@@ -1,0 +1,39 @@
+.cars-container {
+  .back {
+    font-size: 18px;
+    margin-left: 50px;
+    margin-block: 25px;
+    border: none;
+    background-color: white;
+  }
+  .cars-title {
+    margin-left: 50px;
+  }
+
+  .my-car {
+    padding-block: 50px;
+  }
+  .card-body {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+  }
+  .btn-delete-car {
+    display: flex;
+    height: 30px;
+    margin-top: 15px;
+    border-radius: 10px;
+  }
+
+  .one-car {
+    display: flex;
+    justify-content: space-around;
+  }
+  .mb-4 {
+    width: 85%;
+  }
+  .add-car {
+    display: flex;
+    justify-content: center;
+  }
+}

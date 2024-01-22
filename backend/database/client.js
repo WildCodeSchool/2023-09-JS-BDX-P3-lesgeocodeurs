@@ -10,6 +10,8 @@ const client = mysql.createPool({
   user: DB_USER,
   password: DB_PASSWORD,
   database: DB_NAME,
+  dateStrings: true,
+  timezone: "Europe/Paris",
 });
 
 // Try to get a connection to the database
