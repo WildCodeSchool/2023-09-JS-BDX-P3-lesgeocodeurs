@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ContextProvider } from "./context/Context";
+import apiService from "./services/api.service";
+// import functionsService from "./services/functions.service";
 import "./styles/index.scss";
 
 import App from "./App";
@@ -22,6 +24,8 @@ import BackOfficeAccueil from "./pages/BackOfficeAccueil";
 import BackOfficeModifProfil from "./pages/backOfficeModifProfil";
 import MakeReservation from "./pages/MakeReservation";
 import BackOfficeCars from "./pages/BackOfficeCars";
+import NewCar from "./pages/NewCar";
+import NewReservation from "./pages/NewReservation";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +44,7 @@ const router = createBrowserRouter([
       {
         path: "/map",
         element: <MapPage />,
+        loader: async () => apiService.get("http://localhost:3310/api/station"),
       },
       {
         path: "/myaccount",
@@ -55,9 +60,9 @@ const router = createBrowserRouter([
         children: [
           { path: "/register/logs", element: <Register /> },
           { path: "/register/infos", element: <RegisterInfos /> },
-          { path: "/register/cars", element: <RegisterCars /> },
         ],
       },
+      { path: "/register/cars", element: <RegisterCars /> },
       {
         path: "/contact",
         element: <Contact />,
@@ -67,8 +72,20 @@ const router = createBrowserRouter([
         element: <Cars />,
       },
       {
+        path: "/newcar",
+        element: <NewCar />,
+      },
+      {
         path: "/reservation",
         element: <Reservation />,
+      },
+      {
+        path: "/newreservation/:id",
+        element: <NewReservation />,
+        loader: async ({ params }) =>
+          apiService.get(
+            `http://localhost:3310/api/chargingpoint/${params.id}`
+          ),
       },
       {
         path: "/modifprofil",
@@ -83,8 +100,20 @@ const router = createBrowserRouter([
         element: <BackOfficeAccueil />,
       },
       {
-        path: "/backofficemodifprofil",
+        path: "/backofficemodifprofil/:userId",
         element: <BackOfficeModifProfil />,
+        loader: async ({ params }) => {
+          try {
+            const data = await apiService.get(
+              `http://localhost:3310/api/users/${params.userId}`
+            );
+
+            return { preloadedUserData: data };
+          } catch (error) {
+            // TODO: redirect to other page
+            return null;
+          }
+        },
       },
       {
         path: "/makereservation",

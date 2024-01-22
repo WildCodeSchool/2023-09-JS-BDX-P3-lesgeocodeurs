@@ -2,7 +2,7 @@
 CREATE TABLE
     user (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        email VARCHAR(255),
+        email VARCHAR(255) UNIQUE,
         password VARCHAR(255),
         first_name VARCHAR(255),
         last_name VARCHAR(255),
@@ -57,7 +57,7 @@ CREATE TABLE
         model VARCHAR(255),
         user_id INT,
         plug_type_id INT,
-        FOREIGN KEY (user_id) REFERENCES user(id),
+        FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
         FOREIGN KEY (plug_type_id) REFERENCES plug_type(id)
     );
 
@@ -69,7 +69,8 @@ CREATE TABLE
         is_cancelled BOOLEAN DEFAULT 0,
         user_id INT,
         charging_point_id INT,
-        FOREIGN KEY (user_id) REFERENCES user(id),
+        FOREIGN KEY (user_id) REFERENCES user(id)
+         ON DELETE CASCADE,
         FOREIGN KEY (charging_point_id) REFERENCES charging_point(id)
     );
 
@@ -153,7 +154,7 @@ VALUES (
         "Aubervilliers - Lab Village mobilité",
         "102 rue du Port 93300 Aubervilliers",
         48.91973300,
-        48.91973300
+        2.37351000
     );
 
 INSERT INTO
@@ -170,7 +171,7 @@ INSERT INTO
         charging_point_id,
         plug_type_id
     )
-VALUES (1, 1, 3), (2, 2, 3), (3, 3, 3), (4, 4, 3), (5, 5, 3);
+VALUES (1, 1, 3), (2, 2, 2), (3, 2, 3), (4, 3, 2), (5, 3, 3), (6, 4, 3), (7, 5, 3);
 
 INSERT INTO
     vehicle (

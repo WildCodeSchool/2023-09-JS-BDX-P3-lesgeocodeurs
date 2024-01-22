@@ -24,17 +24,25 @@ class StationManager extends AbstractManager {
       `select * from ${this.table} where id = ?`,
       [id]
     );
-
+    const result = {
+      ...rows[0],
+      latitude: parseFloat(rows[0].latitude),
+      longitude: parseFloat(rows[0].longitude),
+    };
     // Return the first row of the result, which represents the user
-    return rows[0];
+    return result;
   }
 
   async readAll() {
     // Execute the SQL SELECT query to retrieve all users from the "user" table
     const [rows] = await this.database.query(`select * from ${this.table}`);
-
+    const result = rows.map((row) => ({
+      ...row,
+      latitude: parseFloat(row.latitude),
+      longitude: parseFloat(row.longitude),
+    }));
     // Return the array of users
-    return rows;
+    return result;
   }
 
   async delete(id) {

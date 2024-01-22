@@ -3,10 +3,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useTheContext } from "../context/Context";
 
-export default function RegisterCars() {
+export default function NewCar() {
   const [plugTypes, setPlugTypes] = useState([]);
   const { createNewCar } = useTheContext();
-
   const [vFormData, setvFormData] = useState({
     brand: "",
     model: "",
@@ -14,7 +13,10 @@ export default function RegisterCars() {
   });
 
   const handleChange = (e) =>
-    setvFormData({ ...vFormData, [e.target.name]: e.target.value });
+    setvFormData({
+      ...vFormData,
+      [e.target.name]: e.target.value,
+    });
   // le composant select de mdbootstrap fonctionne différement des autres ("e.value" au lieu de "e.target.value")
   const handleSelect = (e) =>
     setvFormData({
@@ -35,10 +37,11 @@ export default function RegisterCars() {
     fetchPlugTypes();
   }, []);
   const options = plugTypes;
+
   return (
     <div className="registerInfos-container">
       <div className="login-form">
-        <h1>Mes infos</h1>
+        <h1>Ajouter un véhicule</h1>
         <MDBInput
           className="mb-4"
           type="string"
@@ -57,7 +60,7 @@ export default function RegisterCars() {
         />
 
         <MDBSelect
-          name="plugType"
+          name="plug_type_id"
           label="Type de prise"
           className="select-btn"
           value={vFormData.plug_type_id}
@@ -69,12 +72,12 @@ export default function RegisterCars() {
         />
 
         <MDBBtn
-          type="button"
-          onClick={() => createNewCar(vFormData)}
+          type="submit"
           className="mb-4"
           block
+          onClick={() => createNewCar(vFormData)}
         >
-          Terminer l'inscription
+          Enregistrer le nouveau véhicule
         </MDBBtn>
       </div>
     </div>

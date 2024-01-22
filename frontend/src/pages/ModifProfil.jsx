@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheContext } from "../context/Context";
 
 export default function ModifProfil() {
@@ -14,6 +14,13 @@ export default function ModifProfil() {
     navigate("/myaccount");
   };
 
+  useEffect(() => {
+    setModifProfil({
+      ...modifProfil,
+      birth_date: modifProfil?.birth_date.substring(0, 10),
+    });
+  }, []);
+
   const handleChange = (e) => {
     setModifProfil({ ...modifProfil, [e.target.name]: e.target.value });
   };
@@ -26,21 +33,21 @@ export default function ModifProfil() {
       <form>
         <MDBInput
           className="mb-4"
-          type="firstname"
+          type="string"
           id="form1Example2"
           label="Prénom"
-          name="firstName"
-          value={modifProfil?.firstName}
+          name="first_name"
+          value={modifProfil?.first_name}
           onChange={handleChange}
         />
 
         <MDBInput
           className="mb-4"
-          type="lastname"
+          type="last_name"
           id="form1Example2"
           label="Nom"
-          name="lastName"
-          value={modifProfil?.lastName}
+          name="last_name"
+          value={modifProfil?.last_name}
           onChange={handleChange}
         />
 
@@ -49,8 +56,8 @@ export default function ModifProfil() {
           type="date"
           id="form1Example2"
           label="Date de naissance"
-          name="birthDate"
-          value={modifProfil?.birthDate}
+          name="birth_date"
+          value={modifProfil?.birth_date.substring(0, 10)}
           onChange={handleChange}
         />
 
@@ -59,8 +66,8 @@ export default function ModifProfil() {
           type="codepostal"
           id="form1Example2"
           label="Code Postal"
-          name="postalCode"
-          value={modifProfil?.postalCode}
+          name="postal_code"
+          value={modifProfil?.postal_code}
           onChange={handleChange}
         />
 

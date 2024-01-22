@@ -11,17 +11,9 @@ class UserManager extends AbstractManager {
 
   async create(user) {
     // Execute the SQL INSERT query to add a new user to the "user" table
-    const result = await this.database.query(
-      `INSERT INTO ${this.table} (email, password, first_name, last_name, birth_date, postal_code, city) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [
-        user.email,
-        user.password,
-        user.firstName,
-        user.lastName,
-        user.birthDate,
-        user.postalCode,
-        user.city,
-      ]
+    const [result] = await this.database.query(
+      `INSERT INTO ${this.table} (email, password) VALUES (?, ?)`,
+      [user.email, user.password]
     );
 
     // Return the ID of the newly inserted user
@@ -49,19 +41,25 @@ class UserManager extends AbstractManager {
     return rows;
   }
 
+  async countAll() {
+    // Execute the SQL SELECT query to retrieve all users from the "user" table
+    const [rows] = await this.database.query(`SELECT COUNT(*) AS user_count FROM
+    ${this.table}`);
+
+    // Return the array of users
+    return rows[0];
+  }
   // The U of CRUD - Update operation
   // TODO: Implement the update operation to modify an existing user
 
   async update(user, id) {
     const result = await this.database.query(
-      `UPDATE ${this.table} SET email = ?, password = ?, first_name = ?, last_name = ?, birth_date = ?, postal_code = ?, city = ? WHERE id = ?`,
+      `UPDATE ${this.table} SET first_name = ?, last_name = ?, birth_date = ?, postal_code = ?, city = ? WHERE id = ?`,
       [
-        user.email,
-        user.password,
-        user.firstName,
-        user.lastName,
-        user.birthDate,
-        user.postalCode,
+        user.first_name,
+        user.last_name,
+        user.birth_date,
+        user.postal_code,
         user.city,
         id,
       ]
@@ -83,8 +81,24 @@ class UserManager extends AbstractManager {
   // Find user by email (for login)
   async findUserByEmail(email) {
     const [rows] = await this.database.query(
+      `select id, password from ${this.table} where email = ?`,
+      [email]
+    );
+    return rows[0];
+  }
+
+  async getEmail(email) {
+    const [rows] = await this.database.query(
       `select * from ${this.table} where email = ?`,
       [email]
+    );
+    return rows[0];
+  }
+
+  async isAdmin(id) {
+    const [rows] = await this.database.query(
+      `select is_admin from ${this.table} where id = ?`,
+      [id]
     );
     return rows[0];
   }

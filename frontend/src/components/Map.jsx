@@ -2,29 +2,25 @@ import { GoogleMap, MarkerClustererF, MarkerF } from "@react-google-maps/api";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useGeolocated } from "react-geolocated";
 import { MDBBtn } from "mdb-react-ui-kit";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import Station from "./Station";
 import Places from "./Places";
-import data from "../data-test.json";
-/* import getLocationIcon from "../assets/get-location.svg"; */
+// import data from "../data-test.json";
+// import getLocationIcon from "../assets/get-location.svg";
 import myLocationIcon from "../assets/my-location.svg";
 
-export default function Map() {
-  /* eslint-disable */
-  // (hack to stop Google Maps spamming the console with errors)
-  const previousPreventDefault = TouchEvent.prototype.preventDefault;
-  TouchEvent.prototype.preventDefault = function () {
-    if (this.cancelable) {
-      previousPreventDefault.call(this);
-    }
-  };
-  /* eslint-enable */
+export default function Map({ stations }) {
+  const [selectedStation, setSelectedStation] = useState(null);
+  const [chargingPoints, setChargingPoints] = useState(null);
 
+  const { coords, getPosition } = useGeolocated();
+  const mapRef = useRef();
   const position = useMemo(
     () => ({ lat: 46.57829080854987, lng: 2.528225829979713 }),
     []
   );
-  const [selectedStation, setSelectedStation] = useState(null);
-  const mapRef = useRef();
+
   const onLoad = useCallback((map) => {
     mapRef.current = map;
   }, []);
@@ -35,32 +31,45 @@ export default function Map() {
     mapRef.current?.setCenter(place);
   };
 
-  const { coords, getPosition } = useGeolocated();
-  // console.info(coords);
-
-  const handleClick = () => {
+  const handleCenter = () => {
     getPosition();
     if (coords) {
       setFocus({ lat: coords.latitude, lng: coords.longitude }, 15);
     }
   };
 
+  const handleMapClick = () => {
+    setSelectedStation(null);
+    setChargingPoints(null);
+  };
+
+  // Hack to stop Google Maps spamming the console with errors
+  /* eslint-disable */
+  const previousPreventDefault = TouchEvent.prototype.preventDefault;
+  TouchEvent.prototype.preventDefault = function () {
+    if (this.cancelable) {
+      previousPreventDefault.call(this);
+    }
+  };
+  /* eslint-enable */
+
   return (
     <>
       <div className="map">
         <div className="map-controls" style={{ display: "flex" }}>
           <Places setFocus={setFocus} />
-          <MDBBtn onClick={handleClick}>
+          <MDBBtn onClick={handleCenter}>
             <span className="material-symbols-outlined">my_location</span>
           </MDBBtn>
         </div>
+
         <GoogleMap
           zoom={5}
           center={position}
           mapContainerClassName="map"
           options={{ disableDefaultUI: true }}
           onLoad={onLoad}
-          onClick={() => setSelectedStation(null)}
+          onClick={handleMapClick}
         >
           {coords && (
             <MarkerF
@@ -68,16 +77,17 @@ export default function Map() {
               icon={myLocationIcon}
             />
           )}
-          {data?.length > 0 && (
+          {stations?.length > 0 && (
             <MarkerClustererF>
               {(clusterer) => (
                 <>
-                  {data.map((station) => (
+                  {stations.map((station) => (
                     <Station
-                      key={station.id_station_itinerance}
+                      key={station.id}
                       station={station}
-                      setSelectedStation={setSelectedStation}
                       clusterer={clusterer}
+                      setSelectedStation={setSelectedStation}
+                      setChargingPoints={setChargingPoints}
                     />
                   ))}
                 </>
@@ -86,19 +96,31 @@ export default function Map() {
           )}
         </GoogleMap>
       </div>
+
       {selectedStation && (
         <div className="station-modal">
-          <strong>{selectedStation.nom_station}</strong>
-          <div>{selectedStation.adresse_station}</div>
-          <div>{selectedStation.id_station_itinerance}</div>
-          <div>{selectedStation.implantation_station}</div>
-          <div>Nombre de bornes : {selectedStation.nbre_pdc}</div>
-          <div>Puissance : {selectedStation.puissance_nominale} kW</div>
-          <div>{selectedStation.gratuit ? "Gratuit" : "Payant"}</div>
-          <div>{selectedStation.condition_acces}</div>
-          <div>Horaires : {selectedStation.horaires}</div>
+          <strong>{selectedStation.name}</strong>
+          <div>{selectedStation.address}</div>
+          <br />
+          <strong>Bornes</strong>
+          {chargingPoints?.map((cp) => (
+            <div key={cp.id}>
+              <span>{cp.name}</span>
+              <span> ({cp.power} kW)</span>
+              <div>
+                {cp.plug_types?.map((pt) => (
+                  <span key={pt}>{pt} </span>
+                ))}
+              </div>
+              <Link to={`/newreservation/${cp.id}`}>Réserver cette borne</Link>
+            </div>
+          ))}
         </div>
       )}
     </>
   );
 }
+
+Map.propTypes = {
+  stations: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+};

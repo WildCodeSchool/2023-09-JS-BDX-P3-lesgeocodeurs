@@ -3,7 +3,7 @@ import { Link, useOutletContext } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function RegisterInfos() {
-  const { calculerAge } = useTheContext();
+  const { calculerAge, editUser } = useTheContext();
 
   const { formData, setFormData } = useOutletContext();
 
@@ -15,20 +15,20 @@ export default function RegisterInfos() {
   };
 
   const formErrors = [];
-  const age = formData.birthDate ? calculerAge(formData.birthDate) : 0;
+  const age = formData.birth_date ? calculerAge(formData.birth_date) : 0;
 
   if (
-    formData?.lastName?.length < 3 ||
-    formData?.lastName?.length > 15 ||
-    /^[a-zA-Z\s-]{1,}$/.test(formData.lastName) === false
+    formData?.last_name?.length < 3 ||
+    formData?.last_name?.length > 15 ||
+    /^[a-zA-Z\s-]{1,}$/.test(formData.last_name) === false
   ) {
     formErrors.push("Veuillez renseigner un nom valide");
   }
   if (
-    formData.firstName?.length < 3 ||
-    formData.firstName?.length > 15 ||
-    formData.firstName === null ||
-    /^[a-zA-Z\s-]{1,}$/.test(formData.firstName) === false
+    formData.first_name?.length < 3 ||
+    formData.first_name?.length > 15 ||
+    formData.first_name === null ||
+    /^[a-zA-Z\s-]{1,}$/.test(formData.first_name) === false
   ) {
     formErrors.push("Veuillez renseigner un prénom valide");
   }
@@ -48,34 +48,34 @@ export default function RegisterInfos() {
         <MDBInput
           className="mb-4"
           type="string"
-          name="firstName"
+          name="first_name"
           label="Prenom"
-          value={formData.firstName}
+          value={formData.first_name}
           onChange={handleChange}
         />
         <MDBInput
           className="mb-4"
           type="string"
-          name="lastName"
+          name="last_name"
           label="Nom"
-          value={formData.lastName}
+          value={formData.last_name}
           onChange={handleChange}
         />
         <MDBInput
           className="mb-4"
           type="date"
-          name="birthDate"
+          name="birth_date"
           label="Date de naissance"
-          value={formData.birthDate}
+          value={formData.birth_date}
           onChange={handleChange}
         />
         <MDBInput
           className="mb-4"
           type="string"
           required
-          name="postalCode"
+          name="postal_code"
           label="Code postal"
-          value={formData.postalCode}
+          value={formData.postal_code}
           onChange={handleChange}
         />
         <MDBInput
@@ -90,6 +90,7 @@ export default function RegisterInfos() {
         <Link to="/register/cars" disabled={formErrors.length !== 0}>
           <MDBBtn
             type="submit"
+            onClick={() => editUser(formData)}
             className="mb-4"
             block
             /* disabled={formErrors.length !== 0} */
