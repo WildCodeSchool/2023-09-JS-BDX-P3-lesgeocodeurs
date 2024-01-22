@@ -75,8 +75,6 @@ export default function BackOfficeModifProfil() {
           value={modifProfil?.email}
           onChange={handleChange}
         />
-        <span className="material-symbols-outlined">edit</span>
-        <span className="material-symbols-outlined">delete</span>
         <MDBInput
           className="mb-4"
           type="string"

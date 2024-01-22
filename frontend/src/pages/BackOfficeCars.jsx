@@ -1,25 +1,28 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { MDBDatatable } from "mdb-react-ui-kit";
 import NavBarBackOffice from "../components/NavBarBackOffice";
+import apiService from "../services/api.service";
 
 export default function BackOfficeCars() {
   const [userData, setUserData] = useState([]);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3310/api/vehicle`);
-        setUserData(response.data);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des données :", error);
-      }
-    };
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3310/api/vehicle`);
+      setUserData(response.data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des données :", error);
+    }
+  };
 
-    fetchData();
-  }, []);
+  fetchData();
+
   const [plugTypes, setPlugTypes] = useState([]);
   useEffect(() => {
     const fetchPlugTypes = async () => {
@@ -38,10 +41,15 @@ export default function BackOfficeCars() {
     return plugType ? plugType.name : "Type inconnu";
   }
 
+  const handleEditCar = (carId) => {
+    navigate(`/backofficemodifcar/${carId}`); // Utilisation de navigate pour la redirection
+  };
+
   const handleDeleteCar = async (carId) => {
     try {
       // Appeler l'API Backend pour supprimer le véhicule
-      await axios.delete(`http://localhost:3310/api/vehicle/${carId}`);
+      await apiService.delete(`http://localhost:3310/api/vehicle/${carId}`);
+      fetchData();
     } catch (error) {
       console.error("Error deleting car:", error);
     }
@@ -54,7 +62,7 @@ export default function BackOfficeCars() {
     vehicle.model,
     getPlugTypeName(vehicle.plug_type_id),
 
-    //  <FontAwesomeIcon icon={faEdit} onClick={() => handleEdit(vehicle.id)} />,
+    <FontAwesomeIcon icon={faEdit} onClick={() => handleEditCar(vehicle.id)} />,
     <FontAwesomeIcon
       icon={faTrash}
       onClick={() => handleDeleteCar(vehicle.id)}

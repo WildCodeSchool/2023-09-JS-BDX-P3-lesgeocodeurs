@@ -132,6 +132,7 @@ export function ContextProvider({ children }) {
   };
 
   // suppression du compte : vide le state "user" et modifie le localStorage
+
   const deleteUser = async () => {
     const jwtToken = apiService.getToken();
     const token = jwtDecode(jwtToken);
@@ -140,6 +141,15 @@ export function ContextProvider({ children }) {
       logout();
 
       alert("Votre compte a bien été supprimé");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const deleteUserAdmin = async (userId) => {
+    try {
+      await apiService.delete(`http://localhost:3310/api/users/${userId}`);
+      alert("Le compte a bien été supprimé");
     } catch (err) {
       console.error(err);
     }
@@ -177,6 +187,7 @@ export function ContextProvider({ children }) {
       console.error(err);
     }
   };
+
   const memoizedUserValue = useMemo(
     () => ({
       user,
@@ -186,6 +197,7 @@ export function ContextProvider({ children }) {
       calculerAge,
       editUser,
       deleteUser,
+      deleteUserAdmin,
       getUserInfos,
       createNewCar,
       countUsers,

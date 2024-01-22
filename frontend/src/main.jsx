@@ -26,6 +26,7 @@ import MakeReservation from "./pages/MakeReservation";
 import BackOfficeCars from "./pages/BackOfficeCars";
 import NewCar from "./pages/NewCar";
 import NewReservation from "./pages/NewReservation";
+import BackOfficeModifCar from "./pages/BackOfficeModifCar";
 
 const router = createBrowserRouter([
   {
@@ -122,6 +123,21 @@ const router = createBrowserRouter([
       {
         path: "/backofficecars",
         element: <BackOfficeCars />,
+      },
+      {
+        path: "/backofficemodifcar/:carId",
+        element: <BackOfficeModifCar />,
+        loader: async ({ params }) => {
+          try {
+            const data = await apiService.get(
+              `http://localhost:3310/api/vehicle/${params.carId}`
+            );
+            return { preloadedCarData: data };
+          } catch (error) {
+            // TODO: redirect to other page
+            return null;
+          }
+        },
       },
     ],
   },
