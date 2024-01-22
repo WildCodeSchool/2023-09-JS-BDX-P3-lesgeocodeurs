@@ -9,27 +9,34 @@ import apiService from "../services/api.service";
 
 export default function BackOfficeUtilisateur() {
   const [userData, setUserData] = useState([]);
-  const { deleteUser } = useTheContext();
-  const navigate = useNavigate(); // Utilisation de useNavigate pour la navigation
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await apiService.get(
-          `http://localhost:3310/api/users`
-        );
-        setUserData(response);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des données :", error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const { deleteUserAdmin } = useTheContext();
+  const navigate = useNavigate();
+  // Utilisation de useNavigate pour la navigation
+  const fetchData = async () => {
+    try {
+      const response = await apiService.get(`http://localhost:3310/api/users`);
+      setUserData(response);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des données :", error);
+    }
+  };
 
   const handleEdit = (userId) => {
     navigate(`/backofficemodifprofil/${userId}`); // Utilisation de navigate pour la redirection
   };
+
+  const handleDelete = async (userId) => {
+    try {
+      await deleteUserAdmin(userId);
+      fetchData();
+    } catch (error) {
+      console.error("Erreur lors de la suppresion de l'utilisateur :", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const columns = [
     "id",
@@ -51,7 +58,7 @@ export default function BackOfficeUtilisateur() {
       user.postal_code,
       user.city,
       <FontAwesomeIcon icon={faEdit} onClick={() => handleEdit(user.id)} />,
-      <FontAwesomeIcon icon={faTrash} onClick={() => deleteUser(user.id)} />,
+      <FontAwesomeIcon icon={faTrash} onClick={() => handleDelete(user.id)} />,
     ]) ?? [];
 
   const basicData = { columns, rows };

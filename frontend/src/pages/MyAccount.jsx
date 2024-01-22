@@ -43,7 +43,14 @@ export default function MyAccount() {
               <p>&rarr;</p>
             </MDBBtn>
           </Link>
-
+          {user && user.is_admin ? (
+            <Link to="/backofficeaccueil">
+              <MDBBtn className="buttonprofil" color="light" rippleColor="dark">
+                <p>BackOffice</p>
+                <p>&rarr;</p>
+              </MDBBtn>
+            </Link>
+          ) : null}
           <Link to="/">
             <MDBBtn
               className="buttonprofil"
