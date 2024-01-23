@@ -71,7 +71,7 @@ class UserManager extends AbstractManager {
   // TODO: Implement the delete operation to remove an user by its ID
 
   async delete(id) {
-    const [result] = await this.database.query(
+    const result = await this.database.query(
       `DELETE FROM ${this.table} WHERE id = ?`,
       [id]
     );

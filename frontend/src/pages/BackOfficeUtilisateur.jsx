@@ -4,14 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import NavBarBackOffice from "../components/NavBarBackOffice";
-import { useTheContext } from "../context/Context";
 import apiService from "../services/api.service";
 
 export default function BackOfficeUtilisateur() {
-  // const loaderData = useLoaderData();
-  const { logout } = useTheContext();
+  const [userData, setUserData] = useState(null);
 
-  const [userData, setUserData] = useState([]);
   // const { deleteUserAdmin } = useTheContext();
   const navigate = useNavigate();
   // Utilisation de useNavigate pour la navigation
@@ -64,7 +61,7 @@ export default function BackOfficeUtilisateur() {
     try {
       await apiService.delete(`http://localhost:3310/api/users/${userId}`);
       // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
-      await logout();
+
       // ...
       // Réinitialiser l'ID du véhicule à supprimer
       setUserToDelete(null);
@@ -72,8 +69,9 @@ export default function BackOfficeUtilisateur() {
       setConfirmedDelete(true);
       // Fermer la boîte de dialogue après la suppression réussie
       alert("Votre compte a bien été supprimé");
+      fetchData();
     } catch (error) {
-      console.error("Error deleting car:", error);
+      console.error("Error deleting user:", error);
     }
     cancelDeleteUser();
   };
@@ -118,7 +116,7 @@ export default function BackOfficeUtilisateur() {
       {showConfirmation && (
         <div className="confirmation-dialog" style={dialogStyle}>
           <p>Voulez-vous vraiment supprimer votre compte ?</p>
-          <MDBBtn size="sm" onClick={confirmDeleteUser}>
+          <MDBBtn size="sm" onClick={() => confirmDeleteUser(userToDelete)}>
             Oui
           </MDBBtn>
           <MDBBtn size="sm" onClick={cancelDeleteUser}>
