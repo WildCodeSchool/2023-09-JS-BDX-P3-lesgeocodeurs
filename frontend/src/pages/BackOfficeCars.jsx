@@ -73,7 +73,6 @@ export default function BackOfficeCars() {
 
   return (
     <div className="backofficeutilisateur_container">
-      <h1>BackOffice Véhicules</h1>
       <NavBarBackOffice />
 
       <div className="backoffidata">
