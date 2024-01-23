@@ -59,7 +59,7 @@ export default function BAckOfficeAccueil() {
 
   return (
     <div className="backofficeaccueil_container">
-      <h1>BackOffice Acceuil</h1>
+      <h1>Bienvenu dans votre BackOffice !</h1>
       <NavBarBackOffice />
 
       <div className="dashboard_container">
