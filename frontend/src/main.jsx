@@ -44,7 +44,7 @@ const router = createBrowserRouter([
       {
         path: "/map",
         element: <MapPage />,
-        loader: async () => apiService.get("http://localhost:3310/api/station"),
+        // loader: async () => apiService.get("http://localhost:3310/api/station"),
       },
       {
         path: "/myaccount",

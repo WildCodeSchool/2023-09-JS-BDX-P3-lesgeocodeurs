@@ -19,7 +19,7 @@ export default function Places({ setFocus }) {
 
     const results = await getGeocode({ address: val });
     const { lat, lng } = await getLatLng(results[0]);
-    setFocus({ lat, lng }, 10);
+    setFocus({ lat, lng }, 13);
   };
 
   const onSearch = (value1) => setValue(value1);
