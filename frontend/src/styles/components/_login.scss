@@ -10,8 +10,10 @@
 
 @media only screen and (min-width: 768px) {
   .login-form {
-    margin: 9% 10% 0 10%;
+    margin: 0 10% 0 10%;
     display: block;
+    border-left: 1px solid #f0f0f0;
+    border-right: 1px solid #f0f0f0;
     button {
       margin-inline: auto;
       display: block;
