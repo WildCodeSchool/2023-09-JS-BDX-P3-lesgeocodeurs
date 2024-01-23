@@ -28,6 +28,11 @@ import NewCar from "./pages/NewCar";
 import NewReservation from "./pages/NewReservation";
 import BackOfficeModifCar from "./pages/BackOfficeModifCar";
 
+const admingoat = async () => {
+  const isAdmin = await apiService.get(`http://localhost:3310/api/isadmin`);
+  console.info(isAdmin);
+};
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -95,6 +100,10 @@ const router = createBrowserRouter([
       {
         path: "/backofficeutilisateur",
         element: <BackOfficeUtilisateur />,
+        loader: async () => {
+          const test = await admingoat();
+          console.info(test);
+        },
       },
       {
         path: "/backofficeaccueil",
