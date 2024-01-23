@@ -178,9 +178,7 @@ export function ContextProvider({ children }) {
     completeCar.user_id = token.id;
     try {
       await axios.post(`http://localhost:3310/api/vehicle`, completeCar);
-      if (user) {
-        navigate("/cars");
-      } else {
+      if (!user.brand) {
         navigate("/myaccount");
       }
     } catch (err) {

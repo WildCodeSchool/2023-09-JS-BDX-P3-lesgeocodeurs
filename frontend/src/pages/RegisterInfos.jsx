@@ -93,7 +93,7 @@ export default function RegisterInfos() {
             onClick={() => editUser(formData)}
             className="mb-4"
             block
-            /* disabled={formErrors.length !== 0} */
+            disabled={formErrors.length !== 0}
           >
             Suivant
           </MDBBtn>

@@ -70,7 +70,7 @@ export default function Register() {
           className="mb-4"
           block
           onClick={() => register(formData)}
-          /* disabled={formErrors.length !== 0} */
+          disabled={formErrors.length !== 0}
         >
           Suivant
         </MDBBtn>

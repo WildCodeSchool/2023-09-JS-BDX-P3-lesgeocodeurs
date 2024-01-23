@@ -1,5 +1,6 @@
 import { MDBInput, MDBBtn, MDBSelect } from "mdb-react-ui-kit";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { useTheContext } from "../context/Context";
 
@@ -70,15 +71,16 @@ export default function NewCar() {
           }))}
           onValueChange={handleSelect}
         />
-
-        <MDBBtn
-          type="submit"
-          className="mb-4"
-          block
-          onClick={() => createNewCar(vFormData)}
-        >
-          Enregistrer le nouveau véhicule
-        </MDBBtn>
+        <Link to="/newcar">
+          <MDBBtn
+            type="submit"
+            className="mb-4"
+            block
+            onClick={() => createNewCar(vFormData)}
+          >
+            Enregistrer le nouveau véhicule
+          </MDBBtn>
+        </Link>
       </div>
     </div>
   );
