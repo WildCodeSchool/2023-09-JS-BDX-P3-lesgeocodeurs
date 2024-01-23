@@ -50,7 +50,7 @@ class StationManager extends AbstractManager {
     const [rows] = await this.database.query(
       `select * from ${this.table} 
           where latitude between ? and ? and longitude between ? and ? 
-          limit 100`,
+          limit 100000`,
       [south, north, west, east]
     );
     const result = rows.map((row) => ({

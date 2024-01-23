@@ -1,4 +1,4 @@
-import { GoogleMap, MarkerClustererF, MarkerF } from "@react-google-maps/api";
+import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useGeolocated } from "react-geolocated";
 import { MDBBtn } from "mdb-react-ui-kit";
@@ -94,21 +94,16 @@ export default function Map(/* { stations } */) {
             />
           )}
           {stations?.length > 0 && (
-            <MarkerClustererF>
-              {(clusterer) => (
-                <>
-                  {stations.map((station) => (
-                    <Station
-                      key={station.id}
-                      station={station}
-                      clusterer={clusterer}
-                      setSelectedStation={setSelectedStation}
-                      setChargingPoints={setChargingPoints}
-                    />
-                  ))}
-                </>
-              )}
-            </MarkerClustererF>
+            <>
+              {stations.map((station) => (
+                <Station
+                  key={station.id}
+                  station={station}
+                  setSelectedStation={setSelectedStation}
+                  setChargingPoints={setChargingPoints}
+                />
+              ))}
+            </>
           )}
         </GoogleMap>
       </div>

@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 
 export default function Station({
   station,
-  clusterer,
   setSelectedStation,
   setChargingPoints,
 }) {
@@ -31,7 +30,6 @@ export default function Station({
         lng: station.longitude,
       }}
       onClick={handleClick}
-      clusterer={clusterer}
     />
   );
 }
@@ -42,7 +40,6 @@ Station.propTypes = {
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
   }).isRequired,
-  clusterer: PropTypes.shape().isRequired,
   setSelectedStation: PropTypes.func.isRequired,
   setChargingPoints: PropTypes.func.isRequired,
 };
