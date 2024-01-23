@@ -34,14 +34,30 @@ class StationManager extends AbstractManager {
   }
 
   async readAll() {
-    // Execute the SQL SELECT query to retrieve all users from the "user" table
-    const [rows] = await this.database.query(`select * from ${this.table}`);
+    const [rows] = await this.database.query(
+      `select * from ${this.table} limit 1000`
+    );
     const result = rows.map((row) => ({
       ...row,
       latitude: parseFloat(row.latitude),
       longitude: parseFloat(row.longitude),
     }));
-    // Return the array of users
+    return result;
+  }
+
+  async readByBounds(bounds) {
+    const { south, north, west, east } = bounds;
+    const [rows] = await this.database.query(
+      `select * from ${this.table} 
+          where latitude between ? and ? and longitude between ? and ? 
+          limit 100`,
+      [south, north, west, east]
+    );
+    const result = rows.map((row) => ({
+      ...row,
+      latitude: parseFloat(row.latitude),
+      longitude: parseFloat(row.longitude),
+    }));
     return result;
   }
 
