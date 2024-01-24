@@ -62,6 +62,7 @@ export default function BackOfficeUtilisateur() {
     ]) ?? [];
 
   const basicData = { columns, rows };
+
   return (
     <div className="backofficeutilisateur_container">
       <NavBarBackOffice />

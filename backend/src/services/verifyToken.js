@@ -42,7 +42,12 @@ const verifyAdminToken = async (req, res, next) => {
   return null;
 };
 
+const validateAdminToken = async (req, res) => {
+  return res.status(200).json({ message: "ok" });
+};
+
 module.exports = {
   verifyToken,
   verifyAdminToken,
+  validateAdminToken,
 };

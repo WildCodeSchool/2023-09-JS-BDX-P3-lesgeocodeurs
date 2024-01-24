@@ -28,9 +28,23 @@ import NewCar from "./pages/NewCar";
 import NewReservation from "./pages/NewReservation";
 import BackOfficeModifCar from "./pages/BackOfficeModifCar";
 
-const admingoat = async () => {
-  const isAdmin = await apiService.get(`http://localhost:3310/api/isadmin`);
-  console.info(isAdmin);
+const returnAdmin = async () => {
+  try {
+    const res = await apiService.get(`http://localhost:3310/api/isadmin`);
+
+    if (res.message === "ok") {
+      console.info(res.message);
+      return res.message;
+    }
+    if (res.satus === 403) {
+      throw new Response("vtff", { status: 403 });
+    }
+  } catch (error) {
+    console.error(error);
+  }
+
+  console.info("non");
+  return null;
 };
 
 const router = createBrowserRouter([
@@ -100,10 +114,8 @@ const router = createBrowserRouter([
       {
         path: "/backofficeutilisateur",
         element: <BackOfficeUtilisateur />,
-        loader: async () => {
-          const test = await admingoat();
-          console.info(test);
-        },
+        loader: async () => returnAdmin(),
+        fallback: <Home />, // Utilisation de fallback pour rediriger vers Home en cas d'erreur
       },
       {
         path: "/backofficeaccueil",
