@@ -31,6 +31,7 @@ router.get("/userscount", userControllers.usersCount);
 router.get("/vehiclecount", vehicleControllers.vehicleCount);
 router.get("/chargingpointcount", chargingpointControllers.chargingpointCount);
 router.post("/station/bounds", stationControllers.getByBounds);
+router.post("/station/clusters", stationControllers.getClusters);
 
 // Route to get a specific item by ID
 router.get("/users/:id", verifyToken.verifyToken, userControllers.read);

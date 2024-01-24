@@ -47,10 +47,11 @@ export default function Map(/* { stations } */) {
   };
 
   const handleMove = async () => {
+    console.info(mapRef.current?.getZoom());
     const bounds = mapRef.current?.getBounds().toJSON();
     console.info(bounds);
     const newStations = await apiService.post(
-      "http://localhost:3310/api/station/bounds",
+      "http://localhost:3310/api/station/clusters",
       bounds
     );
     console.info(newStations);
@@ -97,7 +98,7 @@ export default function Map(/* { stations } */) {
             <>
               {stations.map((station) => (
                 <Station
-                  key={station.id}
+                  // key={station.id}
                   station={station}
                   setSelectedStation={setSelectedStation}
                   setChargingPoints={setChargingPoints}
