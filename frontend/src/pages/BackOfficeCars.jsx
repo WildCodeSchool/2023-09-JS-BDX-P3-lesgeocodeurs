@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -10,6 +9,13 @@ import apiService from "../services/api.service";
 
 export default function BackOfficeCars() {
   const [userData, setUserData] = useState([]);
+  const [plugTypes, setPlugTypes] = useState([]);
+  // État pour gérer l'affichage de la boîte de dialogue de confirmation
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  // État pour stocker l'ID du véhicule à supprimer
+  const [carToDelete, setCarToDelete] = useState(null);
+  const [confirmedDelete, setConfirmedDelete] = useState(false);
+
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -21,21 +27,20 @@ export default function BackOfficeCars() {
     }
   };
 
-  fetchData();
+  const fetchPlugTypes = async () => {
+    try {
+      const response = await axios.get("http://localhost:3310/api/plugTypes");
+      setPlugTypes(response.data);
+    } catch (error) {
+      console.error("Error fetching plug types:", error);
+    }
+  };
 
-  const [plugTypes, setPlugTypes] = useState([]);
   useEffect(() => {
-    const fetchPlugTypes = async () => {
-      try {
-        const response = await axios.get("http://localhost:3310/api/plugTypes");
-        setPlugTypes(response.data);
-      } catch (error) {
-        console.error("Error fetching plug types:", error);
-      }
-    };
-
     fetchPlugTypes();
+    fetchData();
   }, []);
+
   function getPlugTypeName(plugTypeId) {
     const plugType = plugTypes.find((type) => type.id === plugTypeId);
     return plugType ? plugType.name : "Type inconnu";
@@ -45,25 +50,24 @@ export default function BackOfficeCars() {
     navigate(`/backofficemodifcar/${carId}`); // Utilisation de navigate pour la redirection
   };
 
-  // État pour gérer l'affichage de la boîte de dialogue de confirmation
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  // État pour stocker l'ID du véhicule à supprimer
-  const [carToDelete, setCarToDelete] = useState(null);
-  const [confirmedDelete, setConfirmedDelete] = useState(false);
   console.info(confirmedDelete, carToDelete);
+
   // Fonction pour ouvrir la boîte de dialogue de confirmation
   const openConfirmationDialog = (carId) => {
     setCarToDelete(carId);
     setShowConfirmation(true);
   };
+
   const cancelDeleteCar = () => {
     // Annuler la suppression en fermant la boîte de dialogue
     setShowConfirmation(false);
   };
 
-  const confirmDeleteCar = async (carId) => {
+  const confirmDeleteCar = async () => {
     try {
-      await apiService.delete(`http://localhost:3310/api/users/${carId}`);
+      await apiService.delete(
+        `http://localhost:3310/api/vehicle/${carToDelete}`
+      );
       // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
 
       // ...
@@ -73,6 +77,7 @@ export default function BackOfficeCars() {
       setConfirmedDelete(true);
       // Fermer la boîte de dialogue après la suppression réussie
       alert("Votre vehicle a bien été supprimé");
+      fetchData();
     } catch (error) {
       console.error("Error deleting user:", error);
     }
@@ -105,6 +110,7 @@ export default function BackOfficeCars() {
     textAlign: "center",
   });
   console.info(setDialogStyle);
+
   const basicData = { columns, rows };
 
   return (

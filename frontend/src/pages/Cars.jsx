@@ -14,25 +14,42 @@ export default function Cars() {
   function rtn() {
     window.history.back();
   }
+
   const [plugTypes, setPlugTypes] = useState([]);
-  useEffect(() => {
-    const fetchPlugTypes = async () => {
-      try {
-        const response = await axios.get("http://localhost:3310/api/plugTypes");
-        setPlugTypes(response.data);
-      } catch (error) {
-        console.error("Error fetching plug types:", error);
-      }
-    };
-
-    fetchPlugTypes();
-  }, []);
-
   // État pour gérer l'affichage de la boîte de dialogue de confirmation
   const [showConfirmation, setShowConfirmation] = useState(false);
   // État pour stocker l'ID du véhicule à supprimer
   const [vehicleToDelete, setVehicleToDelete] = useState(null);
   const [confirmedDelete, setConfirmedDelete] = useState(false);
+  const [vehicles, setVehicles] = useState([]);
+
+  const fetchData = async () => {
+    const jwtToken = localStorage.getItem("token");
+    const token = jwtDecode(jwtToken);
+    try {
+      const response = await axios.get(
+        `http://localhost:3310/api/vehicle/users/${token.id}`
+      );
+      setVehicles(response.data);
+    } catch (error) {
+      console.error("Error fetching vehicles:", error);
+    }
+  };
+
+  const fetchPlugTypes = async () => {
+    try {
+      const response = await axios.get("http://localhost:3310/api/plugTypes");
+      setPlugTypes(response.data);
+    } catch (error) {
+      console.error("Error fetching plug types:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPlugTypes();
+    fetchData();
+  }, []);
+
   // Fonction pour ouvrir la boîte de dialogue de confirmation
   const openConfirmationDialog = (carId) => {
     setVehicleToDelete(carId);
@@ -69,23 +86,6 @@ export default function Cars() {
     const plugType = plugTypes.find((type) => type.id === plugTypeId);
     return plugType ? plugType.name : "Type inconnu";
   }
-
-  const [vehicles, setVehicles] = useState([]);
-
-  const fetchData = async () => {
-    const jwtToken = localStorage.getItem("token");
-    const token = jwtDecode(jwtToken);
-    try {
-      const response = await axios.get(
-        `http://localhost:3310/api/vehicle/users/${token.id}`
-      );
-      setVehicles(response.data);
-    } catch (error) {
-      console.error("Error fetching vehicles:", error);
-    }
-  };
-
-  fetchData();
 
   // Position de la boîte de dialogue de confirmation
   const [dialogStyle, setDialogStyle] = useState({
