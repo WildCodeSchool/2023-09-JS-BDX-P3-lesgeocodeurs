@@ -11,7 +11,9 @@ export default function Station({
   const fetchChargingPoints = async (stationId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3310/api/chargingpoint?station_id=${stationId}`
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/chargingpoint?station_id=${stationId}`
       );
       setChargingPoints(response.data);
     } catch (err) {

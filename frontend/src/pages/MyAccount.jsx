@@ -33,7 +33,9 @@ export default function MyAccount() {
     const jwtToken = apiService.getToken();
     const token = jwtDecode(jwtToken);
     try {
-      await apiService.delete(`http://localhost:3310/api/users/${token.id}`);
+      await apiService.delete(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/${token.id}`
+      );
       // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
       await logout();
       // ...

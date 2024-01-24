@@ -19,7 +19,7 @@ export default function BackOfficeModifCar() {
   const editCar = async (newData) => {
     try {
       const response = await apiService.put(
-        `http://localhost:3310/api/vehicle/${carId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/${carId}`,
         newData
       );
       console.info(response);
@@ -49,7 +49,9 @@ export default function BackOfficeModifCar() {
   useEffect(() => {
     const fetchPlugTypes = async () => {
       try {
-        const response = await axios.get("http://localhost:3310/api/plugtypes");
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/plugtypes`
+        );
         setPlugTypes(response.data);
       } catch (error) {
         console.error("Error fetching plug types:", error);

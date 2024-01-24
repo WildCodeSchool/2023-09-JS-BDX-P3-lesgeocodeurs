@@ -50,7 +50,7 @@ export default function Map(/* { stations } */) {
     const bounds = mapRef.current?.getBounds().toJSON();
     console.info(bounds);
     const newStations = await apiService.post(
-      "http://localhost:3310/api/station/bounds",
+      `${import.meta.env.VITE_BACKEND_URL}/api/station/bounds`,
       bounds
     );
     console.info(newStations);

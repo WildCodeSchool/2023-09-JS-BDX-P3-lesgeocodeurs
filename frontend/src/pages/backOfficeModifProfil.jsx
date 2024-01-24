@@ -22,7 +22,7 @@ export default function BackOfficeModifProfil() {
   //   const fetchData = async () => {
   //     try {
   //       const response = await apiService.get(
-  //         `http://localhost:3310/api/users/${userId}`
+  //         `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`
   //       );
   //       console.log(response);
   //       setModifProfil(response.data);
@@ -41,7 +41,7 @@ export default function BackOfficeModifProfil() {
   const editNewProfil = async (newData) => {
     try {
       const response = await apiService.put(
-        `http://localhost:3310/api/users/${userId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`,
         newData
       );
       console.info(response);

@@ -28,7 +28,7 @@ export default function Cars() {
     const token = jwtDecode(jwtToken);
     try {
       const response = await axios.get(
-        `http://localhost:3310/api/vehicle/users/${token.id}`
+        `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/users/${token.id}`
       );
       setVehicles(response.data);
     } catch (error) {
@@ -38,7 +38,9 @@ export default function Cars() {
 
   const fetchPlugTypes = async () => {
     try {
-      const response = await axios.get("http://localhost:3310/api/plugTypes");
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/plugTypes`
+      );
       setPlugTypes(response.data);
     } catch (error) {
       console.error("Error fetching plug types:", error);
@@ -66,7 +68,7 @@ export default function Cars() {
   const confirmDeleteCar = async () => {
     try {
       await axios.delete(
-        `http://localhost:3310/api/vehicle/${vehicleToDelete}`
+        `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/${vehicleToDelete}`
       );
       // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
       // ...

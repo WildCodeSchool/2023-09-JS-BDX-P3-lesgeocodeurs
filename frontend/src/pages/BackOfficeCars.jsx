@@ -20,7 +20,9 @@ export default function BackOfficeCars() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://localhost:3310/api/vehicle`);
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/vehicle`
+      );
       setUserData(response.data);
     } catch (error) {
       console.error("Erreur lors de la récupération des données :", error);
@@ -29,7 +31,9 @@ export default function BackOfficeCars() {
 
   const fetchPlugTypes = async () => {
     try {
-      const response = await axios.get("http://localhost:3310/api/plugTypes");
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/plugTypes`
+      );
       setPlugTypes(response.data);
     } catch (error) {
       console.error("Error fetching plug types:", error);
@@ -66,7 +70,7 @@ export default function BackOfficeCars() {
   const confirmDeleteCar = async () => {
     try {
       await apiService.delete(
-        `http://localhost:3310/api/vehicle/${carToDelete}`
+        `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/${carToDelete}`
       );
       // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
 

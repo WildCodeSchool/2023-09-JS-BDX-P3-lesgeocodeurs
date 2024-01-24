@@ -14,7 +14,9 @@ export default function BackOfficeUtilisateur() {
   // Utilisation de useNavigate pour la navigation
   const fetchData = async () => {
     try {
-      const response = await apiService.get(`http://localhost:3310/api/users`);
+      const response = await apiService.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users`
+      );
       setUserData(response);
     } catch (error) {
       console.error("Erreur lors de la récupération des données :", error);
@@ -59,7 +61,9 @@ export default function BackOfficeUtilisateur() {
   // Fonction pour confirmer la suppression du véhicule
   const confirmDeleteUser = async (userId) => {
     try {
-      await apiService.delete(`http://localhost:3310/api/users/${userId}`);
+      await apiService.delete(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`
+      );
       // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
 
       // ...
