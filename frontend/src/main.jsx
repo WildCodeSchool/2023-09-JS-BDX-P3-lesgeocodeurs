@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ContextProvider } from "./context/Context";
 import apiService from "./services/api.service";
-// import functionsService from "./services/functions.service";
+import functionsService from "./services/functions.service";
 import "./styles/index.scss";
 
 import App from "./App";
@@ -27,25 +27,7 @@ import BackOfficeCars from "./pages/BackOfficeCars";
 import NewCar from "./pages/NewCar";
 import NewReservation from "./pages/NewReservation";
 import BackOfficeModifCar from "./pages/BackOfficeModifCar";
-
-const returnAdmin = async () => {
-  try {
-    const res = await apiService.get(`http://localhost:3310/api/isadmin`);
-
-    if (res.message === "ok") {
-      console.info(res.message);
-      return res.message;
-    }
-    if (res.satus === 403) {
-      throw new Response("vtff", { status: 403 });
-    }
-  } catch (error) {
-    console.error(error);
-  }
-
-  console.info("non");
-  return null;
-};
+import BackOfficeManager from "./components/BackOfficeManager";
 
 const router = createBrowserRouter([
   {
@@ -112,53 +94,58 @@ const router = createBrowserRouter([
         element: <ModifProfil />,
       },
       {
-        path: "/backofficeutilisateur",
-        element: <BackOfficeUtilisateur />,
-        loader: async () => returnAdmin(),
-        fallback: <Home />, // Utilisation de fallback pour rediriger vers Home en cas d'erreur
+        path: "/backoffice",
+        element: <BackOfficeManager />,
+        loader: async () => functionsService.returnAdmin(),
+        children: [
+          {
+            path: "/backoffice/utilisateur",
+            element: <BackOfficeUtilisateur />,
+          },
+          {
+            path: "/backoffice/accueil",
+            element: <BackOfficeAccueil />,
+          },
+          {
+            path: "/backofficemodifprofil/:userId",
+            element: <BackOfficeModifProfil />,
+            loader: async ({ params }) => {
+              try {
+                const data = await apiService.get(
+                  `http://localhost:3310/api/users/${params.userId}`
+                );
+                return { preloadedUserData: data };
+              } catch (error) {
+                // TODO: redirect to other page
+                return null;
+              }
+            },
+          },
+          {
+            path: "/backoffice/cars",
+            element: <BackOfficeCars />,
+          },
+          {
+            path: "/backoffice/modifcar/:carId",
+            element: <BackOfficeModifCar />,
+            loader: async ({ params }) => {
+              try {
+                const data = await apiService.get(
+                  `http://localhost:3310/api/vehicle/${params.carId}`
+                );
+                return { preloadedCarData: data };
+              } catch (error) {
+                // TODO: redirect to other page
+                return null;
+              }
+            },
+          },
+        ],
       },
-      {
-        path: "/backofficeaccueil",
-        element: <BackOfficeAccueil />,
-      },
-      {
-        path: "/backofficemodifprofil/:userId",
-        element: <BackOfficeModifProfil />,
-        loader: async ({ params }) => {
-          try {
-            const data = await apiService.get(
-              `http://localhost:3310/api/users/${params.userId}`
-            );
 
-            return { preloadedUserData: data };
-          } catch (error) {
-            // TODO: redirect to other page
-            return null;
-          }
-        },
-      },
       {
         path: "/makereservation",
         element: <MakeReservation />,
-      },
-      {
-        path: "/backofficecars",
-        element: <BackOfficeCars />,
-      },
-      {
-        path: "/backofficemodifcar/:carId",
-        element: <BackOfficeModifCar />,
-        loader: async ({ params }) => {
-          try {
-            const data = await apiService.get(
-              `http://localhost:3310/api/vehicle/${params.carId}`
-            );
-            return { preloadedCarData: data };
-          } catch (error) {
-            // TODO: redirect to other page
-            return null;
-          }
-        },
       },
     ],
   },

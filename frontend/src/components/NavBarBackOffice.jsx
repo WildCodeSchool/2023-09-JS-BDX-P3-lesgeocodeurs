@@ -17,7 +17,7 @@ export default function NavBarBackOffice() {
     <div>
       <MDBNavbar expand="lg" light bgColor="light">
         <MDBContainer fluid>
-          <MDBNavbarBrand className="title_back" href="/BackOfficeAccueil">
+          <MDBNavbarBrand className="title_back" href="/backoffice/accueil">
             Back Office
           </MDBNavbarBrand>
           <MDBNavbarToggler
@@ -32,13 +32,13 @@ export default function NavBarBackOffice() {
                 <MDBNavbarLink
                   active
                   aria-current="page"
-                  href="/BackOfficeUtilisateur"
+                  href="/backoffice/utilisateur"
                 >
                   Utilisateurs
                 </MDBNavbarLink>
               </MDBNavbarItem>
               <MDBNavbarItem>
-                <MDBNavbarLink href="/BackOfficeCars">Véhicules</MDBNavbarLink>
+                <MDBNavbarLink href="/backoffice/cars">Véhicules</MDBNavbarLink>
               </MDBNavbarItem>
             </MDBNavbarNav>
           </MDBCollapse>
