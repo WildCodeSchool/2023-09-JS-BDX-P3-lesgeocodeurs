@@ -66,7 +66,7 @@ export default function NewReservation() {
     };
     // Ajoutez ici la logique pour traiter le rendez-vous
     await apiService.post(
-      "http://localhost:3310/api/reservation",
+      `${import.meta.env.VITE_BACKEND_URL}/api/reservation`,
       newReservation
     );
     navigate("/reservation");

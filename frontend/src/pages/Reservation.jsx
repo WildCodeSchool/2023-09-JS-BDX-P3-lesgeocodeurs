@@ -19,7 +19,7 @@ export default function Reservation() {
     const token = jwtDecode(jwtToken);
     try {
       const { data } = await axios.get(
-        `http://localhost:3310/api/reservation/users/${token.id}`
+        `${import.meta.env.VITE_BACKEND_URL}/api/reservation/users/${token.id}`
       );
       setReservations(
         data
@@ -47,7 +47,9 @@ export default function Reservation() {
     .sort((a, b) => b.datetime - a.datetime);
 
   const handleCancel = async (id) => {
-    await apiService.put(`http://localhost:3310/api/reservation/cancel/${id}`);
+    await apiService.put(
+      `${import.meta.env.VITE_BACKEND_URL}/api/reservation/cancel/${id}`
+    );
     fetchData();
   };
 
