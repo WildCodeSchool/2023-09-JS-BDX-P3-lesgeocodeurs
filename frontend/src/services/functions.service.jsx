@@ -10,6 +10,18 @@ class FunctionsService {
   static fetchStations = async () => {
     apiService.get(`${import.meta.env.VITE_BACKEND_URL}/api/station`);
   };
+
+  static returnAdmin = async () => {
+    try {
+      const res = await apiService.get(`http://localhost:3310/api/isadmin`);
+      if (res.message === "ok") {
+        return res.message;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    return null;
+  };
 }
 
 const functionsService = new FunctionsService();
