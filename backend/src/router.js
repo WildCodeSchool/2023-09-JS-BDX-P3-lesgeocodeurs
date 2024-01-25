@@ -72,7 +72,11 @@ router.put("/reservation/cancel/:id", reservationControllers.cancel);
 router.post("/users/login", userControllers.login);
 
 router.get("/modifprofil/users/:id", userControllers.edit);
-router.get("/isadmin", verifyToken.verifyAdminToken);
+router.get(
+  "/isadmin",
+  verifyToken.verifyAdminToken,
+  verifyToken.validateAdminToken
+);
 
 /* ************************************************************************* */
 

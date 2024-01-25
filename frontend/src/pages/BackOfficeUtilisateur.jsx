@@ -109,6 +109,7 @@ export default function BackOfficeUtilisateur() {
   console.info(setDialogStyle);
 
   const basicData = { columns, rows };
+
   return (
     <div className="backofficeutilisateur_container">
       <NavBarBackOffice />
