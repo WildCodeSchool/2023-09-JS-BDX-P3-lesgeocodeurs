@@ -72,10 +72,10 @@ export default function Map() {
   /* eslint-enable */
 
   return (
-    <>
-      <div className="map">
+    <div className="map-page">
+      <div className="map-container">
         {/* Barre de recherche et géolocalisation */}
-        <div className="map-controls" style={{ display: "flex" }}>
+        <div className="map-controls">
           <Places setFocus={setFocus} />
           <MDBBtn onClick={handleCenter}>
             <span className="material-symbols-outlined">my_location</span>
@@ -136,6 +136,6 @@ export default function Map() {
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 }

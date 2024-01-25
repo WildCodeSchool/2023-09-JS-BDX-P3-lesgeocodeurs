@@ -11,9 +11,7 @@ function App() {
 
   return (
     <div>
-      <div className="global-container-outlet">
-        <Outlet />
-      </div>
+      <Outlet />
       <NavBar />
     </div>
   );

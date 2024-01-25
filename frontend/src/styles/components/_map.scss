@@ -1,17 +1,60 @@
-.map {
-  position: fixed;
-  height: 90vh;
-  width: 100%;
-}
+.map-page {
+  .map-container {
+    position: fixed;
+    width: 100%;
+  }
 
-.station-modal {
-  z-index: 1;
-  position: absolute;
-  top: calc(100% - 200px);
-  background-color: white;
-  min-height: 250px;
-  width: 100%;
-  border-radius: 30px 30px 0 0;
-  padding: 30px;
-  padding-bottom: 100px;
+  .map-controls {
+    display: flex;
+    position: fixed;
+    z-index: 1;
+    gap: 10px;
+    padding: 10px;
+    background: none;
+    left: 0px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .form-outline {
+    background: white;
+    width: 250px;
+  }
+
+  .map {
+    height: 90vh;
+  }
+
+  .station-modal {
+    z-index: 1;
+    position: absolute;
+    top: calc(100% - 200px);
+    background-color: white;
+    min-height: 250px;
+    width: 100%;
+    border-radius: 30px 30px 0 0;
+    padding: 30px;
+    padding-bottom: 100px;
+  }
+
+  @media screen and (min-width: 768px) {
+    .map-container {
+      margin-top: 70px;
+    }
+
+    .map-controls {
+      justify-content: flex-start;
+    }
+
+    .station-modal {
+      right: 0;
+      top: 70px;
+      width: 350px;
+      height: 100%;
+      border-radius: 0;
+      padding-bottom: 30px;
+      border-left: 1px solid lightgray;
+      z-index: 1;
+    }
+  }
 }
