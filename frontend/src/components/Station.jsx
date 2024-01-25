@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 
 export default function Station({
   station,
-  clusterer,
   setSelectedStation,
   setChargingPoints,
 }) {
+  // Fonction qui récupère les bornes d'une station
   const fetchChargingPoints = async (stationId) => {
     try {
       const response = await axios.get(
@@ -21,6 +21,7 @@ export default function Station({
     }
   };
 
+  // Quand on clique sur un marqueur, sélectionne la station et ses bornes
   const handleClick = () => {
     setSelectedStation(station);
     fetchChargingPoints(station.id);
@@ -33,7 +34,6 @@ export default function Station({
         lng: station.longitude,
       }}
       onClick={handleClick}
-      clusterer={clusterer}
     />
   );
 }
@@ -44,7 +44,6 @@ Station.propTypes = {
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
   }).isRequired,
-  clusterer: PropTypes.shape().isRequired,
   setSelectedStation: PropTypes.func.isRequired,
   setChargingPoints: PropTypes.func.isRequired,
 };

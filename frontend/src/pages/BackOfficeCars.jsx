@@ -51,7 +51,7 @@ export default function BackOfficeCars() {
   }
 
   const handleEditCar = (carId) => {
-    navigate(`/backofficemodifcar/${carId}`); // Utilisation de navigate pour la redirection
+    navigate(`/backoffice/modifcar/${carId}`); // Utilisation de navigate pour la redirection
   };
 
   console.info(confirmedDelete, carToDelete);

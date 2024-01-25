@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ContextProvider } from "./context/Context";
 import apiService from "./services/api.service";
-// import functionsService from "./services/functions.service";
+import FunctionsService from "./services/functions.service";
 import "./styles/index.scss";
 
 import App from "./App";
@@ -27,6 +27,7 @@ import BackOfficeCars from "./pages/BackOfficeCars";
 import NewCar from "./pages/NewCar";
 import NewReservation from "./pages/NewReservation";
 import BackOfficeModifCar from "./pages/BackOfficeModifCar";
+import BackOfficeManager from "./components/BackOfficeManager";
 
 const router = createBrowserRouter([
   {
@@ -105,63 +106,58 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "/backofficeutilisateur",
-        element: <BackOfficeUtilisateur />,
-        loader: async ({ params }) => {
-          try {
-            const data = await apiService.get(
-              `${import.meta.env.VITE_BACKEND_URL}/api/users/${params.userId}`
-            );
+        path: "/backoffice",
+        element: <BackOfficeManager />,
+        loader: async () => FunctionsService.returnAdmin(),
+        children: [
+          {
+            path: "/backoffice/utilisateur",
+            element: <BackOfficeUtilisateur />,
+          },
+          {
+            path: "/backoffice/accueil",
+            element: <BackOfficeAccueil />,
+          },
+          {
+            path: "/backoffice/modifprofil/:userId",
+            element: <BackOfficeModifProfil />,
+            loader: async ({ params }) => {
+              try {
+                const data = await apiService.get(
+                  `http://localhost:3310/api/users/${params.userId}`
+                );
+                return { preloadedUserData: data };
+              } catch (error) {
+                // TODO: redirect to other page
+                return null;
+              }
+            },
+          },
+          {
+            path: "/backoffice/cars",
+            element: <BackOfficeCars />,
+          },
+          {
+            path: "/backoffice/modifcar/:carId",
+            element: <BackOfficeModifCar />,
+            loader: async ({ params }) => {
+              try {
+                const data = await apiService.get(
+                  `http://localhost:3310/api/vehicle/${params.carId}`
+                );
+                return { preloadedCarData: data };
+              } catch (error) {
+                // TODO: redirect to other page
+                return null;
+              }
+            },
+          },
+        ],
+      },
 
-            return { preloadedUserData: data };
-          } catch (error) {
-            // TODO: redirect to other page
-            return null;
-          }
-        },
-      },
-      {
-        path: "/backofficeaccueil",
-        element: <BackOfficeAccueil />,
-      },
-      {
-        path: "/backofficemodifprofil/:userId",
-        element: <BackOfficeModifProfil />,
-        loader: async ({ params }) => {
-          try {
-            const data = await apiService.get(
-              `${import.meta.env.VITE_BACKEND_URL}/api/users/${params.userId}`
-            );
-
-            return { preloadedUserData: data };
-          } catch (error) {
-            // TODO: redirect to other page
-            return null;
-          }
-        },
-      },
       {
         path: "/makereservation",
         element: <MakeReservation />,
-      },
-      {
-        path: "/backofficecars",
-        element: <BackOfficeCars />,
-      },
-      {
-        path: "/backofficemodifcar/:carId",
-        element: <BackOfficeModifCar />,
-        loader: async ({ params }) => {
-          try {
-            const data = await apiService.get(
-              `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/${params.carId}`
-            );
-            return { preloadedCarData: data };
-          } catch (error) {
-            // TODO: redirect to other page
-            return null;
-          }
-        },
       },
     ],
   },

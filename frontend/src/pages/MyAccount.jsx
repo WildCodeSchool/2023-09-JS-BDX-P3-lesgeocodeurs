@@ -97,7 +97,7 @@ export default function MyAccount() {
           </MDBBtn>
         </Link>
         {user && user.is_admin ? (
-          <Link to="/backofficeaccueil">
+          <Link to="/backoffice/accueil">
             <MDBBtn className="buttonprofil" color="light" rippleColor="dark">
               <p>BackOffice</p>
               <p>&rarr;</p>
