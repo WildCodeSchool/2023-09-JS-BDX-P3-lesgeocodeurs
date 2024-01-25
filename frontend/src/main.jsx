@@ -28,6 +28,11 @@ import NewCar from "./pages/NewCar";
 import NewReservation from "./pages/NewReservation";
 import BackOfficeModifCar from "./pages/BackOfficeModifCar";
 
+const admingoat = async () => {
+  const isAdmin = await apiService.get(`http://localhost:3310/api/isadmin`);
+  console.info(isAdmin);
+};
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -107,17 +112,9 @@ const router = createBrowserRouter([
       {
         path: "/backofficeutilisateur",
         element: <BackOfficeUtilisateur />,
-        loader: async ({ params }) => {
-          try {
-            const data = await apiService.get(
-              `${import.meta.env.VITE_BACKEND_URL}/api/users/${params.userId}`
-            );
-
-            return { preloadedUserData: data };
-          } catch (error) {
-            // TODO: redirect to other page
-            return null;
-          }
+        loader: async () => {
+          const test = await admingoat();
+          console.info(test);
         },
       },
       {
