@@ -8,40 +8,57 @@ import {
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Cars() {
   function rtn() {
     window.history.back();
   }
+
   const [plugTypes, setPlugTypes] = useState([]);
-  const navigate = useNavigate();
-  useEffect(() => {
-    const fetchPlugTypes = async () => {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/plugTypes`
-        );
-        setPlugTypes(response.data);
-      } catch (error) {
-        console.error("Error fetching plug types:", error);
-      }
-    };
-
-    fetchPlugTypes();
-  }, []);
-
   // État pour gérer l'affichage de la boîte de dialogue de confirmation
   const [showConfirmation, setShowConfirmation] = useState(false);
   // État pour stocker l'ID du véhicule à supprimer
   const [vehicleToDelete, setVehicleToDelete] = useState(null);
   const [confirmedDelete, setConfirmedDelete] = useState(false);
-  console.info(confirmedDelete);
+  const [vehicles, setVehicles] = useState([]);
+
+  const fetchData = async () => {
+    const jwtToken = localStorage.getItem("token");
+    const token = jwtDecode(jwtToken);
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/users/${token.id}`
+      );
+      setVehicles(response.data);
+    } catch (error) {
+      console.error("Error fetching vehicles:", error);
+    }
+  };
+
+  const fetchPlugTypes = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/plugTypes`
+      );
+      setPlugTypes(response.data);
+    } catch (error) {
+      console.error("Error fetching plug types:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPlugTypes();
+    fetchData();
+  }, []);
+
   // Fonction pour ouvrir la boîte de dialogue de confirmation
   const openConfirmationDialog = (carId) => {
     setVehicleToDelete(carId);
     setShowConfirmation(true);
   };
+  console.info(confirmedDelete);
+
   const cancelDeleteCar = () => {
     // Annuler la suppression en fermant la boîte de dialogue
     setShowConfirmation(false);
@@ -60,6 +77,7 @@ export default function Cars() {
       // Marquer la confirmation de suppression
       setConfirmedDelete(true);
       // Fermer la boîte de dialogue après la suppression réussie
+      alert("Votre véhicule a bien été supprimé");
     } catch (error) {
       console.error("Error deleting car:", error);
     }
@@ -70,36 +88,7 @@ export default function Cars() {
     const plugType = plugTypes.find((type) => type.id === plugTypeId);
     return plugType ? plugType.name : "Type inconnu";
   }
-  const handleDeleteCar = async (carId) => {
-    try {
-      // Appeler l'API Backend pour supprimer le véhicule
-      await axios.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/${carId}`
-      );
-      navigate("/cars");
-      // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
-      // ...
-    } catch (error) {
-      console.error("Error deleting car:", error);
-    }
-  };
-  const [vehicles, setVehicles] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      const jwtToken = localStorage.getItem("token");
-      const token = jwtDecode(jwtToken);
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/users/${token.id}`
-        );
-        setVehicles(response.data);
-      } catch (error) {
-        console.error("Error fetching vehicles:", error);
-      }
-    };
 
-    fetchData();
-  }, [handleDeleteCar]);
   // Position de la boîte de dialogue de confirmation
   const [dialogStyle, setDialogStyle] = useState({
     position: "fixed",

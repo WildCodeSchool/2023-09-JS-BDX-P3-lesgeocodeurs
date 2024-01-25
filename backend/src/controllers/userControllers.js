@@ -107,11 +107,10 @@ const destroy = async (req, res, next) => {
   try {
     const result = await tables.user.delete(req.params.id);
     // const userDeleted = await tables.user.read(req.params.id);
-
     if (result.affectedRows === 0) {
-      res.sendStatus(200);
-    } else {
       res.sendStatus(404);
+    } else {
+      res.sendStatus(200);
     }
   } catch (err) {
     // Pass any errors to the error-handling middleware

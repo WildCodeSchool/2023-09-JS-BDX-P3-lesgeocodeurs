@@ -73,16 +73,18 @@ const add = async (req, res, next) => {
   }
 };
 
+// The D of BREAD - Destroy (Delete) operation
 const destroy = async (req, res, next) => {
   try {
-    await tables.vehicle.delete(req.params.id);
-    const vehicleDeleted = await tables.vehicle.read(req.params.id);
-    if (vehicleDeleted === null) {
-      res.sendStatus(200);
-    } else {
+    const result = await tables.vehicle.delete(req.params.id);
+    if (result.affectedRows === 0) {
       res.sendStatus(404);
+    } else {
+      res.sendStatus(200);
     }
   } catch (err) {
+    // Pass any errors to the error-handling middleware
+    console.error(err);
     next(err);
   }
 };

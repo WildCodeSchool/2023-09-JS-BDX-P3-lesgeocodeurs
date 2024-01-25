@@ -1,15 +1,21 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { MDBDatatable } from "mdb-react-ui-kit";
+import { MDBDatatable, MDBBtn } from "mdb-react-ui-kit";
 import NavBarBackOffice from "../components/NavBarBackOffice";
 import apiService from "../services/api.service";
 
 export default function BackOfficeCars() {
   const [userData, setUserData] = useState([]);
+  const [plugTypes, setPlugTypes] = useState([]);
+  // État pour gérer l'affichage de la boîte de dialogue de confirmation
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  // État pour stocker l'ID du véhicule à supprimer
+  const [carToDelete, setCarToDelete] = useState(null);
+  const [confirmedDelete, setConfirmedDelete] = useState(false);
+
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -23,23 +29,22 @@ export default function BackOfficeCars() {
     }
   };
 
-  fetchData();
+  const fetchPlugTypes = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/plugTypes`
+      );
+      setPlugTypes(response.data);
+    } catch (error) {
+      console.error("Error fetching plug types:", error);
+    }
+  };
 
-  const [plugTypes, setPlugTypes] = useState([]);
   useEffect(() => {
-    const fetchPlugTypes = async () => {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/plugTypes`
-        );
-        setPlugTypes(response.data);
-      } catch (error) {
-        console.error("Error fetching plug types:", error);
-      }
-    };
-
     fetchPlugTypes();
+    fetchData();
   }, []);
+
   function getPlugTypeName(plugTypeId) {
     const plugType = plugTypes.find((type) => type.id === plugTypeId);
     return plugType ? plugType.name : "Type inconnu";
@@ -49,16 +54,38 @@ export default function BackOfficeCars() {
     navigate(`/backofficemodifcar/${carId}`); // Utilisation de navigate pour la redirection
   };
 
-  const handleDeleteCar = async (carId) => {
+  console.info(confirmedDelete, carToDelete);
+
+  // Fonction pour ouvrir la boîte de dialogue de confirmation
+  const openConfirmationDialog = (carId) => {
+    setCarToDelete(carId);
+    setShowConfirmation(true);
+  };
+
+  const cancelDeleteCar = () => {
+    // Annuler la suppression en fermant la boîte de dialogue
+    setShowConfirmation(false);
+  };
+
+  const confirmDeleteCar = async () => {
     try {
-      // Appeler l'API Backend pour supprimer le véhicule
       await apiService.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/${carId}`
+        `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/${carToDelete}`
       );
+      // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
+
+      // ...
+      // Réinitialiser l'ID du véhicule à supprimer
+      setCarToDelete(null);
+      // Marquer la confirmation de suppression
+      setConfirmedDelete(true);
+      // Fermer la boîte de dialogue après la suppression réussie
+      alert("Votre vehicle a bien été supprimé");
       fetchData();
     } catch (error) {
-      console.error("Error deleting car:", error);
+      console.error("Error deleting user:", error);
     }
+    cancelDeleteCar();
   };
 
   const columns = ["id", "brand", "model", "type de prise"];
@@ -71,9 +98,22 @@ export default function BackOfficeCars() {
     <FontAwesomeIcon icon={faEdit} onClick={() => handleEditCar(vehicle.id)} />,
     <FontAwesomeIcon
       icon={faTrash}
-      onClick={() => handleDeleteCar(vehicle.id)}
+      onClick={() => openConfirmationDialog(vehicle.id)}
     />,
   ]);
+
+  // Position de la boîte de dialogue de confirmation
+  const [dialogStyle, setDialogStyle] = useState({
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: "white",
+    padding: "20px",
+    zIndex: "1000",
+    textAlign: "center",
+  });
+  console.info(setDialogStyle);
 
   const basicData = { columns, rows };
 
@@ -84,6 +124,18 @@ export default function BackOfficeCars() {
       <div className="backoffidata">
         <MDBDatatable fixedHeader maxHeight="460px" data={basicData} />
       </div>
+      {/* Boîte de dialogue de confirmation */}
+      {showConfirmation && (
+        <div className="confirmation-dialog" style={dialogStyle}>
+          <p>Voulez-vous vraiment supprimer votre compte ?</p>
+          <MDBBtn size="sm" onClick={confirmDeleteCar}>
+            Oui
+          </MDBBtn>
+          <MDBBtn size="sm" onClick={cancelDeleteCar}>
+            Annuler
+          </MDBBtn>
+        </div>
+      )}
     </div>
   );
 }
