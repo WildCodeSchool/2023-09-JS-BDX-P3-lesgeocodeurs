@@ -27,7 +27,6 @@ export default function Places({ setFocus }) {
 
   return (
     <MDBAutocomplete
-      className="autocomplete"
       data={data.map((e) => e.description)}
       value={value}
       onSearch={onSearch}
