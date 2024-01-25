@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ContextProvider } from "./context/Context";
 import apiService from "./services/api.service";
-import functionsService from "./services/functions.service";
+import FunctionsService from "./services/functions.service";
 import "./styles/index.scss";
 
 import App from "./App";
@@ -108,7 +108,7 @@ const router = createBrowserRouter([
       {
         path: "/backoffice",
         element: <BackOfficeManager />,
-        loader: async () => functionsService.returnAdmin(),
+        loader: async () => FunctionsService.returnAdmin(),
         children: [
           {
             path: "/backoffice/utilisateur",

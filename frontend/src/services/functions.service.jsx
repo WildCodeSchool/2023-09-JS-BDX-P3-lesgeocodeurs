@@ -24,5 +24,4 @@ class FunctionsService {
   };
 }
 
-const functionsService = new FunctionsService();
-export default functionsService;
+export default FunctionsService;
