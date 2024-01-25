@@ -45,7 +45,7 @@ const router = createBrowserRouter([
       {
         path: "/map",
         element: <MapPage />,
-        loader: async () => apiService.get("http://localhost:3310/api/station"),
+        // loader: async () => apiService.get(`${import.meta.env.VITE_BACKEND_URL}/api/station`),
       },
       {
         path: "/myaccount",
@@ -85,7 +85,7 @@ const router = createBrowserRouter([
         element: <NewReservation />,
         loader: async ({ params }) =>
           apiService.get(
-            `http://localhost:3310/api/chargingpoint/${params.id}`
+            `${import.meta.env.VITE_BACKEND_URL}/api/chargingpoint/${params.id}`
           ),
       },
       {
@@ -106,7 +106,7 @@ const router = createBrowserRouter([
         loader: async ({ params }) => {
           try {
             const data = await apiService.get(
-              `http://localhost:3310/api/users/${params.userId}`
+              `${import.meta.env.VITE_BACKEND_URL}/api/users/${params.userId}`
             );
 
             return { preloadedUserData: data };
@@ -130,7 +130,7 @@ const router = createBrowserRouter([
         loader: async ({ params }) => {
           try {
             const data = await apiService.get(
-              `http://localhost:3310/api/vehicle/${params.carId}`
+              `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/${params.carId}`
             );
             return { preloadedCarData: data };
           } catch (error) {

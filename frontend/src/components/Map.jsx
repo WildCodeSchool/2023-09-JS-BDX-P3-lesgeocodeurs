@@ -3,14 +3,17 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { useGeolocated } from "react-geolocated";
 import { MDBBtn } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
+import apiService from "../services/api.service";
 import Station from "./Station";
 import Places from "./Places";
 // import data from "../data-test.json";
 // import getLocationIcon from "../assets/get-location.svg";
 import myLocationIcon from "../assets/my-location.svg";
 
-export default function Map({ stations }) {
+export default function Map(/* { stations } */) {
+  const [stations, setStations] = useState([]);
+
   const [selectedStation, setSelectedStation] = useState(null);
   const [chargingPoints, setChargingPoints] = useState(null);
 
@@ -43,6 +46,17 @@ export default function Map({ stations }) {
     setChargingPoints(null);
   };
 
+  const handleMove = async () => {
+    const bounds = mapRef.current?.getBounds().toJSON();
+    console.info(bounds);
+    const newStations = await apiService.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/station/bounds`,
+      bounds
+    );
+    console.info(newStations);
+    setStations(newStations);
+  };
+
   // Hack to stop Google Maps spamming the console with errors
   /* eslint-disable */
   const previousPreventDefault = TouchEvent.prototype.preventDefault;
@@ -70,6 +84,8 @@ export default function Map({ stations }) {
           options={{ disableDefaultUI: true }}
           onLoad={onLoad}
           onClick={handleMapClick}
+          /* onBoundsChanged={handleMove} */
+          onIdle={handleMove}
         >
           {coords && (
             <MarkerF
@@ -121,6 +137,6 @@ export default function Map({ stations }) {
   );
 }
 
-Map.propTypes = {
+/* Map.propTypes = {
   stations: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-};
+}; */

@@ -14,7 +14,9 @@ export default function BackOfficeUtilisateur() {
   // Utilisation de useNavigate pour la navigation
   const fetchData = async () => {
     try {
-      const response = await apiService.get(`http://localhost:3310/api/users`);
+      const response = await apiService.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users`
+      );
       setUserData(response);
     } catch (error) {
       console.error("Erreur lors de la récupération des données :", error);
@@ -64,7 +66,6 @@ export default function BackOfficeUtilisateur() {
   const basicData = { columns, rows };
   return (
     <div className="backofficeutilisateur_container">
-      <h1>BackOffice Utilisateur</h1>
       <NavBarBackOffice />
 
       <div className="backoffidata">
