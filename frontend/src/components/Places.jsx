@@ -5,6 +5,7 @@ import usePlacesAutocomplete, {
 import PropTypes from "prop-types";
 import { MDBAutocomplete } from "mdb-react-ui-kit";
 
+// Barre de recherche de lieux
 export default function Places({ setFocus }) {
   const {
     value,
@@ -13,10 +14,10 @@ export default function Places({ setFocus }) {
     clearSuggestions,
   } = usePlacesAutocomplete();
 
+  // Quand je sélectionne un lieu, récupère ses coordonnées et zoom dessus
   const handleSelect = async (val) => {
     setValue(val, false);
     clearSuggestions();
-
     const results = await getGeocode({ address: val });
     const { lat, lng } = await getLatLng(results[0]);
     setFocus({ lat, lng }, 13);

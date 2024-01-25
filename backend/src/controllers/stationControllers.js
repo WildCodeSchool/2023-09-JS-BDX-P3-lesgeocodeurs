@@ -90,6 +90,15 @@ const getByBounds = async (req, res, next) => {
   }
 };
 
+const getClusters = async (req, res, next) => {
+  try {
+    const stations = await tables.station.readClusters(req.body);
+    res.json(stations);
+  } catch (err) {
+    next(err);
+  }
+};
+
 // The D of BREAD - Destroy (Delete) operation
 // This operation is not yet implemented
 
@@ -101,4 +110,5 @@ module.exports = {
   destroy,
   edit,
   getByBounds,
+  getClusters,
 };

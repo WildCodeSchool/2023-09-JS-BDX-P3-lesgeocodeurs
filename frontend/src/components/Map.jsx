@@ -1,39 +1,40 @@
-import { GoogleMap, MarkerClustererF, MarkerF } from "@react-google-maps/api";
+import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useGeolocated } from "react-geolocated";
 import { MDBBtn } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
-// import PropTypes from "prop-types";
 import apiService from "../services/api.service";
 import Station from "./Station";
 import Places from "./Places";
-// import data from "../data-test.json";
-// import getLocationIcon from "../assets/get-location.svg";
 import myLocationIcon from "../assets/my-location.svg";
 
-export default function Map(/* { stations } */) {
+export default function Map() {
   const [stations, setStations] = useState([]);
-
   const [selectedStation, setSelectedStation] = useState(null);
   const [chargingPoints, setChargingPoints] = useState(null);
 
   const { coords, getPosition } = useGeolocated();
   const mapRef = useRef();
+
+  // Position par défaut, au centre de la France
   const position = useMemo(
     () => ({ lat: 46.57829080854987, lng: 2.528225829979713 }),
     []
   );
 
+  // Chargement de la carte
   const onLoad = useCallback((map) => {
     mapRef.current = map;
   }, []);
 
+  // Fonction qui déplace et zoom sur la carte
   const setFocus = (place, zoom) => {
     mapRef.current?.setZoom(zoom);
     mapRef.current?.panTo(place);
     mapRef.current?.setCenter(place);
   };
 
+  // Fonction qui récupère la géoloc
   const handleCenter = () => {
     getPosition();
     if (coords) {
@@ -41,23 +42,26 @@ export default function Map(/* { stations } */) {
     }
   };
 
+  // Désélectionne la station quand on clique sur le fond de carte
   const handleMapClick = () => {
     setSelectedStation(null);
     setChargingPoints(null);
   };
 
+  // Quand on se déplace sur la carte, récupère les stations à afficher à l'écran
   const handleMove = async () => {
     const bounds = mapRef.current?.getBounds().toJSON();
-    console.info(bounds);
-    const newStations = await apiService.post(
-      `${import.meta.env.VITE_BACKEND_URL}/api/station/bounds`,
-      bounds
-    );
-    console.info(newStations);
+    const newStations =
+      mapRef.current?.getZoom() > 7
+        ? await apiService.post(
+            `${import.meta.env.VITE_BACKEND_URL}/api/station/bounds`,
+            bounds
+          )
+        : [];
     setStations(newStations);
   };
 
-  // Hack to stop Google Maps spamming the console with errors
+  // Code qui empêche Google Maps de spammer des erreurs dans la console
   /* eslint-disable */
   const previousPreventDefault = TouchEvent.prototype.preventDefault;
   TouchEvent.prototype.preventDefault = function () {
@@ -70,6 +74,7 @@ export default function Map(/* { stations } */) {
   return (
     <>
       <div className="map">
+        {/* Barre de recherche et géolocalisation */}
         <div className="map-controls" style={{ display: "flex" }}>
           <Places setFocus={setFocus} />
           <MDBBtn onClick={handleCenter}>
@@ -77,6 +82,7 @@ export default function Map(/* { stations } */) {
           </MDBBtn>
         </div>
 
+        {/* Carte des stations */}
         <GoogleMap
           zoom={5}
           center={position}
@@ -84,9 +90,9 @@ export default function Map(/* { stations } */) {
           options={{ disableDefaultUI: true }}
           onLoad={onLoad}
           onClick={handleMapClick}
-          /* onBoundsChanged={handleMove} */
           onIdle={handleMove}
         >
+          {/* Marqueur "ma position" */}
           {coords && (
             <MarkerF
               position={{ lat: coords.latitude, lng: coords.longitude }}
@@ -94,25 +100,22 @@ export default function Map(/* { stations } */) {
             />
           )}
           {stations?.length > 0 && (
-            <MarkerClustererF>
-              {(clusterer) => (
-                <>
-                  {stations.map((station) => (
-                    <Station
-                      key={station.id}
-                      station={station}
-                      clusterer={clusterer}
-                      setSelectedStation={setSelectedStation}
-                      setChargingPoints={setChargingPoints}
-                    />
-                  ))}
-                </>
-              )}
-            </MarkerClustererF>
+            <>
+              {stations.map((station) => (
+                // Marqueur de station
+                <Station
+                  key={station.id}
+                  station={station}
+                  setSelectedStation={setSelectedStation}
+                  setChargingPoints={setChargingPoints}
+                />
+              ))}
+            </>
           )}
         </GoogleMap>
       </div>
 
+      {/* Bloc d'informations sur la station */}
       {selectedStation && (
         <div className="station-modal">
           <strong>{selectedStation.name}</strong>
@@ -136,7 +139,3 @@ export default function Map(/* { stations } */) {
     </>
   );
 }
-
-/* Map.propTypes = {
-  stations: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-}; */
