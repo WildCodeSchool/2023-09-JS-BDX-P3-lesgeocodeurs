@@ -7,6 +7,7 @@ export default function Station({
   setSelectedStation,
   setChargingPoints,
 }) {
+  // Fonction qui récupère les bornes d'une station
   const fetchChargingPoints = async (stationId) => {
     try {
       const response = await axios.get(
@@ -18,6 +19,7 @@ export default function Station({
     }
   };
 
+  // Quand on clique sur un marqueur, sélectionne la station et ses bornes
   const handleClick = () => {
     setSelectedStation(station);
     fetchChargingPoints(station.id);
