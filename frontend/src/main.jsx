@@ -26,6 +26,7 @@ import MakeReservation from "./pages/MakeReservation";
 import BackOfficeCars from "./pages/BackOfficeCars";
 import NewCar from "./pages/NewCar";
 import NewReservation from "./pages/NewReservation";
+import BackOfficeModifCar from "./pages/BackOfficeModifCar";
 
 const router = createBrowserRouter([
   {
@@ -44,7 +45,7 @@ const router = createBrowserRouter([
       {
         path: "/map",
         element: <MapPage />,
-        // loader: async () => apiService.get("http://localhost:3310/api/station"),
+        // loader: async () => apiService.get(`${import.meta.env.VITE_BACKEND_URL}/api/station`),
       },
       {
         path: "/myaccount",
@@ -84,7 +85,7 @@ const router = createBrowserRouter([
         element: <NewReservation />,
         loader: async ({ params }) =>
           apiService.get(
-            `http://localhost:3310/api/chargingpoint/${params.id}`
+            `${import.meta.env.VITE_BACKEND_URL}/api/chargingpoint/${params.id}`
           ),
       },
       {
@@ -102,6 +103,18 @@ const router = createBrowserRouter([
       {
         path: "/backofficemodifprofil/:userId",
         element: <BackOfficeModifProfil />,
+        loader: async ({ params }) => {
+          try {
+            const data = await apiService.get(
+              `${import.meta.env.VITE_BACKEND_URL}/api/users/${params.userId}`
+            );
+
+            return { preloadedUserData: data };
+          } catch (error) {
+            // TODO: redirect to other page
+            return null;
+          }
+        },
       },
       {
         path: "/makereservation",
@@ -110,6 +123,21 @@ const router = createBrowserRouter([
       {
         path: "/backofficecars",
         element: <BackOfficeCars />,
+      },
+      {
+        path: "/backofficemodifcar/:carId",
+        element: <BackOfficeModifCar />,
+        loader: async ({ params }) => {
+          try {
+            const data = await apiService.get(
+              `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/${params.carId}`
+            );
+            return { preloadedCarData: data };
+          } catch (error) {
+            // TODO: redirect to other page
+            return null;
+          }
+        },
       },
     ],
   },

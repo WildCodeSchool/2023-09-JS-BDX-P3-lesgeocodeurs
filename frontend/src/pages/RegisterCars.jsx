@@ -25,7 +25,9 @@ export default function RegisterCars() {
   useEffect(() => {
     const fetchPlugTypes = async () => {
       try {
-        const response = await axios.get("http://localhost:3310/api/plugtypes");
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/plugtypes`
+        );
         setPlugTypes(response.data);
       } catch (error) {
         console.error("Error fetching plug types:", error);

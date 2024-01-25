@@ -19,7 +19,7 @@ export default function BAckOfficeAccueil() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3310/api/userscount`
+          `${import.meta.env.VITE_BACKEND_URL}/api/userscount`
         );
         setUsersNbr(response.data);
       } catch (error) {
@@ -33,7 +33,7 @@ export default function BAckOfficeAccueil() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3310/api/vehiclecount`
+          `${import.meta.env.VITE_BACKEND_URL}/api/vehiclecount`
         );
         setVehicleNbr(response.data);
       } catch (error) {
@@ -47,7 +47,7 @@ export default function BAckOfficeAccueil() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3310/api/chargingpointcount`
+          `${import.meta.env.VITE_BACKEND_URL}/api/chargingpointcount`
         );
         setchargingpointNbr(response.data);
       } catch (error) {
@@ -59,7 +59,7 @@ export default function BAckOfficeAccueil() {
 
   return (
     <div className="backofficeaccueil_container">
-      <h1>BackOffice Acceuil</h1>
+      <h1>Bienvenu dans votre BackOffice !</h1>
       <NavBarBackOffice />
 
       <div className="dashboard_container">

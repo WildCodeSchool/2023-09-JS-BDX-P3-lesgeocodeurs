@@ -55,7 +55,7 @@ router.post("/reservation", reservationControllers.add);
 router.post("/users/emailToCheck", userControllers.checkEmail);
 
 // Route to delete a specific user by id
-router.delete("/users/:id", userControllers.destroy);
+router.delete("/users/:id", verifyToken.verifyToken, userControllers.destroy);
 router.delete("/vehicle/:id", vehicleControllers.destroy);
 router.delete("/station/:id", stationControllers.destroy);
 router.delete("/chargingpoint/:id", chargingpointControllers.destroy);

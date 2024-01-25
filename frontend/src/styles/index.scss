@@ -28,3 +28,9 @@ $my-dark-theme: mdb-light-theme($my-theme-primary, $my-theme-secondary);
   padding: 0;
   box-sizing: border-box;
 }
+
+@media only screen and (min-width: 768px) {
+  .global-container-outlet {
+    margin: 90px 10% 0 10%;
+  }
+}

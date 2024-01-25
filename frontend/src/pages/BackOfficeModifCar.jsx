@@ -1,22 +1,44 @@
 import { MDBInput, MDBBtn, MDBSelect } from "mdb-react-ui-kit";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useTheContext } from "../context/Context";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
+import apiService from "../services/api.service";
 
-export default function NewCar() {
+export default function BackOfficeModifCar() {
   const [plugTypes, setPlugTypes] = useState([]);
-  const { createNewCar } = useTheContext();
+  const navigate = useNavigate();
+  const { carId } = useParams();
+  const loaderData = useLoaderData();
+
   const [vFormData, setvFormData] = useState({
-    brand: "",
-    model: "",
-    plug_type_id: 2,
+    brand: loaderData?.preloadedCarData?.brand ?? "",
+    model: loaderData?.preloadedCarData?.model ?? "",
+    plug_type_id: loaderData?.preloadedCarData?.plug_type_id ?? "",
   });
 
+  const editCar = async (newData) => {
+    try {
+      const response = await apiService.put(
+        `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/${carId}`,
+        newData
+      );
+      console.info(response);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    editCar(vFormData);
+    navigate("/backofficecars");
+  };
   const handleChange = (e) =>
     setvFormData({
       ...vFormData,
       [e.target.name]: e.target.value,
     });
+
   // le composant select de mdbootstrap fonctionne différement des autres ("e.value" au lieu de "e.target.value")
   const handleSelect = (e) =>
     setvFormData({
@@ -43,7 +65,7 @@ export default function NewCar() {
   return (
     <div className="registerInfos-container">
       <div className="login-form">
-        <h1>Ajouter un véhicule</h1>
+        <h1>Modidfier un véhicule</h1>
         <MDBInput
           className="mb-4"
           type="string"
@@ -73,12 +95,7 @@ export default function NewCar() {
           onValueChange={handleSelect}
         />
 
-        <MDBBtn
-          type="submit"
-          className="mb-4"
-          block
-          onClick={() => createNewCar(vFormData)}
-        >
+        <MDBBtn type="submit" className="mb-4" block onClick={onSubmit}>
           Enregistrer le nouveau véhicule
         </MDBBtn>
       </div>

@@ -3,12 +3,12 @@ import apiService from "./api.service";
 class FunctionsService {
   static fetchChargingPoint = async (chargingPointId) => {
     apiService.get(
-      `http://localhost:3310/api/chargingpoint/${chargingPointId}`
+      `${import.meta.env.VITE_BACKEND_URL}/api/chargingpoint/${chargingPointId}`
     );
   };
 
   static fetchStations = async () => {
-    apiService.get("http://localhost:3310/api/station");
+    apiService.get(`${import.meta.env.VITE_BACKEND_URL}/api/station`);
   };
 }
 

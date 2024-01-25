@@ -53,6 +53,11 @@ class ApiService {
       throw err;
     }
   }
+
+  async delete(url) {
+    const response = await axios.delete(url, this.getConfig());
+    return response.data;
+  }
 }
 
 const apiService = new ApiService();
