@@ -9,4 +9,4 @@ COPY ./frontend/package.json ./frontend/package-lock.json .
 
 RUN npm install
 
-cp ./ .
+COPY ./ .
