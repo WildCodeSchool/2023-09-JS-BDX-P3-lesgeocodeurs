@@ -22,7 +22,7 @@
   }
 
   .map {
-    height: 90vh;
+    height: calc(100vh - 70px);
   }
 
   .station-modal {
@@ -50,11 +50,13 @@
       right: 0;
       top: 70px;
       width: 350px;
-      height: 100%;
+      height: calc(100% - 70px);
       border-radius: 0;
       padding-bottom: 30px;
       border-left: 1px solid lightgray;
       z-index: 1;
+      position: fixed;
+      overflow-y: scroll;
     }
   }
 }
