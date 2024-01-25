@@ -53,7 +53,7 @@ export default function BackOfficeModifProfil() {
   const onSubmit = (e) => {
     e.preventDefault();
     editNewProfil(modifProfil);
-    navigate("/backofficeutilisateur");
+    navigate("/backoffice/utilisateur");
   };
 
   const handleChange = (e) => {

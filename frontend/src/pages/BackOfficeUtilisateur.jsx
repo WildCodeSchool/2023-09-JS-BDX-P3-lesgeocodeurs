@@ -24,7 +24,7 @@ export default function BackOfficeUtilisateur() {
   };
 
   const handleEdit = (userId) => {
-    navigate(`/backofficemodifprofil/${userId}`); // Utilisation de navigate pour la redirection
+    navigate(`/backoffice/modifprofil/${userId}`); // Utilisation de navigate pour la redirection
   };
 
   useEffect(() => {
@@ -96,6 +96,7 @@ export default function BackOfficeUtilisateur() {
     ]) ?? [];
 
   // Position de la boîte de dialogue de confirmation
+  // eslint-disable-next-line no-unused-vars
   const [dialogStyle, setDialogStyle] = useState({
     position: "fixed",
     top: "50%",
@@ -106,7 +107,6 @@ export default function BackOfficeUtilisateur() {
     zIndex: "1000",
     textAlign: "center",
   });
-  console.info(setDialogStyle);
 
   const basicData = { columns, rows };
 

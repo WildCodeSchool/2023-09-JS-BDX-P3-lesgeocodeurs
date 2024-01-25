@@ -119,7 +119,7 @@ const router = createBrowserRouter([
             element: <BackOfficeAccueil />,
           },
           {
-            path: "/backofficemodifprofil/:userId",
+            path: "/backoffice/modifprofil/:userId",
             element: <BackOfficeModifProfil />,
             loader: async ({ params }) => {
               try {
