@@ -15,18 +15,11 @@ export default function MyAccount() {
   // État pour gérer l'affichage de la boîte de dialogue de confirmation
   const [showConfirmation, setShowConfirmation] = useState(false);
   // État pour stocker l'ID du véhicule à supprimer
+  // eslint-disable-next-line no-unused-vars
   const [userToDelete, setUserToDelete] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [confirmedDelete, setConfirmedDelete] = useState(false);
-  console.info(confirmedDelete, userToDelete);
   // Fonction pour ouvrir la boîte de dialogue de confirmation
-  const openConfirmationDialog = (carId) => {
-    setUserToDelete(carId);
-    setShowConfirmation(true);
-  };
-  const cancelDeleteUser = () => {
-    // Annuler la suppression en fermant la boîte de dialogue
-    setShowConfirmation(false);
-  };
 
   // Fonction pour confirmer la suppression du véhicule
   const confirmDeleteUser = async () => {
@@ -37,22 +30,20 @@ export default function MyAccount() {
         `${import.meta.env.VITE_BACKEND_URL}/api/users/${token.id}`
       );
       // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
-      await logout();
       // ...
       // Réinitialiser l'ID du véhicule à supprimer
-      setUserToDelete(null);
       // Marquer la confirmation de suppression
       setConfirmedDelete(true);
       // Fermer la boîte de dialogue après la suppression réussie
+      logout();
       alert("Votre compte a bien été supprimé");
     } catch (error) {
       console.error("Error deleting car:", error);
     }
-    cancelDeleteUser();
   };
 
   // Position de la boîte de dialogue de confirmation
-  const [dialogStyle, setDialogStyle] = useState({
+  const dialogStyle = {
     position: "fixed",
     top: "50%",
     left: "50%",
@@ -61,8 +52,7 @@ export default function MyAccount() {
     padding: "20px",
     zIndex: "1000",
     textAlign: "center",
-  });
-  console.info(setDialogStyle);
+  };
 
   return (
     <div className="myAccount-container">
@@ -110,12 +100,21 @@ export default function MyAccount() {
             color="light"
             rippleColor="dark"
             // TO DO : ajouter un onClick ici pour modifier context et localstorage
-            onClick={() => openConfirmationDialog(user.id)}
+            onClick={() => logout()}
           >
             <p>Me déconnecter</p>
             <p>&rarr;</p>
           </MDBBtn>
         </Link>
+        <MDBBtn
+          size="sm"
+          className="buttonprofil"
+          color="light"
+          rippleColor="dark"
+          onClick={() => setShowConfirmation(true)}
+        >
+          Supprimer
+        </MDBBtn>
       </div>
       {/* Boîte de dialogue de confirmation */}
       {showConfirmation && (
@@ -124,7 +123,7 @@ export default function MyAccount() {
           <MDBBtn size="sm" onClick={confirmDeleteUser}>
             Oui
           </MDBBtn>
-          <MDBBtn size="sm" onClick={cancelDeleteUser}>
+          <MDBBtn size="sm" onClick={() => setConfirmedDelete(true)}>
             Annuler
           </MDBBtn>
         </div>
