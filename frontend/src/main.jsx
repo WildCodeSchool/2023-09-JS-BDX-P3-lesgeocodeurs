@@ -107,7 +107,7 @@ const router = createBrowserRouter([
             element: <BackOfficeAccueil />,
           },
           {
-            path: "/backofficemodifprofil/:userId",
+            path: "/backoffice/modifprofil/:userId",
             element: <BackOfficeModifProfil />,
             loader: async ({ params }) => {
               try {
@@ -128,17 +128,8 @@ const router = createBrowserRouter([
           {
             path: "/backoffice/modifcar/:carId",
             element: <BackOfficeModifCar />,
-            loader: async ({ params }) => {
-              try {
-                const data = await apiService.get(
-                  `http://localhost:3310/api/vehicle/${params.carId}`
-                );
-                return { preloadedCarData: data };
-              } catch (error) {
-                // TODO: redirect to other page
-                return null;
-              }
-            },
+            loader: async (params) =>
+              FunctionsService.backOfficeModifCars({ params }),
           },
         ],
       },

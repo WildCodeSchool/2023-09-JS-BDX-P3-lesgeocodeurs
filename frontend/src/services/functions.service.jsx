@@ -22,6 +22,17 @@ class FunctionsService {
     }
     return null;
   };
+
+  static backOfficeModifCars = async ({ params }) => {
+    try {
+      const data = await apiService.get(
+        `http://localhost:3310/api/vehicle/${params.carId}`
+      );
+      return { preloadedCarData: data };
+    } catch (error) {
+      return null;
+    }
+  };
 }
 
 export default FunctionsService;
