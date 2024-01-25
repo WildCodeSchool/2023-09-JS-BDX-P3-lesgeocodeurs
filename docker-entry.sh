@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 
 sleep 5
-npm build
-npm start
+npm install
+npm run build
+npm run start
