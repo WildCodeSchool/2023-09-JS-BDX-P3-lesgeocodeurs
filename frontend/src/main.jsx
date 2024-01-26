@@ -124,7 +124,9 @@ const router = createBrowserRouter([
             loader: async ({ params }) => {
               try {
                 const data = await apiService.get(
-                  `http://localhost:3310/api/users/${params.userId}`
+                  `${import.meta.env.VITE_BACKEND_URL}/api/users/${
+                    params.userId
+                  }`
                 );
                 return { preloadedUserData: data };
               } catch (error) {
@@ -143,7 +145,9 @@ const router = createBrowserRouter([
             loader: async ({ params }) => {
               try {
                 const data = await apiService.get(
-                  `http://localhost:3310/api/vehicle/${params.carId}`
+                  `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/${
+                    params.carId
+                  }`
                 );
                 return { preloadedCarData: data };
               } catch (error) {
