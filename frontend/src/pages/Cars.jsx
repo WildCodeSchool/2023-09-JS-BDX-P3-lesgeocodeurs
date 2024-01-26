@@ -44,11 +44,6 @@ export default function Cars() {
     }
   };
 
-  useEffect(() => {
-    fetchPlugTypes();
-    fetchData();
-  }, []);
-
   // Fonction pour ouvrir la boîte de dialogue de confirmation
   const openConfirmationDialog = (carId) => {
     setVehicleToDelete(carId);
@@ -79,6 +74,9 @@ export default function Cars() {
     cancelDeleteCar();
   };
 
+  useEffect(() => {
+    fetchPlugTypes();
+  }, []);
   function getPlugTypeName(plugTypeId) {
     const plugType = plugTypes.find((type) => type.id === plugTypeId);
     return plugType ? plugType.name : "Type inconnu";
@@ -96,7 +94,7 @@ export default function Cars() {
     textAlign: "center",
   });
   console.info(setDialogStyle);
-
+  fetchData();
   return (
     <div className="cars-container">
       <button type="submit" className="back" onClick={rtn}>
