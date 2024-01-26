@@ -60,35 +60,6 @@ class ChargingPointManager extends AbstractManager {
     // Return the array of users
     return rows[0];
   }
-  /*
-  async create(ChargingPoint) {
-    // Execute the SQL INSERT query to add a new user to the "user" table
-    const result = await this.database.query(
-      `INSERT INTO ${this.table} (name, power, station_id) VALUES (?, ?, ?)`,
-      [ChargingPoint.name, ChargingPoint.power, ChargingPoint.station_id]
-    );
-
-    // Return the ID of the newly inserted user
-    return result.insertId;
-  }
-
-
-  async delete(id) {
-    const result = await this.database.query(
-      `delete from ${this.table} where id = ?`,
-      [id]
-    );
-    return result;
-  }
-
-  async update(ChargingPoint, id) {
-    const [rows] = await this.database.query(
-      `update ${this.table} set name = ?, power = ?, station_id = ? where id = ?`,
-      [ChargingPoint.name, ChargingPoint.power, ChargingPoint.station_id, id]
-    );
-    return rows;
-  }
-  */
 }
 
 module.exports = ChargingPointManager;

@@ -14,7 +14,7 @@ class FunctionsService {
   static returnAdmin = async () => {
     try {
       const res = await apiService.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/isadmin`
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/isadmin`
       );
       if (res.message === "ok") {
         return res.message;
