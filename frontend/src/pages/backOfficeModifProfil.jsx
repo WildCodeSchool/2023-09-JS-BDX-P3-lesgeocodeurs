@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
-import apiService from "../services/api.service";
+import { useTheContext } from "../context/Context";
 
 export default function BackOfficeModifProfil() {
+  const { apiService } = useTheContext();
   const loaderData = useLoaderData();
   const navigate = useNavigate();
 
@@ -22,7 +23,7 @@ export default function BackOfficeModifProfil() {
   //   const fetchData = async () => {
   //     try {
   //       const response = await apiService.get(
-  //         `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`
+  //         `/users/${userId}`
   //       );
   //       console.log(response);
   //       setModifProfil(response.data);
@@ -40,10 +41,7 @@ export default function BackOfficeModifProfil() {
 
   const editNewProfil = async (newData) => {
     try {
-      const response = await apiService.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`,
-        newData
-      );
+      const response = await apiService.put(`/users/${userId}`, newData);
       console.info(response);
     } catch (err) {
       console.error(err);

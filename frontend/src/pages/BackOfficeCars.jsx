@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { MDBDatatable, MDBBtn } from "mdb-react-ui-kit";
 import NavBarBackOffice from "../components/NavBarBackOffice";
-import apiService from "../services/api.service";
+import { useTheContext } from "../context/Context";
 
 export default function BackOfficeCars() {
   const [userData, setUserData] = useState([]);
@@ -16,13 +15,12 @@ export default function BackOfficeCars() {
   const [carToDelete, setCarToDelete] = useState(null);
   const [confirmedDelete, setConfirmedDelete] = useState(false);
 
+  const { apiService } = useTheContext();
   const navigate = useNavigate();
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/vehicle`
-      );
+      const response = await apiService.get(`/vehicle`);
       setUserData(response.data);
     } catch (error) {
       console.error("Erreur lors de la récupération des données :", error);
@@ -31,9 +29,7 @@ export default function BackOfficeCars() {
 
   const fetchPlugTypes = async () => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/plugTypes`
-      );
+      const response = await apiService.get(`/plugtypes`);
       setPlugTypes(response.data);
     } catch (error) {
       console.error("Error fetching plug types:", error);
@@ -69,9 +65,7 @@ export default function BackOfficeCars() {
 
   const confirmDeleteCar = async () => {
     try {
-      await apiService.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/${carToDelete}`
-      );
+      await apiService.delete(`/vehicle/${carToDelete}`);
       // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
 
       // ...

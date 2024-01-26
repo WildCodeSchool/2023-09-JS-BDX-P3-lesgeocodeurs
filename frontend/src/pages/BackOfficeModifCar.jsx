@@ -1,12 +1,12 @@
 import { MDBInput, MDBBtn, MDBSelect } from "mdb-react-ui-kit";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useLoaderData, useNavigate, useParams } from "react-router-dom";
-import apiService from "../services/api.service";
+import { useTheContext } from "../context/Context";
 
 export default function BackOfficeModifCar() {
   const [plugTypes, setPlugTypes] = useState([]);
   const navigate = useNavigate();
+  const { apiService } = useTheContext();
   const { carId } = useParams();
   const loaderData = useLoaderData();
 
@@ -18,10 +18,7 @@ export default function BackOfficeModifCar() {
 
   const editCar = async (newData) => {
     try {
-      const response = await apiService.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/${carId}`,
-        newData
-      );
+      const response = await apiService.put(`/vehicle/${carId}`, newData);
       console.info(response);
     } catch (err) {
       console.error(err);
@@ -49,9 +46,7 @@ export default function BackOfficeModifCar() {
   useEffect(() => {
     const fetchPlugTypes = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/plugtypes`
-        );
+        const response = await apiService.get(`/plugtypes`);
         setPlugTypes(response.data);
       } catch (error) {
         console.error("Error fetching plug types:", error);

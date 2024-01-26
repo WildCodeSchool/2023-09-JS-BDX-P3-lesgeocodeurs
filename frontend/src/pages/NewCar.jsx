@@ -1,17 +1,16 @@
 import { MDBInput, MDBBtn, MDBSelect } from "mdb-react-ui-kit";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { useTheContext } from "../context/Context";
 
 export default function NewCar() {
   const [plugTypes, setPlugTypes] = useState([]);
-  const { createNewCar } = useTheContext();
   const [vFormData, setvFormData] = useState({
     brand: "",
     model: "",
     plug_type_id: 2,
   });
+  const { createNewCar, apiService } = useTheContext();
 
   const handleChange = (e) =>
     setvFormData({
@@ -28,9 +27,7 @@ export default function NewCar() {
   useEffect(() => {
     const fetchPlugTypes = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/plugtypes`
-        );
+        const response = await apiService.get(`/plugtypes`);
         setPlugTypes(response.data);
       } catch (error) {
         console.error("Error fetching plug types:", error);

@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
-
 import {
   MDBContainer,
   MDBRow,
@@ -8,19 +6,19 @@ import {
   MDBCol,
   MDBCardBody,
 } from "mdb-react-ui-kit";
+import { useTheContext } from "../context/Context";
 import NavBarBackOffice from "../components/NavBarBackOffice";
 
 export default function BAckOfficeAccueil() {
   const [usersNbr, setUsersNbr] = useState();
   const [vehicleNbr, setVehicleNbr] = useState();
   const [chargingpointNbr, setchargingpointNbr] = useState();
+  const { apiService } = useTheContext();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/userscount`
-        );
+        const response = await apiService.get(`/users/count`);
         setUsersNbr(response.data);
       } catch (error) {
         console.error("Error fetching usersCount:", error);
@@ -32,9 +30,7 @@ export default function BAckOfficeAccueil() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/vehiclecount`
-        );
+        const response = await apiService.get(`/vehicle/count`);
         setVehicleNbr(response.data);
       } catch (error) {
         console.error("Error fetching vehicleCount:", error);
@@ -46,9 +42,7 @@ export default function BAckOfficeAccueil() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/chargingpointcount`
-        );
+        const response = await apiService.get(`/chargingpoint/count`);
         setchargingpointNbr(response.data);
       } catch (error) {
         console.error("Error fetching chargingpointCount:", error);

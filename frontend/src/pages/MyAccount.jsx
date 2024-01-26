@@ -3,10 +3,9 @@ import { MDBBtn } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { useTheContext } from "../context/Context";
-import apiService from "../services/api.service";
 
 export default function MyAccount() {
-  const { logout, user, calculerAge } = useTheContext();
+  const { logout, user, calculerAge, apiService } = useTheContext();
 
   const userAge = calculerAge(
     user ? user.birth_date : "1995-01-01T00:00:00.000Z'"
@@ -26,9 +25,7 @@ export default function MyAccount() {
     const jwtToken = apiService.getToken();
     const token = jwtDecode(jwtToken);
     try {
-      await apiService.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/${token.id}`
-      );
+      await apiService.delete(`/users/${token.id}`);
       // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
       // ...
       // Réinitialiser l'ID du véhicule à supprimer

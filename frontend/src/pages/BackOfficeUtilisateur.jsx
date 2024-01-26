@@ -4,19 +4,17 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import NavBarBackOffice from "../components/NavBarBackOffice";
-import apiService from "../services/api.service";
+import { useTheContext } from "../context/Context";
 
 export default function BackOfficeUtilisateur() {
   const [userData, setUserData] = useState(null);
 
-  // const { deleteUserAdmin } = useTheContext();
+  const { apiService } = useTheContext();
   const navigate = useNavigate();
   // Utilisation de useNavigate pour la navigation
   const fetchData = async () => {
     try {
-      const response = await apiService.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users`
-      );
+      const response = await apiService.get(`/users`);
       setUserData(response);
     } catch (error) {
       console.error("Erreur lors de la récupération des données :", error);
@@ -61,9 +59,7 @@ export default function BackOfficeUtilisateur() {
   // Fonction pour confirmer la suppression du véhicule
   const confirmDeleteUser = async (userId) => {
     try {
-      await apiService.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`
-      );
+      await apiService.delete(`/users/${userId}`);
       // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
 
       // ...

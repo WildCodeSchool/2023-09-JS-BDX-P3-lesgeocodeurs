@@ -1,19 +1,19 @@
 import { MarkerF } from "@react-google-maps/api";
-import axios from "axios";
 import PropTypes from "prop-types";
+import { useTheContext } from "../context/Context";
 
 export default function Station({
   station,
   setSelectedStation,
   setChargingPoints,
 }) {
+  const { apiService } = useTheContext();
+
   // Fonction qui récupère les bornes d'une station
   const fetchChargingPoints = async (stationId) => {
     try {
-      const response = await axios.get(
-        `${
-          import.meta.env.VITE_BACKEND_URL
-        }/api/chargingpoint?station_id=${stationId}`
+      const response = await apiService.get(
+        `/chargingpoint?station_id=${stationId}`
       );
       setChargingPoints(response.data);
     } catch (err) {
