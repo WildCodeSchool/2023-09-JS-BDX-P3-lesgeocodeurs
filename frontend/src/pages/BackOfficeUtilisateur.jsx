@@ -8,9 +8,16 @@ import { useTheContext } from "../context/Context";
 
 export default function BackOfficeUtilisateur() {
   const [userData, setUserData] = useState(null);
+  // État pour gérer l'affichage de la boîte de dialogue de confirmation
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  // État pour stocker l'ID du véhicule à supprimer
+  const [userToDelete, setUserToDelete] = useState(null);
+  // eslint-disable-next-line no-unused-vars
+  const [confirmedDelete, setConfirmedDelete] = useState(false);
 
   const { apiService } = useTheContext();
   const navigate = useNavigate();
+
   // Utilisation de useNavigate pour la navigation
   const fetchData = async () => {
     try {
@@ -40,12 +47,6 @@ export default function BackOfficeUtilisateur() {
     "modification",
   ];
 
-  // État pour gérer l'affichage de la boîte de dialogue de confirmation
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  // État pour stocker l'ID du véhicule à supprimer
-  const [userToDelete, setUserToDelete] = useState(null);
-  const [confirmedDelete, setConfirmedDelete] = useState(false);
-  console.info(confirmedDelete, userToDelete);
   // Fonction pour ouvrir la boîte de dialogue de confirmation
   const openConfirmationDialog = (userId) => {
     setUserToDelete(userId);
@@ -92,8 +93,7 @@ export default function BackOfficeUtilisateur() {
     ]) ?? [];
 
   // Position de la boîte de dialogue de confirmation
-  // eslint-disable-next-line no-unused-vars
-  const [dialogStyle, setDialogStyle] = useState({
+  const dialogStyle = {
     position: "fixed",
     top: "50%",
     left: "50%",
@@ -102,7 +102,7 @@ export default function BackOfficeUtilisateur() {
     padding: "20px",
     zIndex: "1000",
     textAlign: "center",
-  });
+  };
 
   const basicData = { columns, rows };
 

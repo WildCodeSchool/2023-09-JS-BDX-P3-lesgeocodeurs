@@ -92,16 +92,7 @@ const router = createBrowserRouter([
       {
         path: "/modifprofil/:userId",
         element: <ModifProfil />,
-        loader: async ({ params }) => {
-          try {
-            const data = await apiService.get(`/users/${params.userId}`);
-
-            return { preloadedUserData: data };
-          } catch (error) {
-            // TODO: redirect to other page
-            return null;
-          }
-        },
+        loader: (params) => FunctionsService.getUserInfos({ params }),
       },
       {
         path: "/backoffice",
@@ -119,15 +110,7 @@ const router = createBrowserRouter([
           {
             path: "/backoffice/modifprofil/:userId",
             element: <BackOfficeModifProfil />,
-            loader: async ({ params }) => {
-              try {
-                const data = await apiService.get(`/users/${params.userId}`);
-                return { preloadedUserData: data };
-              } catch (error) {
-                // TODO: redirect to other page
-                return null;
-              }
-            },
+            loader: ({ params }) => FunctionsService.getUserInfos({ params }),
           },
           {
             path: "/backoffice/cars",
@@ -136,15 +119,7 @@ const router = createBrowserRouter([
           {
             path: "/backoffice/modifcar/:carId",
             element: <BackOfficeModifCar />,
-            loader: async ({ params }) => {
-              try {
-                const data = await apiService.get(`/vehicle/${params.carId}`);
-                return { preloadedCarData: data };
-              } catch (error) {
-                // TODO: redirect to other page
-                return null;
-              }
-            },
+            loader: ({ params }) => FunctionsService.getCarInfos({ params }),
           },
         ],
       },

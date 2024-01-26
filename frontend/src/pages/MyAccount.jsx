@@ -33,22 +33,9 @@ export default function MyAccount() {
       setConfirmedDelete(true);
       // Fermer la boîte de dialogue après la suppression réussie
       logout();
-      alert("Votre compte a bien été supprimé");
     } catch (error) {
       console.error("Error deleting car:", error);
     }
-  };
-
-  // Position de la boîte de dialogue de confirmation
-  const dialogStyle = {
-    position: "fixed",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    backgroundColor: "white",
-    padding: "20px",
-    zIndex: "1000",
-    textAlign: "center",
   };
 
   return (
@@ -115,7 +102,19 @@ export default function MyAccount() {
       </div>
       {/* Boîte de dialogue de confirmation */}
       {showConfirmation && (
-        <div className="confirmation-dialog" style={dialogStyle}>
+        <div
+          className="confirmation-dialog"
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: "white",
+            padding: "20px",
+            zIndex: "1000",
+            textAlign: "center",
+          }}
+        >
           <p>Voulez-vous vraiment supprimer votre compte ?</p>
           <MDBBtn size="sm" onClick={confirmDeleteUser}>
             Oui
