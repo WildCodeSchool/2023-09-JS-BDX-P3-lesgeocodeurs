@@ -68,6 +68,7 @@ export default function Cars() {
       setConfirmedDelete(true);
       // Fermer la boîte de dialogue après la suppression réussie
       alert("Votre véhicule a bien été supprimé");
+      fetchData();
     } catch (error) {
       console.error("Error deleting car:", error);
     }
@@ -76,6 +77,7 @@ export default function Cars() {
 
   useEffect(() => {
     fetchPlugTypes();
+    fetchData();
   }, []);
   function getPlugTypeName(plugTypeId) {
     const plugType = plugTypes.find((type) => type.id === plugTypeId);
@@ -94,7 +96,7 @@ export default function Cars() {
     textAlign: "center",
   });
   console.info(setDialogStyle);
-  fetchData();
+
   return (
     <div className="cars-container">
       <button type="submit" className="back" onClick={rtn}>
