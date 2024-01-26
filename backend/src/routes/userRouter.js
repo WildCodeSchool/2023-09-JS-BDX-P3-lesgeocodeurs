@@ -10,7 +10,7 @@ router.get(
   verifyToken.verifyAdminToken,
   userControllers.browse
 );
-router.get("/:id", verifyToken.verifyToken, userControllers.read);
+router.get("/:id([0-9]+)", verifyToken.verifyToken, userControllers.read);
 router.get("/count", userControllers.usersCount);
 router.get(
   "/isadmin",
@@ -20,7 +20,7 @@ router.get(
 router.post("/", userControllers.add);
 router.post("/emailToCheck", userControllers.checkEmail);
 router.post("/login", userControllers.login);
-router.put("/:id", verifyToken.verifyToken, userControllers.edit);
-router.delete("/:id", verifyToken.verifyToken, userControllers.destroy);
+router.put("/:id([0-9]+)", verifyToken.verifyToken, userControllers.edit);
+router.delete("/:id([0-9]+)", verifyToken.verifyToken, userControllers.destroy);
 
 module.exports = router;

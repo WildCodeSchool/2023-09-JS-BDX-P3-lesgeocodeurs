@@ -1,21 +1,19 @@
-import apiService from "./api.service";
+import ApiService from "./api.service";
+
+const apiService = new ApiService();
 
 class FunctionsService {
   static fetchChargingPoint = async (chargingPointId) => {
-    apiService.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/chargingpoint/${chargingPointId}`
-    );
+    apiService.get(`/chargingpoint/${chargingPointId}`);
   };
 
   static fetchStations = async () => {
-    apiService.get(`${import.meta.env.VITE_BACKEND_URL}/api/station`);
+    apiService.get(`/station`);
   };
 
   static returnAdmin = async () => {
     try {
-      const res = await apiService.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/isadmin`
-      );
+      const res = await apiService.get(`/users/isadmin`);
       if (res.message === "ok") {
         return res.message;
       }

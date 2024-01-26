@@ -3,7 +3,7 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { useGeolocated } from "react-geolocated";
 import { MDBBtn } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
-import apiService from "../services/api.service";
+import { useTheContext } from "../context/Context";
 import Station from "./Station";
 import Places from "./Places";
 import myLocationIcon from "../assets/my-location.svg";
@@ -13,6 +13,7 @@ export default function Map() {
   const [selectedStation, setSelectedStation] = useState(null);
   const [chargingPoints, setChargingPoints] = useState(null);
 
+  const { apiService } = useTheContext();
   const { coords, getPosition } = useGeolocated();
   const mapRef = useRef();
 
@@ -53,10 +54,7 @@ export default function Map() {
     const bounds = mapRef.current?.getBounds().toJSON();
     const newStations =
       mapRef.current?.getZoom() > 7
-        ? await apiService.post(
-            `${import.meta.env.VITE_BACKEND_URL}/api/station/bounds`,
-            bounds
-          )
+        ? await apiService.post(`/station/bounds`, bounds)
         : [];
     setStations(newStations);
   };

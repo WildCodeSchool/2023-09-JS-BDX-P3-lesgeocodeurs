@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ContextProvider } from "./context/Context";
-import apiService from "./services/api.service";
+import ApiService from "./services/api.service";
 import FunctionsService from "./services/functions.service";
 import "./styles/index.scss";
 
@@ -29,11 +29,13 @@ import NewReservation from "./pages/NewReservation";
 import BackOfficeModifCar from "./pages/BackOfficeModifCar";
 import BackOfficeManager from "./components/BackOfficeManager";
 
+const apiService = new ApiService();
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ContextProvider>
+      <ContextProvider apiService={apiService}>
         <App />
       </ContextProvider>
     ),
@@ -46,7 +48,7 @@ const router = createBrowserRouter([
       {
         path: "/map",
         element: <MapPage />,
-        // loader: async () => apiService.get(`${import.meta.env.VITE_BACKEND_URL}/api/station`),
+        // loader: async () => apiService.get(`/station`),
       },
       {
         path: "/myaccount",
@@ -85,18 +87,14 @@ const router = createBrowserRouter([
         path: "/newreservation/:id",
         element: <NewReservation />,
         loader: async ({ params }) =>
-          apiService.get(
-            `${import.meta.env.VITE_BACKEND_URL}/api/chargingpoint/${params.id}`
-          ),
+          apiService.get(`/chargingpoint/${params.id}`),
       },
       {
-        path: "/modifprofil",
+        path: "/modifprofil/:userId",
         element: <ModifProfil />,
         loader: async ({ params }) => {
           try {
-            const data = await apiService.get(
-              `${import.meta.env.VITE_BACKEND_URL}/api/users/${params.userId}`
-            );
+            const data = await apiService.get(`/users/${params.userId}`);
 
             return { preloadedUserData: data };
           } catch (error) {
@@ -123,11 +121,7 @@ const router = createBrowserRouter([
             element: <BackOfficeModifProfil />,
             loader: async ({ params }) => {
               try {
-                const data = await apiService.get(
-                  `${import.meta.env.VITE_BACKEND_URL}/api/users/${
-                    params.userId
-                  }`
-                );
+                const data = await apiService.get(`/users/${params.userId}`);
                 return { preloadedUserData: data };
               } catch (error) {
                 // TODO: redirect to other page
@@ -144,11 +138,7 @@ const router = createBrowserRouter([
             element: <BackOfficeModifCar />,
             loader: async ({ params }) => {
               try {
-                const data = await apiService.get(
-                  `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/${
-                    params.carId
-                  }`
-                );
+                const data = await apiService.get(`/vehicle/${params.carId}`);
                 return { preloadedCarData: data };
               } catch (error) {
                 // TODO: redirect to other page

@@ -5,6 +5,7 @@ class ApiService {
 
   constructor() {
     this.#token = localStorage.getItem("token");
+    this.baseUrl = `${import.meta.env.VITE_BACKEND_URL}/api`;
   }
 
   getToken() {
@@ -24,9 +25,12 @@ class ApiService {
     return config;
   }
 
-  async get(url) {
+  async get(endpoint) {
     try {
-      const response = await axios.get(url, this.getConfig());
+      const response = await axios.get(
+        this.baseUrl + endpoint,
+        this.getConfig()
+      );
       return response.data;
     } catch (err) {
       console.error(err);
@@ -34,9 +38,13 @@ class ApiService {
     }
   }
 
-  async post(url, content) {
+  async post(endpoint, content) {
     try {
-      const response = await axios.post(url, content, this.getConfig());
+      const response = await axios.post(
+        this.baseUrl + endpoint,
+        content,
+        this.getConfig()
+      );
       return response.data;
     } catch (err) {
       console.error(err);
@@ -44,9 +52,13 @@ class ApiService {
     }
   }
 
-  async put(url, content) {
+  async put(endpoint, content) {
     try {
-      const response = await axios.put(url, content, this.getConfig());
+      const response = await axios.put(
+        this.baseUrl + endpoint,
+        content,
+        this.getConfig()
+      );
       return response.data;
     } catch (err) {
       console.error(err);
@@ -54,11 +66,13 @@ class ApiService {
     }
   }
 
-  async delete(url) {
-    const response = await axios.delete(url, this.getConfig());
+  async delete(endpoint) {
+    const response = await axios.delete(
+      this.baseUrl + endpoint,
+      this.getConfig()
+    );
     return response.data;
   }
 }
 
-const apiService = new ApiService();
-export default apiService;
+export default ApiService;

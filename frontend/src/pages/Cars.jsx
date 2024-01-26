@@ -5,10 +5,10 @@ import {
   MDBCardTitle,
   MDBCardText,
 } from "mdb-react-ui-kit";
-import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useTheContext } from "../context/Context";
 
 export default function Cars() {
   function rtn() {
@@ -22,15 +22,14 @@ export default function Cars() {
   const [vehicleToDelete, setVehicleToDelete] = useState(null);
   const [confirmedDelete, setConfirmedDelete] = useState(false);
   const [vehicles, setVehicles] = useState([]);
+  const { apiService } = useTheContext();
 
   const fetchData = async () => {
     const jwtToken = localStorage.getItem("token");
     const token = jwtDecode(jwtToken);
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/users/${token.id}`
-      );
-      setVehicles(response.data);
+      const response = await apiService.get(`/vehicle/users/${token.id}`);
+      setVehicles(response);
     } catch (error) {
       console.error("Error fetching vehicles:", error);
     }
@@ -38,10 +37,8 @@ export default function Cars() {
 
   const fetchPlugTypes = async () => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/plugTypes`
-      );
-      setPlugTypes(response.data);
+      const response = await apiService.get(`/plugtypes`);
+      setPlugTypes(response);
     } catch (error) {
       console.error("Error fetching plug types:", error);
     }
@@ -62,9 +59,7 @@ export default function Cars() {
   // Fonction pour confirmer la suppression du véhicule
   const confirmDeleteCar = async () => {
     try {
-      await axios.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/${vehicleToDelete}`
-      );
+      await apiService.delete(`/vehicle/${vehicleToDelete}`);
       // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
       // ...
       // Réinitialiser l'ID du véhicule à supprimer
