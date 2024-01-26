@@ -44,11 +44,6 @@ export default function Cars() {
     }
   };
 
-  useEffect(() => {
-    fetchPlugTypes();
-    fetchData();
-  }, []);
-
   // Fonction pour ouvrir la boîte de dialogue de confirmation
   const openConfirmationDialog = (carId) => {
     setVehicleToDelete(carId);
