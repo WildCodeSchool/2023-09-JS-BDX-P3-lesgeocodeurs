@@ -22,6 +22,25 @@ class FunctionsService {
     }
     return null;
   };
+
+  static getUserInfos = async ({ params }) => {
+    try {
+      const data = await apiService.get(`/users/${params.userId}`);
+
+      return { preloadedUserData: data };
+    } catch (error) {
+      return null;
+    }
+  };
+
+  static getCarInfos = async ({ params }) => {
+    try {
+      const data = await apiService.get(`/vehicle/${params.carId}`);
+      return { preloadedCarData: data };
+    } catch (error) {
+      return null;
+    }
+  };
 }
 
 export default FunctionsService;

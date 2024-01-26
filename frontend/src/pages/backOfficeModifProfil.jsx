@@ -19,26 +19,6 @@ export default function BackOfficeModifProfil() {
 
   const { userId } = useParams();
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await apiService.get(
-  //         `/users/${userId}`
-  //       );
-  //       console.log(response);
-  //       setModifProfil(response);
-  //       // setModifProfil({
-  //       //   ...modifProfil,
-  //       //   birth_date: modifProfil?.birth_date.substring(0, 10),
-  //       // });
-  //     } catch (error) {
-  //       console.error("Erreur lors de la récupération des données :", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [userId]);
-
   const editNewProfil = async (newData) => {
     try {
       const response = await apiService.put(`/users/${userId}`, newData);
