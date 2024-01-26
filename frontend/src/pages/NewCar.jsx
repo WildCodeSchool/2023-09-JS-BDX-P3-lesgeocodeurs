@@ -28,7 +28,7 @@ export default function NewCar() {
     const fetchPlugTypes = async () => {
       try {
         const response = await apiService.get(`/plugtypes`);
-        setPlugTypes(response.data);
+        setPlugTypes(response);
       } catch (error) {
         console.error("Error fetching plug types:", error);
       }

@@ -26,7 +26,7 @@ export default function BackOfficeModifProfil() {
   //         `/users/${userId}`
   //       );
   //       console.log(response);
-  //       setModifProfil(response.data);
+  //       setModifProfil(response);
   //       // setModifProfil({
   //       //   ...modifProfil,
   //       //   birth_date: modifProfil?.birth_date.substring(0, 10),

@@ -19,7 +19,7 @@ export default function BAckOfficeAccueil() {
     const fetchData = async () => {
       try {
         const response = await apiService.get(`/users/count`);
-        setUsersNbr(response.data);
+        setUsersNbr(response);
       } catch (error) {
         console.error("Error fetching usersCount:", error);
       }
@@ -31,7 +31,7 @@ export default function BAckOfficeAccueil() {
     const fetchData = async () => {
       try {
         const response = await apiService.get(`/vehicle/count`);
-        setVehicleNbr(response.data);
+        setVehicleNbr(response);
       } catch (error) {
         console.error("Error fetching vehicleCount:", error);
       }
@@ -43,7 +43,7 @@ export default function BAckOfficeAccueil() {
     const fetchData = async () => {
       try {
         const response = await apiService.get(`/chargingpoint/count`);
-        setchargingpointNbr(response.data);
+        setchargingpointNbr(response);
       } catch (error) {
         console.error("Error fetching chargingpointCount:", error);
       }

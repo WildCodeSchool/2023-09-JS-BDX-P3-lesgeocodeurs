@@ -29,7 +29,7 @@ export default function Cars() {
     const token = jwtDecode(jwtToken);
     try {
       const response = await apiService.get(`/vehicle/users/${token.id}`);
-      setVehicles(response.data);
+      setVehicles(response);
     } catch (error) {
       console.error("Error fetching vehicles:", error);
     }
@@ -38,7 +38,7 @@ export default function Cars() {
   const fetchPlugTypes = async () => {
     try {
       const response = await apiService.get(`/plugtypes`);
-      setPlugTypes(response.data);
+      setPlugTypes(response);
     } catch (error) {
       console.error("Error fetching plug types:", error);
     }

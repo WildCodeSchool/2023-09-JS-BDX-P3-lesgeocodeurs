@@ -21,7 +21,7 @@ export default function BackOfficeCars() {
   const fetchData = async () => {
     try {
       const response = await apiService.get(`/vehicle`);
-      setUserData(response.data);
+      setUserData(response);
     } catch (error) {
       console.error("Erreur lors de la récupération des données :", error);
     }
@@ -30,7 +30,7 @@ export default function BackOfficeCars() {
   const fetchPlugTypes = async () => {
     try {
       const response = await apiService.get(`/plugtypes`);
-      setPlugTypes(response.data);
+      setPlugTypes(response);
     } catch (error) {
       console.error("Error fetching plug types:", error);
     }

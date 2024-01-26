@@ -15,7 +15,7 @@ export default function Station({
       const response = await apiService.get(
         `/chargingpoint?station_id=${stationId}`
       );
-      setChargingPoints(response.data);
+      setChargingPoints(response);
     } catch (err) {
       console.error(err);
     }
