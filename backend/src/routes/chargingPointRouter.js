@@ -3,7 +3,7 @@ const chargingpointControllers = require("../controllers/chargingpointController
 
 const router = express.Router();
 
-router.get("/:id", chargingpointControllers.read);
+router.get("/:id([0-9]+)", chargingpointControllers.read);
 router.get("/", chargingpointControllers.browse);
 router.get("/count", chargingpointControllers.chargingpointCount);
 
