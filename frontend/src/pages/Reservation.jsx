@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
-import axios from "axios";
 import { DateTime } from "luxon";
 import {
   MDBBtn,
@@ -9,18 +8,17 @@ import {
   MDBCardTitle,
   MDBCardText,
 } from "mdb-react-ui-kit";
-import apiService from "../services/api.service";
+import { useTheContext } from "../context/Context";
 
 export default function Reservation() {
   const [reservations, setReservations] = useState([]);
+  const { apiService } = useTheContext();
 
   const fetchData = async () => {
     const jwtToken = localStorage.getItem("token");
     const token = jwtDecode(jwtToken);
     try {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/reservation/users/${token.id}`
-      );
+      const data = await apiService.get(`/reservation/users/${token.id}`);
       setReservations(
         data
           .map((r) => ({
@@ -47,9 +45,7 @@ export default function Reservation() {
     .sort((a, b) => b.datetime - a.datetime);
 
   const handleCancel = async (id) => {
-    await apiService.put(
-      `${import.meta.env.VITE_BACKEND_URL}/api/reservation/cancel/${id}`
-    );
+    await apiService.put(`/reservation/cancel/${id}`);
     fetchData();
   };
 

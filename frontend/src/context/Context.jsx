@@ -1,14 +1,12 @@
 import { createContext, useContext, useState, useMemo } from "react";
-import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-// import validator from "validator";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import apiService from "../services/api.service";
+import ApiService from "../services/api.service";
 
 const theContext = createContext();
 
-export function ContextProvider({ children }) {
+export function ContextProvider({ apiService, children }) {
   const navigate = useNavigate();
 
   // le state qui contient les infos du user connecté
@@ -28,9 +26,7 @@ export function ContextProvider({ children }) {
     }
     const token = jwtDecode(jwtToken);
     try {
-      const data = await apiService.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/${token.id}`
-      );
+      const data = await apiService.get(`/users/${token.id}`);
       setUser(data);
     } catch (error) {
       console.error(error.message);
@@ -41,10 +37,7 @@ export function ContextProvider({ children }) {
   // connexion : vérifie si les identifiants sont bons et met à jour le state "user"
   const login = async (credentials) => {
     try {
-      const data = await apiService.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/login`,
-        credentials
-      );
+      const data = await apiService.post(`/users/login`, credentials);
       localStorage.setItem("token", data.token);
       apiService.setToken(data.token);
       getUserInfos();
@@ -58,10 +51,7 @@ export function ContextProvider({ children }) {
   // inscription : stocke le nouveau user dans le localstorage
   const register = async (newUser) => {
     try {
-      const data = await apiService.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users`,
-        newUser
-      );
+      const data = await apiService.post(`/users`, newUser);
       localStorage.setItem("token", data.token);
       apiService.setToken(data.token);
       navigate("/register/infos");
@@ -96,10 +86,7 @@ export function ContextProvider({ children }) {
 
     const token = jwtDecode(jwtToken);
     try {
-      const response = await apiService.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/${token.id}`,
-        newData
-      );
+      const response = await apiService.put(`/users/${token.id}`, newData);
       console.info(response);
       getUserInfos();
     } catch (err) {
@@ -109,7 +96,7 @@ export function ContextProvider({ children }) {
 
   const countUsers = async () => {
     try {
-      await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/userscount`);
+      await apiService.get(`/users/count`);
     } catch (err) {
       console.error(err);
     }
@@ -117,7 +104,7 @@ export function ContextProvider({ children }) {
 
   const countVehicle = async () => {
     try {
-      await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/vehiclecount`);
+      await apiService.get(`/vehicle/count`);
     } catch (err) {
       console.error(err);
     }
@@ -125,9 +112,7 @@ export function ContextProvider({ children }) {
 
   const countChargingpoint = async () => {
     try {
-      await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/chargingpointcount`
-      );
+      await apiService.get(`/chargingpoint/count`);
     } catch (err) {
       console.error(err);
     }
@@ -139,9 +124,7 @@ export function ContextProvider({ children }) {
     const jwtToken = apiService.getToken();
     const token = jwtDecode(jwtToken);
     try {
-      await apiService.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/${token.id}`
-      );
+      await apiService.delete(`/users/${token.id}`);
       logout();
 
       alert("Votre compte a bien été supprimé");
@@ -152,9 +135,7 @@ export function ContextProvider({ children }) {
 
   const deleteUserAdmin = async (userId) => {
     try {
-      await apiService.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`
-      );
+      await apiService.delete(`/users/${userId}`);
       alert("Le compte a bien été supprimé");
     } catch (err) {
       console.error(err);
@@ -183,10 +164,7 @@ export function ContextProvider({ children }) {
     const completeCar = newCar;
     completeCar.user_id = token.id;
     try {
-      await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/vehicle`,
-        completeCar
-      );
+      await apiService.post(`/vehicle`, completeCar);
       if (user) {
         navigate("/cars");
       } else {
@@ -200,6 +178,7 @@ export function ContextProvider({ children }) {
   const memoizedUserValue = useMemo(
     () => ({
       user,
+      apiService,
       login,
       logout,
       register,
@@ -213,7 +192,7 @@ export function ContextProvider({ children }) {
       countVehicle,
       countChargingpoint,
     }),
-    [user]
+    [user, apiService]
   );
 
   return (
@@ -223,5 +202,9 @@ export function ContextProvider({ children }) {
   );
 }
 
-ContextProvider.propTypes = { children: PropTypes.node.isRequired };
+ContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+  apiService: PropTypes.instanceOf(ApiService).isRequired,
+};
+
 export const useTheContext = () => useContext(theContext);
