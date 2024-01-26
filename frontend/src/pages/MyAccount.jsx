@@ -123,7 +123,7 @@ export default function MyAccount() {
           <MDBBtn size="sm" onClick={confirmDeleteUser}>
             Oui
           </MDBBtn>
-          <MDBBtn size="sm" onClick={() => setConfirmedDelete(true)}>
+          <MDBBtn size="sm" onClick={() => setShowConfirmation(false)}>
             Annuler
           </MDBBtn>
         </div>
