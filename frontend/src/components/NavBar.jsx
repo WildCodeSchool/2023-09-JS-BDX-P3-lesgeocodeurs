@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useTheContext } from "../context/Context";
-import geocodeLogo from "../assets/logo-white.svg";
+import whiteLogo from "../assets/logo-white.svg";
 
 export default function NavBar() {
   const { user } = useTheContext();
@@ -9,7 +9,7 @@ export default function NavBar() {
     <div className="the-navbar">
       <div className="desktop-only-container">
         <h1 className="home_title">GEOCODE</h1>
-        <img src={geocodeLogo} alt="logo geocode" />
+        <img src={whiteLogo} alt="white logo" />
       </div>
       <div className="navbar-buttons">
         <Link to="/" className="navbar-button">

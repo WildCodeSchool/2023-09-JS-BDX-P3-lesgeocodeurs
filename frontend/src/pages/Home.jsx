@@ -8,11 +8,18 @@ import {
   MDBRipple,
   MDBBtn,
 } from "mdb-react-ui-kit";
+import colorLogo from "../assets/Logo.png";
+import carVideo from "../assets/home.video.mp4";
+import roadImg from "../assets/road.jpg";
+import mapImg from "../assets/carte.png";
+import reservationImg from "../assets/reservation.png";
+import stationImg from "../assets/cars.logo.home.png";
+import plugImg from "../assets/prise.png";
 
 export default function Home() {
   return (
     <div className="home-container">
-      <img className="img-home" src="./src/assets/Logo.png" alt="logo" />
+      <img className="img-home" src={colorLogo} alt="logo" />
       <p className="slogan">
         Pour ne plus jamais être victime du coup de la panne...
         <br />
@@ -26,7 +33,7 @@ export default function Home() {
           loop
           style={{ width: "100%", height: "100%" }}
         >
-          <source src="./src/assets/home.video.mp4" type="video/mp4" />
+          <source src={carVideo} type="video/mp4" />
         </video>
       </div>
       <div className="button-map-container">
@@ -35,7 +42,7 @@ export default function Home() {
         </MDBBtn>
       </div>
       <div className="img-road-container">
-        <img className="img-road" src="./src/assets/road.jpg" alt="road" />
+        <img className="img-road" src={roadImg} alt="road" />
         <div className="overlay" />
       </div>
       <div className="card-container">
@@ -45,7 +52,7 @@ export default function Home() {
             rippleTag="div"
             className="bg-image hover-overlay"
           >
-            <MDBCardImage src="./src/assets/carte.png" fluid alt="carte" />
+            <MDBCardImage src={mapImg} fluid alt="carte" />
 
             <div
               className="mask"
@@ -64,11 +71,7 @@ export default function Home() {
             rippleTag="div"
             className="bg-image hover-overlay"
           >
-            <MDBCardImage
-              src="./src/assets/reservation.png"
-              fluid
-              alt="reservation"
-            />
+            <MDBCardImage src={reservationImg} fluid alt="reservation" />
 
             <div
               className="mask"
@@ -85,11 +88,7 @@ export default function Home() {
             rippleTag="div"
             className="bg-image hover-overlay"
           >
-            <MDBCardImage
-              src="./src/assets/cars.logo.home.png"
-              fluid
-              alt="carslogo"
-            />
+            <MDBCardImage src={stationImg} fluid alt="carslogo" />
 
             <div
               className="mask"
@@ -106,7 +105,7 @@ export default function Home() {
             rippleTag="div"
             className="bg-image hover-overlay"
           >
-            <MDBCardImage src="./src/assets/prise.png" fluid alt="prise" />
+            <MDBCardImage src={plugImg} fluid alt="prise" />
 
             <div
               className="mask"
