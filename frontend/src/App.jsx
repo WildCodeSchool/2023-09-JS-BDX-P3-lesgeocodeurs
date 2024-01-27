@@ -10,10 +10,12 @@ function App() {
   }, []);
 
   return (
-    <div>
-      <Outlet />
+    <>
+      <div className="global-container-outlet">
+        <Outlet />
+      </div>
       <NavBar />
-    </div>
+    </>
   );
 }
 
