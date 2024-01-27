@@ -22,7 +22,6 @@ import ModifProfil from "./pages/ModifProfil";
 import BackOfficeUtilisateur from "./pages/BackOfficeUtilisateur";
 import BackOfficeAccueil from "./pages/BackOfficeAccueil";
 import BackOfficeModifProfil from "./pages/backOfficeModifProfil";
-import MakeReservation from "./pages/MakeReservation";
 import BackOfficeCars from "./pages/BackOfficeCars";
 import NewCar from "./pages/NewCar";
 import NewReservation from "./pages/NewReservation";
@@ -122,11 +121,6 @@ const router = createBrowserRouter([
             loader: ({ params }) => FunctionsService.getCarInfos({ params }),
           },
         ],
-      },
-
-      {
-        path: "/makereservation",
-        element: <MakeReservation />,
       },
     ],
   },

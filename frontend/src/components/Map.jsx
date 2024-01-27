@@ -13,7 +13,7 @@ export default function Map() {
   const [selectedStation, setSelectedStation] = useState(null);
   const [chargingPoints, setChargingPoints] = useState(null);
 
-  const { apiService } = useTheContext();
+  const { apiService, user } = useTheContext();
   const { coords, getPosition } = useGeolocated();
   const mapRef = useRef();
 
@@ -116,20 +116,23 @@ export default function Map() {
       {/* Bloc d'informations sur la station */}
       {selectedStation && (
         <div className="station-modal">
-          <strong>{selectedStation.name}</strong>
+          <h2>{selectedStation.name}</h2>
           <div>{selectedStation.address}</div>
           <br />
-          <strong>Bornes</strong>
+          <h3>Bornes</h3>
           {chargingPoints?.map((cp) => (
-            <div key={cp.id}>
-              <span>{cp.name}</span>
-              <span> ({cp.power} kW)</span>
-              <div>
-                {cp.plug_types?.map((pt) => (
-                  <span key={pt}>{pt} </span>
-                ))}
-              </div>
-              <Link to={`/newreservation/${cp.id}`}>Réserver cette borne</Link>
+            <div key={cp.id} className="charging-point-div">
+              <strong>{cp.name}</strong>
+              <div>Puissance : {cp.power} kW</div>
+              <div>Prises : {cp.plug_types?.join(", ")}</div>
+              {user && (
+                <Link
+                  to={`/newreservation/${cp.id}`}
+                  className="new-reservation-btn"
+                >
+                  Réserver cette borne
+                </Link>
+              )}
             </div>
           ))}
         </div>

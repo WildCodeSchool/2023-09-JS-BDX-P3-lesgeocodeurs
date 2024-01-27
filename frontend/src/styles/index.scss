@@ -18,7 +18,6 @@ $my-dark-theme: mdb-light-theme($my-theme-primary, $my-theme-secondary);
 @import "./components/backofficeutilisateur";
 @import "./components/backofficeaccueil";
 @import "./components/backofficemodifprofil";
-@import "./components/makereservation";
 @import "./components/backofficecars";
 @import "./components/registercars";
 @import "./components/newreservation";
@@ -30,7 +29,10 @@ $my-dark-theme: mdb-light-theme($my-theme-primary, $my-theme-secondary);
 }
 
 @media only screen and (min-width: 768px) {
-  .global-container-outlet {
-    margin: 90px 10% 0 10%;
+  .global-container-outlet:not(:has(.map-container)) {
+    max-width: 768px;
+    margin: auto;
+    margin-top: 90px;
+    margin-bottom: 0;
   }
 }
