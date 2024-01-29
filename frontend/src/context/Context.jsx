@@ -123,7 +123,7 @@ export function ContextProvider({ apiService, children }) {
     const jwtToken = apiService.getToken();
     const token = jwtDecode(jwtToken);
     try {
-      await apiService.delete(`/users/${token.id}`);
+      await apiService.del(`/users/${token.id}`);
       logout();
 
       alert("Votre compte a bien été supprimé");
@@ -134,7 +134,7 @@ export function ContextProvider({ apiService, children }) {
 
   const deleteUserAdmin = async (userId) => {
     try {
-      await apiService.delete(`/users/${userId}`);
+      await apiService.del(`/users/${userId}`);
       alert("Le compte a bien été supprimé");
     } catch (err) {
       console.error(err);

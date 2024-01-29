@@ -25,7 +25,7 @@ export default function MyAccount() {
     const jwtToken = apiService.getToken();
     const token = jwtDecode(jwtToken);
     try {
-      await apiService.delete(`/users/${token.id}`);
+      await apiService.del(`/users/${token.id}`);
       // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
       // ...
       // Réinitialiser l'ID du véhicule à supprimer

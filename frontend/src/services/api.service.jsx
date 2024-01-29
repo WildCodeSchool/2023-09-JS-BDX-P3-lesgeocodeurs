@@ -45,7 +45,8 @@ const put = async (endpoint, content) => {
   }
 };
 
-async function del(endpoint) {
+// prettier-ignore
+const del = async (endpoint) => {
   const response = await axios.delete(baseUrl + endpoint, getConfig());
   return response.data;
 }
