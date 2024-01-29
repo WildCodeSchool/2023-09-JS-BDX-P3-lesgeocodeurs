@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { DateTime } from "luxon";
 import {
@@ -13,6 +14,7 @@ import { useTheContext } from "../context/Context";
 export default function Reservation() {
   const [reservations, setReservations] = useState([]);
   const { apiService } = useTheContext();
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     const jwtToken = localStorage.getItem("token");
@@ -54,7 +56,7 @@ export default function Reservation() {
       <button
         type="submit"
         className="back"
-        onClick={() => window.history.back()}
+        onClick={() => navigate("/myaccount")}
       >
         &larr; Retour
       </button>
