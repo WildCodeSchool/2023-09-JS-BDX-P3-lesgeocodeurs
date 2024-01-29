@@ -158,18 +158,14 @@ export function ContextProvider({ apiService, children }) {
 
     return age;
   }
-  const createNewCar = async (newCar) => {
+  const createNewCar = async (newCar, nextPage) => {
     const jwtToken = localStorage.getItem("token");
     const token = jwtDecode(jwtToken);
     const completeCar = newCar;
     completeCar.user_id = token.id;
     try {
       await apiService.post(`/vehicle`, completeCar);
-      if (user) {
-        navigate("/cars");
-      } else {
-        navigate("/myaccount");
-      }
+      navigate(nextPage);
     } catch (err) {
       console.error(err);
     }

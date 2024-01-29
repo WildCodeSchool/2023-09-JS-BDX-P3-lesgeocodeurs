@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ContextProvider } from "./context/Context";
 import apiService from "./services/api.service";
-import FunctionsService from "./services/functions.service";
+import functionsService from "./services/functions.service";
 import "./styles/index.scss";
 
 import App from "./App";
@@ -45,7 +45,6 @@ const router = createBrowserRouter([
       {
         path: "/map",
         element: <MapPage />,
-        // loader: async () => apiService.get(`/station`),
       },
       {
         path: "/myaccount",
@@ -89,34 +88,37 @@ const router = createBrowserRouter([
       {
         path: "/modifprofil/:userId",
         element: <ModifProfil />,
-        loader: (params) => FunctionsService.getUserInfos({ params }),
+        loader: async ({ params }) =>
+          functionsService.getUserInfos(params.userId),
       },
       {
         path: "/backoffice",
         element: <BackOfficeManager />,
-        loader: async () => FunctionsService.returnAdmin(),
+        loader: async () => functionsService.returnAdmin(),
         children: [
-          {
-            path: "/backoffice/utilisateur",
-            element: <BackOfficeUtilisateur />,
-          },
           {
             path: "/backoffice/accueil",
             element: <BackOfficeAccueil />,
           },
           {
-            path: "/backoffice/modifprofil/:userId",
-            element: <BackOfficeModifProfil />,
-            loader: ({ params }) => FunctionsService.getUserInfos({ params }),
+            path: "/backoffice/utilisateur",
+            element: <BackOfficeUtilisateur />,
           },
           {
             path: "/backoffice/cars",
             element: <BackOfficeCars />,
           },
           {
+            path: "/backoffice/modifprofil/:userId",
+            element: <BackOfficeModifProfil />,
+            loader: async ({ params }) =>
+              functionsService.getUserInfos(params.userId),
+          },
+          {
             path: "/backoffice/modifcar/:carId",
             element: <BackOfficeModifCar />,
-            loader: ({ params }) => FunctionsService.getCarInfos({ params }),
+            loader: async ({ params }) =>
+              functionsService.getCarInfos(params.carId),
           },
         ],
       },

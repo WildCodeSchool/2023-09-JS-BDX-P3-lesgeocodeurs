@@ -29,10 +29,19 @@ $my-dark-theme: mdb-light-theme($my-theme-primary, $my-theme-secondary);
 }
 
 @media only screen and (min-width: 768px) {
-  .global-container-outlet:not(:has(.map-container)) {
+  .global-container-outlet {
+    margin-top: 70px;
+  }
+  .global-container-outlet:not(
+      :has(
+          .map-container,
+          .backofficeaccueil_container,
+          .backofficeutilisateur_container
+        )
+    ) {
     max-width: 768px;
     margin: auto;
-    margin-top: 90px;
+    margin-top: 70px;
     margin-bottom: 0;
   }
 }

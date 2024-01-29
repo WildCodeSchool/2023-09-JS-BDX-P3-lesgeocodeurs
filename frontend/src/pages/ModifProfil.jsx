@@ -27,6 +27,13 @@ export default function ModifProfil() {
 
   return (
     <div className="modifprofil_container">
+      <button
+        type="submit"
+        className="back"
+        onClick={() => navigate("/myaccount")}
+      >
+        &larr; Retour
+      </button>
       <div className="titlemodifprofil">
         <h1>Modifier mon Profil</h1>
       </div>

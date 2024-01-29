@@ -69,7 +69,7 @@ export default function RegisterCars() {
 
         <MDBBtn
           type="button"
-          onClick={() => createNewCar(vFormData)}
+          onClick={() => createNewCar(vFormData, "/myaccount")}
           className="mb-4"
           block
         >

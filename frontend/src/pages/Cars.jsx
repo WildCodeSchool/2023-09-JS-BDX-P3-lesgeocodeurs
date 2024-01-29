@@ -20,7 +20,7 @@ export default function Cars() {
   const [confirmedDelete, setConfirmedDelete] = useState(false);
   const [vehicles, setVehicles] = useState([]);
   const { apiService } = useTheContext();
-  const naviguate = useNavigate();
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     const jwtToken = localStorage.getItem("token");
@@ -81,7 +81,7 @@ export default function Cars() {
       <button
         type="submit"
         className="back"
-        onClick={() => naviguate("/myaccount")}
+        onClick={() => navigate("/myaccount")}
       >
         &larr; Retour
       </button>

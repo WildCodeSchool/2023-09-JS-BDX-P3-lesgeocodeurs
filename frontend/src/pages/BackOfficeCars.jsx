@@ -13,7 +13,6 @@ export default function BackOfficeCars() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   // État pour stocker l'ID du véhicule à supprimer
   const [carToDelete, setCarToDelete] = useState(null);
-  const [confirmedDelete, setConfirmedDelete] = useState(false);
 
   const { apiService } = useTheContext();
   const navigate = useNavigate();
@@ -50,8 +49,6 @@ export default function BackOfficeCars() {
     navigate(`/backoffice/modifcar/${carId}`); // Utilisation de navigate pour la redirection
   };
 
-  console.info(confirmedDelete, carToDelete);
-
   // Fonction pour ouvrir la boîte de dialogue de confirmation
   const openConfirmationDialog = (carId) => {
     setCarToDelete(carId);
@@ -71,8 +68,6 @@ export default function BackOfficeCars() {
       // ...
       // Réinitialiser l'ID du véhicule à supprimer
       setCarToDelete(null);
-      // Marquer la confirmation de suppression
-      setConfirmedDelete(true);
       // Fermer la boîte de dialogue après la suppression réussie
       alert("Votre vehicle a bien été supprimé");
       fetchData();
@@ -97,7 +92,7 @@ export default function BackOfficeCars() {
   ]);
 
   // Position de la boîte de dialogue de confirmation
-  const [dialogStyle, setDialogStyle] = useState({
+  const dialogStyle = {
     position: "fixed",
     top: "50%",
     left: "50%",
@@ -108,8 +103,7 @@ export default function BackOfficeCars() {
     textAlign: "center",
     borderRadius: "5px",
     boxShadow: "10px 10px 10px 10px rgba(0.1, 0.1, 0.1, 0.1)",
-  });
-  console.info(setDialogStyle);
+  };
 
   const basicData = { columns, rows };
 
