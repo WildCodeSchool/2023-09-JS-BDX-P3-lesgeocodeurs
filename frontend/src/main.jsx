@@ -89,7 +89,7 @@ const router = createBrowserRouter([
       {
         path: "/modifprofil/:userId",
         element: <ModifProfil />,
-        loader: (params) => FunctionsService.getUserInfos({ params }),
+        loader: ({ params }) => FunctionsService.getUserInfos({ params }),
       },
       {
         path: "/backoffice",

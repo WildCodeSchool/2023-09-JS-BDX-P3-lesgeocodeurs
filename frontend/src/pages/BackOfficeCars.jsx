@@ -13,6 +13,8 @@ export default function BackOfficeCars() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   // État pour stocker l'ID du véhicule à supprimer
   const [carToDelete, setCarToDelete] = useState(null);
+
+  // eslint-disable-next-line no-unused-vars
   const [confirmedDelete, setConfirmedDelete] = useState(false);
 
   const { apiService } = useTheContext();
@@ -46,12 +48,6 @@ export default function BackOfficeCars() {
     return plugType ? plugType.name : "Type inconnu";
   }
 
-  const handleEditCar = (carId) => {
-    navigate(`/backoffice/modifcar/${carId}`); // Utilisation de navigate pour la redirection
-  };
-
-  console.info(confirmedDelete, carToDelete);
-
   // Fonction pour ouvrir la boîte de dialogue de confirmation
   const openConfirmationDialog = (carId) => {
     setCarToDelete(carId);
@@ -60,7 +56,6 @@ export default function BackOfficeCars() {
 
   const cancelDeleteCar = () => {
     // Annuler la suppression en fermant la boîte de dialogue
-    setShowConfirmation(false);
   };
 
   const confirmDeleteCar = async () => {
@@ -74,7 +69,6 @@ export default function BackOfficeCars() {
       // Marquer la confirmation de suppression
       setConfirmedDelete(true);
       // Fermer la boîte de dialogue après la suppression réussie
-      alert("Votre vehicle a bien été supprimé");
       fetchData();
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -89,7 +83,10 @@ export default function BackOfficeCars() {
     vehicle.model,
     getPlugTypeName(vehicle.plug_type_id),
 
-    <FontAwesomeIcon icon={faEdit} onClick={() => handleEditCar(vehicle.id)} />,
+    <FontAwesomeIcon
+      icon={faEdit}
+      onClick={() => navigate(`/backoffice/modifcar/${vehicle.id}`)}
+    />,
     <FontAwesomeIcon
       icon={faTrash}
       onClick={() => openConfirmationDialog(vehicle.id)}
@@ -97,17 +94,6 @@ export default function BackOfficeCars() {
   ]);
 
   // Position de la boîte de dialogue de confirmation
-  const [dialogStyle, setDialogStyle] = useState({
-    position: "fixed",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    backgroundColor: "white",
-    padding: "20px",
-    zIndex: "1000",
-    textAlign: "center",
-  });
-  console.info(setDialogStyle);
 
   const basicData = { columns, rows };
 
@@ -120,12 +106,24 @@ export default function BackOfficeCars() {
       </div>
       {/* Boîte de dialogue de confirmation */}
       {showConfirmation && (
-        <div className="confirmation-dialog" style={dialogStyle}>
+        <div
+          className="confirmation-dialog"
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: "white",
+            padding: "20px",
+            zIndex: "1000",
+            textAlign: "center",
+          }}
+        >
           <p>Voulez-vous vraiment supprimer votre compte ?</p>
           <MDBBtn size="sm" onClick={confirmDeleteCar}>
             Oui
           </MDBBtn>
-          <MDBBtn size="sm" onClick={cancelDeleteCar}>
+          <MDBBtn size="sm" onClick={() => setShowConfirmation(false)}>
             Annuler
           </MDBBtn>
         </div>
