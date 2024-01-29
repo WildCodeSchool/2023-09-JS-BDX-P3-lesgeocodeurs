@@ -87,7 +87,7 @@ const router = createBrowserRouter([
           apiService.get(`/chargingpoint/${params.id}`),
       },
       {
-        path: "/modifprofil",
+        path: "/modifprofil/:userId",
         element: <ModifProfil />,
         loader: async ({ params }) =>
           functionsService.getUserInfos(params.userId),

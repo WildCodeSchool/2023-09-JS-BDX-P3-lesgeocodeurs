@@ -41,7 +41,7 @@ export function ContextProvider({ apiService, children }) {
       localStorage.setItem("token", data.token);
       apiService.setToken(data.token);
       getUserInfos();
-      navigate("/");
+      navigate("/myaccount");
     } catch (err) {
       console.error(err);
       alert("wrong cred");
