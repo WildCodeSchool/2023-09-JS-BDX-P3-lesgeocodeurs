@@ -10,10 +10,10 @@ import {
 import colorLogo from "../assets/Logo.png";
 import carVideo from "../assets/home.video.mp4";
 // import roadImg from "../assets/road.jpg";
-import mapImg from "../assets/carte.png";
 import reservationImg from "../assets/reservation.png";
 import stationImg from "../assets/cars.logo.home.png";
 import plugImg from "../assets/prise.png";
+import cartehome from "../assets/carte.home.png";
 
 export default function Home() {
   return (
@@ -48,7 +48,7 @@ export default function Home() {
       </div> */}
       <div className="card-container">
         <MDBCard>
-          <MDBCardImage src={mapImg} fluid alt="carte" />
+          <MDBCardImage src={cartehome} fluid alt="carte" />
           <MDBCardBody>
             <MDBCardText className="card-text">
               Trouvez la borne la plus proche

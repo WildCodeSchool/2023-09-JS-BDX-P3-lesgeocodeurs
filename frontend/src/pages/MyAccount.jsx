@@ -3,9 +3,10 @@ import { MDBBtn } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { useTheContext } from "../context/Context";
+import apiService from "../services/api.service";
 
 export default function MyAccount() {
-  const { logout, user, calculerAge, apiService } = useTheContext();
+  const { logout, user, calculerAge } = useTheContext();
 
   const userAge = calculerAge(
     user ? user.birth_date : "1995-01-01T00:00:00.000Z'"
@@ -33,9 +34,22 @@ export default function MyAccount() {
       setConfirmedDelete(true);
       // Fermer la boîte de dialogue après la suppression réussie
       logout();
+      alert("Votre compte a bien été supprimé");
     } catch (error) {
       console.error("Error deleting car:", error);
     }
+  };
+
+  // Position de la boîte de dialogue de confirmation
+  const dialogStyle = {
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: "white",
+    padding: "20px",
+    zIndex: "1000",
+    textAlign: "center",
   };
 
   return (
@@ -64,7 +78,7 @@ export default function MyAccount() {
         </Link>
 
         <div className="modification-profil" />
-        <Link to={`/modifprofil/${user?.id}`}>
+        <Link to="/modifprofil">
           <MDBBtn className="buttonprofil" color="light" rippleColor="dark">
             <p>Modifier mon profil</p>
             <p>&rarr;</p>
@@ -91,35 +105,22 @@ export default function MyAccount() {
           </MDBBtn>
         </Link>
         <MDBBtn
-          size="sm"
           className="buttonprofil"
           color="light"
           rippleColor="dark"
           onClick={() => setShowConfirmation(true)}
         >
-          Supprimer
+          <p>Supprimer</p>
         </MDBBtn>
       </div>
       {/* Boîte de dialogue de confirmation */}
       {showConfirmation && (
-        <div
-          className="confirmation-dialog"
-          style={{
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            backgroundColor: "white",
-            padding: "20px",
-            zIndex: "1000",
-            textAlign: "center",
-          }}
-        >
+        <div className="confirmation-dialog" style={dialogStyle}>
           <p>Voulez-vous vraiment supprimer votre compte ?</p>
           <MDBBtn size="sm" onClick={confirmDeleteUser}>
             Oui
           </MDBBtn>
-          <MDBBtn size="sm" onClick={() => setShowConfirmation(false)}>
+          <MDBBtn size="sm" onClick={() => setShowConfirmation()}>
             Annuler
           </MDBBtn>
         </div>
