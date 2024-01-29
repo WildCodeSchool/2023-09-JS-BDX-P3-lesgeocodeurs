@@ -7,6 +7,20 @@
     padding: 60px;
   }
   .card {
-    box-shadow: 14px 18px 9px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    box-shadow: 4px 1px 5px 1px rgba(0, 0, 0, 0.1);
+  }
+}
+.bo-title {
+  margin-top: 50px;
+}
+.popup-btn {
+  display: flex;
+  justify-content: space-around;
+}
+
+@media (min-width: 1024px) {
+  .menu-btn-nav-bo {
+    display: none;
   }
 }

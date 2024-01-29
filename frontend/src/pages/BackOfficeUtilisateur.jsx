@@ -98,10 +98,12 @@ export default function BackOfficeUtilisateur() {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    backgroundColor: "white",
+    backgroundColor: "hsl(0deg 0% 94.65%)",
     padding: "20px",
     zIndex: "1000",
     textAlign: "center",
+    borderRadius: "5px",
+    boxShadow: "10px 10px 10px 10px rgba(0.1, 0.1, 0.1, 0.1)",
   };
 
   const basicData = { columns, rows };
@@ -109,7 +111,7 @@ export default function BackOfficeUtilisateur() {
   return (
     <div className="backofficeutilisateur_container">
       <NavBarBackOffice />
-
+      <h2 className="bo-title">Data Utilisateur</h2>
       <div className="backoffidata">
         <MDBDatatable fixedHeader maxHeight="460px" data={basicData} />
       </div>
@@ -117,12 +119,14 @@ export default function BackOfficeUtilisateur() {
       {showConfirmation && (
         <div className="confirmation-dialog" style={dialogStyle}>
           <p>Voulez-vous vraiment supprimer votre compte ?</p>
-          <MDBBtn size="sm" onClick={() => confirmDeleteUser(userToDelete)}>
-            Oui
-          </MDBBtn>
-          <MDBBtn size="sm" onClick={cancelDeleteUser}>
-            Annuler
-          </MDBBtn>
+          <div className="popup-btn">
+            <MDBBtn size="sm" onClick={() => confirmDeleteUser(userToDelete)}>
+              Oui
+            </MDBBtn>
+            <MDBBtn size="sm" onClick={cancelDeleteUser}>
+              Annuler
+            </MDBBtn>
+          </div>
         </div>
       )}
     </div>

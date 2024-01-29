@@ -53,6 +53,7 @@
 
   @media only screen and (min-width: 768px) {
     top: 0;
+    position: fixed;
     bottom: auto;
     flex-direction: row;
     align-items: center;
