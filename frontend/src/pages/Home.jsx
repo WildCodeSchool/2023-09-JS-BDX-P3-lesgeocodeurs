@@ -34,13 +34,7 @@ export default function Home() {
         </MDBBtn>
       </div>
       <div className="video-container">
-        <video
-          preload="auto"
-          autoPlay
-          muted
-          loop
-          style={{ width: "100%", height: "100%" }}
-        >
+        <video preload="auto" autoPlay muted loop>
           <source src={carVideo} type="video/mp4" />
         </video>
       </div>
