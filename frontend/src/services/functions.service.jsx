@@ -20,9 +20,9 @@ const returnAdmin = async () => {
   return null;
 };
 
-const getUserInfos = async ({ params }) => {
+const getUserInfos = async (userId) => {
   try {
-    const data = await apiService.get(`/users/${params.userId}`);
+    const data = await apiService.get(`/users/${userId}`);
 
     return { preloadedUserData: data };
   } catch (error) {
@@ -30,9 +30,9 @@ const getUserInfos = async ({ params }) => {
   }
 };
 
-const getCarInfos = async ({ params }) => {
+const getCarInfos = async (carId) => {
   try {
-    const data = await apiService.get(`/vehicle/${params.carId}`);
+    const data = await apiService.get(`/vehicle/${carId}`);
     return { preloadedCarData: data };
   } catch (error) {
     return null;

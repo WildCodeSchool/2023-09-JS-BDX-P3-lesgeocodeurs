@@ -53,7 +53,6 @@ export default function BAckOfficeAccueil() {
 
   return (
     <div className="backofficeaccueil_container">
-      <h1>Bienvenu dans votre BackOffice !</h1>
       <NavBarBackOffice />
 
       <div className="dashboard_container">
@@ -61,6 +60,8 @@ export default function BAckOfficeAccueil() {
           <MDBRow className="justify-content-center">
             <MDBCol md="10">
               <section>
+                <div>Bienvenue dans votre BackOffice !</div>
+                <br />
                 <h5 className="mb-4">Chiffres Clés</h5>
                 <MDBRow>
                   <MDBCol md="4" className="mb-md-0">
