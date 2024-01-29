@@ -14,6 +14,7 @@ import reservationImg from "../assets/reservation.png";
 import stationImg from "../assets/cars.logo.home.png";
 import plugImg from "../assets/prise.png";
 import cartehome from "../assets/carte.home.png";
+import AnimHome from "../components/Anim.home";
 
 export default function Home() {
   return (
@@ -21,11 +22,9 @@ export default function Home() {
       <div className="logo-container">
         <img src={colorLogo} alt="logo" />
       </div>
-      <p className="slogan">
-        Pour ne plus jamais être victime du coup de la panne...
-        <br />
-        GeoCode est là pour vous !
-      </p>
+      <div className="slogan">
+        <AnimHome />
+      </div>
       <div className="button-map-container">
         <MDBBtn className="mb-4">
           <Link to="/map">Accédez à la Carte</Link>
