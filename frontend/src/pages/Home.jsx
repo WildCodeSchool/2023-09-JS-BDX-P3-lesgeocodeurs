@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   MDBCard,
   MDBCardBody,
@@ -17,6 +17,8 @@ import cartehome from "../assets/carte.home.png";
 import AnimHome from "../components/Anim.home";
 
 export default function Home() {
+  const navigate = useNavigate();
+
   return (
     <div className="home-container">
       <div className="logo-container">
@@ -26,8 +28,8 @@ export default function Home() {
         <AnimHome />
       </div>
       <div className="button-map-container">
-        <MDBBtn className="mb-4">
-          <Link to="/map">Accédez à la Carte</Link>
+        <MDBBtn className="mb-4" onClick={() => navigate("/map")}>
+          Accédez à la Carte
         </MDBBtn>
       </div>
       <div className="video-container">

@@ -75,7 +75,7 @@ export default function NewCar() {
             type="submit"
             className="mb-4"
             block
-            onClick={() => createNewCar(vFormData)}
+            onClick={() => createNewCar(vFormData, "/cars")}
           >
             Enregistrer le nouveau véhicule
           </MDBBtn>
