@@ -87,9 +87,8 @@ const router = createBrowserRouter([
           apiService.get(`/chargingpoint/${params.id}`),
       },
       {
-        path: "/modifprofil/:userId",
+        path: "/modifprofil",
         element: <ModifProfil />,
-        loader: (params) => FunctionsService.getUserInfos({ params }),
       },
       {
         path: "/backoffice",
