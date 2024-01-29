@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
-
 import {
   MDBContainer,
   MDBRow,
@@ -8,20 +6,20 @@ import {
   MDBCol,
   MDBCardBody,
 } from "mdb-react-ui-kit";
+import { useTheContext } from "../context/Context";
 import NavBarBackOffice from "../components/NavBarBackOffice";
 
 export default function BAckOfficeAccueil() {
   const [usersNbr, setUsersNbr] = useState();
   const [vehicleNbr, setVehicleNbr] = useState();
   const [chargingpointNbr, setchargingpointNbr] = useState();
+  const { apiService } = useTheContext();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/userscount`
-        );
-        setUsersNbr(response.data);
+        const response = await apiService.get(`/users/count`);
+        setUsersNbr(response);
       } catch (error) {
         console.error("Error fetching usersCount:", error);
       }
@@ -32,10 +30,8 @@ export default function BAckOfficeAccueil() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/vehiclecount`
-        );
-        setVehicleNbr(response.data);
+        const response = await apiService.get(`/vehicle/count`);
+        setVehicleNbr(response);
       } catch (error) {
         console.error("Error fetching vehicleCount:", error);
       }
@@ -46,10 +42,8 @@ export default function BAckOfficeAccueil() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/chargingpointcount`
-        );
-        setchargingpointNbr(response.data);
+        const response = await apiService.get(`/chargingpoint/count`);
+        setchargingpointNbr(response);
       } catch (error) {
         console.error("Error fetching chargingpointCount:", error);
       }
@@ -59,7 +53,6 @@ export default function BAckOfficeAccueil() {
 
   return (
     <div className="backofficeaccueil_container">
-      <h1>Bienvenu dans votre BackOffice !</h1>
       <NavBarBackOffice />
 
       <div className="dashboard_container">
@@ -67,6 +60,8 @@ export default function BAckOfficeAccueil() {
           <MDBRow className="justify-content-center">
             <MDBCol md="10">
               <section>
+                <div>Bienvenue dans votre BackOffice !</div>
+                <br />
                 <h5 className="mb-4">Chiffres Clés</h5>
                 <MDBRow>
                   <MDBCol md="4" className="mb-md-0">

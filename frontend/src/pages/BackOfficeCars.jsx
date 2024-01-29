@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { MDBDatatable, MDBBtn } from "mdb-react-ui-kit";
 import NavBarBackOffice from "../components/NavBarBackOffice";
-import apiService from "../services/api.service";
+import { useTheContext } from "../context/Context";
 
 export default function BackOfficeCars() {
   const [userData, setUserData] = useState([]);
@@ -14,16 +13,14 @@ export default function BackOfficeCars() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   // État pour stocker l'ID du véhicule à supprimer
   const [carToDelete, setCarToDelete] = useState(null);
-  const [confirmedDelete, setConfirmedDelete] = useState(false);
 
+  const { apiService } = useTheContext();
   const navigate = useNavigate();
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/vehicle`
-      );
-      setUserData(response.data);
+      const response = await apiService.get(`/vehicle`);
+      setUserData(response);
     } catch (error) {
       console.error("Erreur lors de la récupération des données :", error);
     }
@@ -31,10 +28,8 @@ export default function BackOfficeCars() {
 
   const fetchPlugTypes = async () => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/plugTypes`
-      );
-      setPlugTypes(response.data);
+      const response = await apiService.get(`/plugtypes`);
+      setPlugTypes(response);
     } catch (error) {
       console.error("Error fetching plug types:", error);
     }
@@ -54,8 +49,6 @@ export default function BackOfficeCars() {
     navigate(`/backoffice/modifcar/${carId}`); // Utilisation de navigate pour la redirection
   };
 
-  console.info(confirmedDelete, carToDelete);
-
   // Fonction pour ouvrir la boîte de dialogue de confirmation
   const openConfirmationDialog = (carId) => {
     setCarToDelete(carId);
@@ -69,16 +62,12 @@ export default function BackOfficeCars() {
 
   const confirmDeleteCar = async () => {
     try {
-      await apiService.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/${carToDelete}`
-      );
+      await apiService.del(`/vehicle/${carToDelete}`);
       // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
 
       // ...
       // Réinitialiser l'ID du véhicule à supprimer
       setCarToDelete(null);
-      // Marquer la confirmation de suppression
-      setConfirmedDelete(true);
       // Fermer la boîte de dialogue après la suppression réussie
       alert("Votre vehicle a bien été supprimé");
       fetchData();
@@ -103,23 +92,25 @@ export default function BackOfficeCars() {
   ]);
 
   // Position de la boîte de dialogue de confirmation
-  const [dialogStyle, setDialogStyle] = useState({
+  const dialogStyle = {
     position: "fixed",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    backgroundColor: "white",
+    backgroundColor: "hsl(0deg 0% 94.65%)",
     padding: "20px",
     zIndex: "1000",
     textAlign: "center",
-  });
-  console.info(setDialogStyle);
+    borderRadius: "5px",
+    boxShadow: "10px 10px 10px 10px rgba(0.1, 0.1, 0.1, 0.1)",
+  };
 
   const basicData = { columns, rows };
 
   return (
     <div className="backofficeutilisateur_container">
       <NavBarBackOffice />
+      <h2 className="bo-title">Data Véhicules</h2>
 
       <div className="backoffidata">
         <MDBDatatable fixedHeader maxHeight="460px" data={basicData} />
@@ -128,12 +119,14 @@ export default function BackOfficeCars() {
       {showConfirmation && (
         <div className="confirmation-dialog" style={dialogStyle}>
           <p>Voulez-vous vraiment supprimer votre compte ?</p>
-          <MDBBtn size="sm" onClick={confirmDeleteCar}>
-            Oui
-          </MDBBtn>
-          <MDBBtn size="sm" onClick={cancelDeleteCar}>
-            Annuler
-          </MDBBtn>
+          <div className="popup-btn">
+            <MDBBtn size="sm" onClick={confirmDeleteCar}>
+              Oui
+            </MDBBtn>
+            <MDBBtn size="sm" onClick={cancelDeleteCar}>
+              Annuler
+            </MDBBtn>
+          </div>
         </div>
       )}
     </div>

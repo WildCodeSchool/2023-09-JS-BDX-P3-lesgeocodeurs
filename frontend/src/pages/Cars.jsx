@@ -5,32 +5,29 @@ import {
   MDBCardTitle,
   MDBCardText,
 } from "mdb-react-ui-kit";
-import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useTheContext } from "../context/Context";
 
 export default function Cars() {
-  function rtn() {
-    window.history.back();
-  }
-
   const [plugTypes, setPlugTypes] = useState([]);
   // État pour gérer l'affichage de la boîte de dialogue de confirmation
   const [showConfirmation, setShowConfirmation] = useState(false);
   // État pour stocker l'ID du véhicule à supprimer
   const [vehicleToDelete, setVehicleToDelete] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [confirmedDelete, setConfirmedDelete] = useState(false);
   const [vehicles, setVehicles] = useState([]);
+  const { apiService } = useTheContext();
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     const jwtToken = localStorage.getItem("token");
     const token = jwtDecode(jwtToken);
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/users/${token.id}`
-      );
-      setVehicles(response.data);
+      const response = await apiService.get(`/vehicle/users/${token.id}`);
+      setVehicles(response);
     } catch (error) {
       console.error("Error fetching vehicles:", error);
     }
@@ -38,38 +35,23 @@ export default function Cars() {
 
   const fetchPlugTypes = async () => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/plugTypes`
-      );
-      setPlugTypes(response.data);
+      const response = await apiService.get(`/plugtypes`);
+      setPlugTypes(response);
     } catch (error) {
       console.error("Error fetching plug types:", error);
     }
   };
-
-  useEffect(() => {
-    fetchPlugTypes();
-    fetchData();
-  }, []);
 
   // Fonction pour ouvrir la boîte de dialogue de confirmation
   const openConfirmationDialog = (carId) => {
     setVehicleToDelete(carId);
     setShowConfirmation(true);
   };
-  console.info(confirmedDelete);
-
-  const cancelDeleteCar = () => {
-    // Annuler la suppression en fermant la boîte de dialogue
-    setShowConfirmation(false);
-  };
 
   // Fonction pour confirmer la suppression du véhicule
   const confirmDeleteCar = async () => {
     try {
-      await axios.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/vehicle/${vehicleToDelete}`
-      );
+      await apiService.del(`/vehicle/${vehicleToDelete}`);
       // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
       // ...
       // Réinitialiser l'ID du véhicule à supprimer
@@ -77,34 +59,30 @@ export default function Cars() {
       // Marquer la confirmation de suppression
       setConfirmedDelete(true);
       // Fermer la boîte de dialogue après la suppression réussie
-      alert("Votre véhicule a bien été supprimé");
+      fetchData();
     } catch (error) {
       console.error("Error deleting car:", error);
     }
-    cancelDeleteCar();
+    setShowConfirmation(false);
   };
+
+  useEffect(() => {
+    fetchPlugTypes();
+    fetchData();
+  }, []);
 
   function getPlugTypeName(plugTypeId) {
     const plugType = plugTypes.find((type) => type.id === plugTypeId);
     return plugType ? plugType.name : "Type inconnu";
   }
 
-  // Position de la boîte de dialogue de confirmation
-  const [dialogStyle, setDialogStyle] = useState({
-    position: "fixed",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    backgroundColor: "white",
-    padding: "20px",
-    zIndex: "1000",
-    textAlign: "center",
-  });
-  console.info(setDialogStyle);
-
   return (
     <div className="cars-container">
-      <button type="submit" className="back" onClick={rtn}>
+      <button
+        type="submit"
+        className="back"
+        onClick={() => navigate("/myaccount")}
+      >
         &larr; Retour
       </button>
       <h1 className="cars-title">Mes véhicules</h1>
@@ -136,12 +114,24 @@ export default function Cars() {
       </div>
       {/* Boîte de dialogue de confirmation */}
       {showConfirmation && (
-        <div className="confirmation-dialog" style={dialogStyle}>
+        <div
+          className="confirmation-dialog"
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: "white",
+            padding: "20px",
+            zIndex: "1000",
+            textAlign: "center",
+          }}
+        >
           <p>Voulez-vous vraiment supprimer ce véhicule ?</p>
           <MDBBtn size="sm" onClick={confirmDeleteCar}>
             Oui
           </MDBBtn>
-          <MDBBtn size="sm" onClick={cancelDeleteCar}>
+          <MDBBtn size="sm" onClick={() => setShowConfirmation(false)}>
             Annuler
           </MDBBtn>
         </div>

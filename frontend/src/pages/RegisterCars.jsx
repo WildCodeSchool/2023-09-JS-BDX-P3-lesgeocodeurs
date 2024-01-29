@@ -1,11 +1,10 @@
 import { MDBInput, MDBBtn, MDBSelect } from "mdb-react-ui-kit";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useTheContext } from "../context/Context";
 
 export default function RegisterCars() {
   const [plugTypes, setPlugTypes] = useState([]);
-  const { createNewCar } = useTheContext();
+  const { createNewCar, apiService } = useTheContext();
 
   const [vFormData, setvFormData] = useState({
     brand: "",
@@ -25,10 +24,8 @@ export default function RegisterCars() {
   useEffect(() => {
     const fetchPlugTypes = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/plugtypes`
-        );
-        setPlugTypes(response.data);
+        const response = await apiService.get(`/plugtypes`);
+        setPlugTypes(response);
       } catch (error) {
         console.error("Error fetching plug types:", error);
       }
@@ -72,7 +69,7 @@ export default function RegisterCars() {
 
         <MDBBtn
           type="button"
-          onClick={() => createNewCar(vFormData)}
+          onClick={() => createNewCar(vFormData, "/myaccount")}
           className="mb-4"
           block
         >

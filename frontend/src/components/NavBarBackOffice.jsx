@@ -4,15 +4,20 @@ import {
   MDBContainer,
   MDBNavbar,
   MDBNavbarBrand,
-  MDBNavbarToggler,
   MDBNavbarNav,
   MDBNavbarItem,
   MDBNavbarLink,
   MDBCollapse,
+  MDBBtn,
 } from "mdb-react-ui-kit";
 
 export default function NavBarBackOffice() {
   const [openNav, setOpenNav] = useState(false);
+
+  // Fonction pour obtenir la classe de l'icône en fonction de l'état de la barre de navigation
+  const getIconClass = () => {
+    return openNav ? "fas fa-chevron-up" : "fas fa-chevron-down";
+  };
   return (
     <div>
       <MDBNavbar expand="lg" light bgColor="light">
@@ -20,12 +25,7 @@ export default function NavBarBackOffice() {
           <MDBNavbarBrand className="title_back" href="/backoffice/accueil">
             Back Office
           </MDBNavbarBrand>
-          <MDBNavbarToggler
-            type="button"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-            onClick={() => setOpenNav(!openNav)}
-          />
+
           <MDBCollapse navbar open={openNav}>
             <MDBNavbarNav>
               <MDBNavbarItem>
@@ -42,6 +42,12 @@ export default function NavBarBackOffice() {
               </MDBNavbarItem>
             </MDBNavbarNav>
           </MDBCollapse>
+          <MDBBtn
+            className="menu-btn-nav-bo"
+            onClick={() => setOpenNav(!openNav)}
+          >
+            <i className={getIconClass()} />
+          </MDBBtn>
         </MDBContainer>
       </MDBNavbar>
     </div>

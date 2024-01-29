@@ -1,64 +1,62 @@
 import axios from "axios";
 
-class ApiService {
-  #token;
+const baseUrl = `${import.meta.env.VITE_BACKEND_URL}/api`;
 
-  constructor() {
-    this.#token = localStorage.getItem("token");
+const getToken = () => localStorage.getItem("token");
+
+const setToken = (token) => localStorage.setItem("token", token);
+
+const getConfig = () => {
+  const config = { headers: {} };
+  const token = getToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
+  return config;
+};
 
-  getToken() {
-    return this.#token;
-  }
-
-  setToken(token) {
-    this.#token = token;
-    return this;
-  }
-
-  getConfig() {
-    const config = { headers: {} };
-    if (this.#token) {
-      config.headers.Authorization = `Bearer ${this.#token}`;
-    }
-    return config;
-  }
-
-  async get(url) {
-    try {
-      const response = await axios.get(url, this.getConfig());
-      return response.data;
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
-  }
-
-  async post(url, content) {
-    try {
-      const response = await axios.post(url, content, this.getConfig());
-      return response.data;
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
-  }
-
-  async put(url, content) {
-    try {
-      const response = await axios.put(url, content, this.getConfig());
-      return response.data;
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
-  }
-
-  async delete(url) {
-    const response = await axios.delete(url, this.getConfig());
+const get = async (endpoint) => {
+  try {
+    const response = await axios.get(baseUrl + endpoint, getConfig());
     return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
   }
+};
+
+const post = async (endpoint, content) => {
+  try {
+    const response = await axios.post(baseUrl + endpoint, content, getConfig());
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+const put = async (endpoint, content) => {
+  try {
+    const response = await axios.put(baseUrl + endpoint, content, getConfig());
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+// prettier-ignore
+const del = async (endpoint) => {
+  const response = await axios.delete(baseUrl + endpoint, getConfig());
+  return response.data;
 }
 
-const apiService = new ApiService();
-export default apiService;
+export default {
+  getToken,
+  setToken,
+  getConfig,
+  get,
+  post,
+  put,
+  del,
+};

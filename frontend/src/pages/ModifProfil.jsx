@@ -17,7 +17,7 @@ export default function ModifProfil() {
   useEffect(() => {
     setModifProfil({
       ...modifProfil,
-      birth_date: modifProfil?.birth_date.substring(0, 10),
+      birth_date: modifProfil?.birth_date,
     });
   }, []);
 
@@ -27,6 +27,13 @@ export default function ModifProfil() {
 
   return (
     <div className="modifprofil_container">
+      <button
+        type="submit"
+        className="back"
+        onClick={() => navigate("/myaccount")}
+      >
+        &larr; Retour
+      </button>
       <div className="titlemodifprofil">
         <h1>Modifier mon Profil</h1>
       </div>
@@ -57,7 +64,7 @@ export default function ModifProfil() {
           id="form1Example2"
           label="Date de naissance"
           name="birth_date"
-          value={modifProfil?.birth_date.substring(0, 10)}
+          value={modifProfil?.birth_date}
           onChange={handleChange}
         />
 

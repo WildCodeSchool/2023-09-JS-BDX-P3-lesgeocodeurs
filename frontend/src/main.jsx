@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ContextProvider } from "./context/Context";
 import apiService from "./services/api.service";
-import FunctionsService from "./services/functions.service";
+import functionsService from "./services/functions.service";
 import "./styles/index.scss";
 
 import App from "./App";
@@ -22,8 +22,8 @@ import ModifProfil from "./pages/ModifProfil";
 import BackOfficeUtilisateur from "./pages/BackOfficeUtilisateur";
 import BackOfficeAccueil from "./pages/BackOfficeAccueil";
 import BackOfficeModifProfil from "./pages/backOfficeModifProfil";
-import MakeReservation from "./pages/MakeReservation";
 import BackOfficeCars from "./pages/BackOfficeCars";
+// eslint-disable-next-line import/no-named-as-default
 import NewCar from "./pages/NewCar";
 import NewReservation from "./pages/NewReservation";
 import BackOfficeModifCar from "./pages/BackOfficeModifCar";
@@ -33,7 +33,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ContextProvider>
+      <ContextProvider apiService={apiService}>
         <App />
       </ContextProvider>
     ),
@@ -46,7 +46,6 @@ const router = createBrowserRouter([
       {
         path: "/map",
         element: <MapPage />,
-        // loader: async () => apiService.get(`${import.meta.env.VITE_BACKEND_URL}/api/station`),
       },
       {
         path: "/myaccount",
@@ -85,79 +84,44 @@ const router = createBrowserRouter([
         path: "/newreservation/:id",
         element: <NewReservation />,
         loader: async ({ params }) =>
-          apiService.get(
-            `${import.meta.env.VITE_BACKEND_URL}/api/chargingpoint/${params.id}`
-          ),
+          apiService.get(`/chargingpoint/${params.id}`),
       },
       {
         path: "/modifprofil",
         element: <ModifProfil />,
-        loader: async ({ params }) => {
-          try {
-            const data = await apiService.get(
-              `${import.meta.env.VITE_BACKEND_URL}/api/users/${params.userId}`
-            );
-
-            return { preloadedUserData: data };
-          } catch (error) {
-            // TODO: redirect to other page
-            return null;
-          }
-        },
+        loader: async ({ params }) =>
+          functionsService.getUserInfos(params.userId),
       },
       {
         path: "/backoffice",
         element: <BackOfficeManager />,
-        loader: async () => FunctionsService.returnAdmin(),
+        loader: async () => functionsService.returnAdmin(),
         children: [
-          {
-            path: "/backoffice/utilisateur",
-            element: <BackOfficeUtilisateur />,
-          },
           {
             path: "/backoffice/accueil",
             element: <BackOfficeAccueil />,
           },
           {
-            path: "/backoffice/modifprofil/:userId",
-            element: <BackOfficeModifProfil />,
-            loader: async ({ params }) => {
-              try {
-                const data = await apiService.get(
-                  `http://localhost:3310/api/users/${params.userId}`
-                );
-                return { preloadedUserData: data };
-              } catch (error) {
-                // TODO: redirect to other page
-                return null;
-              }
-            },
+            path: "/backoffice/utilisateur",
+            element: <BackOfficeUtilisateur />,
           },
           {
             path: "/backoffice/cars",
             element: <BackOfficeCars />,
           },
           {
+            path: "/backoffice/modifprofil/:userId",
+            element: <BackOfficeModifProfil />,
+            loader: async ({ params }) =>
+              functionsService.getUserInfos(params.userId),
+          },
+          {
             path: "/backoffice/modifcar/:carId",
             element: <BackOfficeModifCar />,
-            loader: async ({ params }) => {
-              try {
-                const data = await apiService.get(
-                  `http://localhost:3310/api/vehicle/${params.carId}`
-                );
-                return { preloadedCarData: data };
-              } catch (error) {
-                // TODO: redirect to other page
-                return null;
-              }
-            },
+            loader: async ({ params }) =>
+              functionsService.getCarInfos(params.carId),
           },
         ],
-      },
-
-      {
-        path: "/makereservation",
-        element: <MakeReservation />,
       },
     ],
   },

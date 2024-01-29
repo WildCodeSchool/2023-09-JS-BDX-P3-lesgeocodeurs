@@ -4,19 +4,24 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import NavBarBackOffice from "../components/NavBarBackOffice";
-import apiService from "../services/api.service";
+import { useTheContext } from "../context/Context";
 
 export default function BackOfficeUtilisateur() {
   const [userData, setUserData] = useState(null);
+  // État pour gérer l'affichage de la boîte de dialogue de confirmation
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  // État pour stocker l'ID du véhicule à supprimer
+  const [userToDelete, setUserToDelete] = useState(null);
+  // eslint-disable-next-line no-unused-vars
+  const [confirmedDelete, setConfirmedDelete] = useState(false);
 
-  // const { deleteUserAdmin } = useTheContext();
+  const { apiService } = useTheContext();
   const navigate = useNavigate();
+
   // Utilisation de useNavigate pour la navigation
   const fetchData = async () => {
     try {
-      const response = await apiService.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users`
-      );
+      const response = await apiService.get(`/users`);
       setUserData(response);
     } catch (error) {
       console.error("Erreur lors de la récupération des données :", error);
@@ -42,12 +47,6 @@ export default function BackOfficeUtilisateur() {
     "modification",
   ];
 
-  // État pour gérer l'affichage de la boîte de dialogue de confirmation
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  // État pour stocker l'ID du véhicule à supprimer
-  const [userToDelete, setUserToDelete] = useState(null);
-  const [confirmedDelete, setConfirmedDelete] = useState(false);
-  console.info(confirmedDelete, userToDelete);
   // Fonction pour ouvrir la boîte de dialogue de confirmation
   const openConfirmationDialog = (userId) => {
     setUserToDelete(userId);
@@ -61,9 +60,7 @@ export default function BackOfficeUtilisateur() {
   // Fonction pour confirmer la suppression du véhicule
   const confirmDeleteUser = async (userId) => {
     try {
-      await apiService.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`
-      );
+      await apiService.del(`/users/${userId}`);
       // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
 
       // ...
@@ -96,24 +93,25 @@ export default function BackOfficeUtilisateur() {
     ]) ?? [];
 
   // Position de la boîte de dialogue de confirmation
-  // eslint-disable-next-line no-unused-vars
-  const [dialogStyle, setDialogStyle] = useState({
+  const dialogStyle = {
     position: "fixed",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    backgroundColor: "white",
+    backgroundColor: "hsl(0deg 0% 94.65%)",
     padding: "20px",
     zIndex: "1000",
     textAlign: "center",
-  });
+    borderRadius: "5px",
+    boxShadow: "10px 10px 10px 10px rgba(0.1, 0.1, 0.1, 0.1)",
+  };
 
   const basicData = { columns, rows };
 
   return (
     <div className="backofficeutilisateur_container">
       <NavBarBackOffice />
-
+      <h2 className="bo-title">Data Utilisateur</h2>
       <div className="backoffidata">
         <MDBDatatable fixedHeader maxHeight="460px" data={basicData} />
       </div>
@@ -121,12 +119,14 @@ export default function BackOfficeUtilisateur() {
       {showConfirmation && (
         <div className="confirmation-dialog" style={dialogStyle}>
           <p>Voulez-vous vraiment supprimer votre compte ?</p>
-          <MDBBtn size="sm" onClick={() => confirmDeleteUser(userToDelete)}>
-            Oui
-          </MDBBtn>
-          <MDBBtn size="sm" onClick={cancelDeleteUser}>
-            Annuler
-          </MDBBtn>
+          <div className="popup-btn">
+            <MDBBtn size="sm" onClick={() => confirmDeleteUser(userToDelete)}>
+              Oui
+            </MDBBtn>
+            <MDBBtn size="sm" onClick={cancelDeleteUser}>
+              Annuler
+            </MDBBtn>
+          </div>
         </div>
       )}
     </div>

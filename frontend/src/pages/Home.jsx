@@ -1,23 +1,38 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   MDBCard,
   MDBCardBody,
   MDBCardText,
   MDBCardImage,
-  MDBRipple,
   MDBBtn,
 } from "mdb-react-ui-kit";
+import colorLogo from "../assets/Logo.png";
+import carVideo from "../assets/home.video.mp4";
+// import roadImg from "../assets/road.jpg";
+import reservationImg from "../assets/reservation.png";
+import stationImg from "../assets/cars.logo.home.png";
+import plugImg from "../assets/prise.png";
+import cartehome from "../assets/carte.home.png";
 
 export default function Home() {
+  const navigate = useNavigate();
+
   return (
     <div className="home-container">
-      <img className="img-home" src="./src/assets/Logo.png" alt="logo" />
+      <div className="logo-container">
+        <img src={colorLogo} alt="logo" />
+      </div>
       <p className="slogan">
         Pour ne plus jamais être victime du coup de la panne...
         <br />
         GeoCode est là pour vous !
       </p>
+      <div className="button-map-container">
+        <MDBBtn className="mb-4" onClick={() => navigate("/map")}>
+          Accédez à la Carte
+        </MDBBtn>
+      </div>
       <div className="video-container">
         <video
           preload="auto"
@@ -26,96 +41,39 @@ export default function Home() {
           loop
           style={{ width: "100%", height: "100%" }}
         >
-          <source src="./src/assets/home.video.mp4" type="video/mp4" />
+          <source src={carVideo} type="video/mp4" />
         </video>
       </div>
-      <div className="button-map-container">
-        <MDBBtn type="submit" className="mb-4" block>
-          <Link to="/map">Accédez à la Carte</Link>
-        </MDBBtn>
-      </div>
-      <div className="img-road-container">
-        <img className="img-road" src="./src/assets/road.jpg" alt="road" />
+      {/* <div className="img-road-container">
+        <img className="img-road" src={roadImg} alt="road" />
         <div className="overlay" />
-      </div>
+      </div> */}
       <div className="card-container">
         <MDBCard>
-          <MDBRipple
-            rippleColor="light"
-            rippleTag="div"
-            className="bg-image hover-overlay"
-          >
-            <MDBCardImage src="./src/assets/carte.png" fluid alt="carte" />
-
-            <div
-              className="mask"
-              style={{ backgroundColor: "rgba(251, 251, 251, 0.15)" }}
-            />
-          </MDBRipple>
+          <MDBCardImage src={cartehome} fluid alt="carte" />
           <MDBCardBody>
             <MDBCardText className="card-text">
-              Trouve la borne la plus proche
+              Trouvez la borne la plus proche
             </MDBCardText>
           </MDBCardBody>
         </MDBCard>
         <MDBCard>
-          <MDBRipple
-            rippleColor="light"
-            rippleTag="div"
-            className="bg-image hover-overlay"
-          >
-            <MDBCardImage
-              src="./src/assets/reservation.png"
-              fluid
-              alt="reservation"
-            />
-
-            <div
-              className="mask"
-              style={{ backgroundColor: "rgba(251, 251, 251, 0.15)" }}
-            />
-          </MDBRipple>
+          <MDBCardImage src={reservationImg} fluid alt="reservation" />
           <MDBCardBody>
-            <MDBCardText className="card-text">Réserver une borne</MDBCardText>
+            <MDBCardText className="card-text">Réservez une borne</MDBCardText>
           </MDBCardBody>
         </MDBCard>
         <MDBCard>
-          <MDBRipple
-            rippleColor="light"
-            rippleTag="div"
-            className="bg-image hover-overlay"
-          >
-            <MDBCardImage
-              src="./src/assets/cars.logo.home.png"
-              fluid
-              alt="carslogo"
-            />
-
-            <div
-              className="mask"
-              style={{ backgroundColor: "rgba(251, 251, 251, 0.15)" }}
-            />
-          </MDBRipple>
+          <MDBCardImage src={stationImg} fluid alt="carslogo" />
           <MDBCardBody>
-            <MDBCardText className="card-text">Gérer mes véhicules</MDBCardText>
+            <MDBCardText className="card-text">Gérez vos véhicules</MDBCardText>
           </MDBCardBody>
         </MDBCard>
         <MDBCard>
-          <MDBRipple
-            rippleColor="light"
-            rippleTag="div"
-            className="bg-image hover-overlay"
-          >
-            <MDBCardImage src="./src/assets/prise.png" fluid alt="prise" />
-
-            <div
-              className="mask"
-              style={{ backgroundColor: "rgba(251, 251, 251, 0.15)" }}
-            />
-          </MDBRipple>
+          <MDBCardImage src={plugImg} fluid alt="prise" />
           <MDBCardBody>
             <MDBCardText className="card-text">
-              Trouver le type de prise qui vous correspond
+              Trouvez le type de prise qui vous correspond
             </MDBCardText>
           </MDBCardBody>
         </MDBCard>

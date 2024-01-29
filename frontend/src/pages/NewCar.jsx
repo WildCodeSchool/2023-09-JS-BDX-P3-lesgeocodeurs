@@ -1,17 +1,15 @@
 import { MDBInput, MDBBtn, MDBSelect } from "mdb-react-ui-kit";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
 import { useTheContext } from "../context/Context";
 
 export default function NewCar() {
   const [plugTypes, setPlugTypes] = useState([]);
-  const { createNewCar } = useTheContext();
   const [vFormData, setvFormData] = useState({
     brand: "",
     model: "",
     plug_type_id: 2,
   });
+  const { createNewCar, apiService } = useTheContext();
 
   const handleChange = (e) =>
     setvFormData({
@@ -28,10 +26,8 @@ export default function NewCar() {
   useEffect(() => {
     const fetchPlugTypes = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/plugtypes`
-        );
-        setPlugTypes(response.data);
+        const response = await apiService.get(`/plugtypes`);
+        setPlugTypes(response);
       } catch (error) {
         console.error("Error fetching plug types:", error);
       }
@@ -73,16 +69,14 @@ export default function NewCar() {
           }))}
           onValueChange={handleSelect}
         />
-        <Link to="/newcar">
-          <MDBBtn
-            type="submit"
-            className="mb-4"
-            block
-            onClick={() => createNewCar(vFormData)}
-          >
-            Enregistrer le nouveau véhicule
-          </MDBBtn>
-        </Link>
+        <MDBBtn
+          type="submit"
+          className="mb-4"
+          block
+          onClick={() => createNewCar(vFormData, "/cars")}
+        >
+          Enregistrer le nouveau véhicule
+        </MDBBtn>
       </div>
     </div>
   );

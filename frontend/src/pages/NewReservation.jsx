@@ -3,12 +3,11 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { DateTime } from "luxon";
 import { MDBBtn, MDBSelect } from "mdb-react-ui-kit";
 import { useTheContext } from "../context/Context";
-import apiService from "../services/api.service";
 
 export default function NewReservation() {
   const navigate = useNavigate();
   const chargingPoint = useLoaderData();
-  const { user } = useTheContext();
+  const { user, apiService } = useTheContext();
 
   const [selectedDate, setSelectedDate] = useState(
     DateTime.local().plus({ days: 1 }).toISODate()
@@ -65,10 +64,7 @@ export default function NewReservation() {
       charging_point_id: chargingPoint.id,
     };
     // Ajoutez ici la logique pour traiter le rendez-vous
-    await apiService.post(
-      `${import.meta.env.VITE_BACKEND_URL}/api/reservation`,
-      newReservation
-    );
+    await apiService.post(`/reservation`, newReservation);
     navigate("/reservation");
   };
 

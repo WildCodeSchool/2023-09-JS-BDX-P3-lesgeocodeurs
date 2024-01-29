@@ -1,29 +1,48 @@
 import apiService from "./api.service";
 
-class FunctionsService {
-  static fetchChargingPoint = async (chargingPointId) => {
-    apiService.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/chargingpoint/${chargingPointId}`
-    );
-  };
+const fetchChargingPoint = async (chargingPointId) => {
+  apiService.get(`/chargingpoint/${chargingPointId}`);
+};
 
-  static fetchStations = async () => {
-    apiService.get(`${import.meta.env.VITE_BACKEND_URL}/api/station`);
-  };
+const fetchStations = async () => {
+  apiService.get(`/station`);
+};
 
-  static returnAdmin = async () => {
-    try {
-      const res = await apiService.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/isadmin`
-      );
-      if (res.message === "ok") {
-        return res.message;
-      }
-    } catch (error) {
-      console.error(error);
+const returnAdmin = async () => {
+  try {
+    const res = await apiService.get(`/users/isadmin`);
+    if (res.message === "ok") {
+      return res.message;
     }
-    return null;
-  };
-}
+  } catch (error) {
+    console.error(error);
+  }
+  return null;
+};
 
-export default FunctionsService;
+const getUserInfos = async (userId) => {
+  try {
+    const data = await apiService.get(`/users/${userId}`);
+
+    return { preloadedUserData: data };
+  } catch (error) {
+    return null;
+  }
+};
+
+const getCarInfos = async (carId) => {
+  try {
+    const data = await apiService.get(`/vehicle/${carId}`);
+    return { preloadedCarData: data };
+  } catch (error) {
+    return null;
+  }
+};
+
+export default {
+  fetchChargingPoint,
+  fetchStations,
+  returnAdmin,
+  getUserInfos,
+  getCarInfos,
+};

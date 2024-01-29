@@ -8,7 +8,7 @@ export default function BackOfficeManager() {
     if (!isAdmin) {
       navigate("/");
     }
-  }, [isAdmin]);
+  }, []);
   return (
     <div>
       <Outlet />
