@@ -27,7 +27,7 @@ export default function Home() {
         GeoCode est là pour vous !
       </p>
       <div className="button-map-container">
-        <MDBBtn type="submit" className="mb-4" block>
+        <MDBBtn className="mb-4">
           <Link to="/map">Accédez à la Carte</Link>
         </MDBBtn>
       </div>

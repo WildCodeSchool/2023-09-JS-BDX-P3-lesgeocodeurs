@@ -97,10 +97,12 @@ export default function BackOfficeCars() {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    backgroundColor: "white",
+    backgroundColor: "hsl(0deg 0% 94.65%)",
     padding: "20px",
     zIndex: "1000",
     textAlign: "center",
+    borderRadius: "5px",
+    boxShadow: "10px 10px 10px 10px rgba(0.1, 0.1, 0.1, 0.1)",
   };
 
   const basicData = { columns, rows };
@@ -108,6 +110,7 @@ export default function BackOfficeCars() {
   return (
     <div className="backofficeutilisateur_container">
       <NavBarBackOffice />
+      <h2 className="bo-title">Data Véhicules</h2>
 
       <div className="backoffidata">
         <MDBDatatable fixedHeader maxHeight="460px" data={basicData} />
@@ -116,12 +119,14 @@ export default function BackOfficeCars() {
       {showConfirmation && (
         <div className="confirmation-dialog" style={dialogStyle}>
           <p>Voulez-vous vraiment supprimer votre compte ?</p>
-          <MDBBtn size="sm" onClick={confirmDeleteCar}>
-            Oui
-          </MDBBtn>
-          <MDBBtn size="sm" onClick={cancelDeleteCar}>
-            Annuler
-          </MDBBtn>
+          <div className="popup-btn">
+            <MDBBtn size="sm" onClick={confirmDeleteCar}>
+              Oui
+            </MDBBtn>
+            <MDBBtn size="sm" onClick={cancelDeleteCar}>
+              Annuler
+            </MDBBtn>
+          </div>
         </div>
       )}
     </div>
