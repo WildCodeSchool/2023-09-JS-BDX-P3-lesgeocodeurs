@@ -4,10 +4,10 @@ import NavBar from "./components/NavBar";
 import { useTheContext } from "./context/Context";
 
 function App() {
-  const { getUserInfos } = useTheContext();
+  const { getUserInfos, user } = useTheContext();
   useEffect(() => {
     getUserInfos();
-  }, []);
+  }, [user]);
 
   return (
     <>

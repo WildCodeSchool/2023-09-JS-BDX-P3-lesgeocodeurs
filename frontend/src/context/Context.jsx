@@ -12,7 +12,7 @@ export function ContextProvider({ apiService, children }) {
   const [user, setUser] = useState(null);
 
   const logout = async () => {
-    await setUser(null);
+    setUser(null);
     localStorage.removeItem("token");
     navigate("/");
   };
@@ -51,7 +51,7 @@ export function ContextProvider({ apiService, children }) {
   // inscription : stocke le nouveau user dans le localstorage
   const register = async (newUser) => {
     try {
-      const data = await apiService.post(`/users`, newUser);
+      const data = await apiService.post(`/users/register`, newUser);
       localStorage.setItem("token", data.token);
       apiService.setToken(data.token);
       navigate("/register/infos");
@@ -158,14 +158,14 @@ export function ContextProvider({ apiService, children }) {
 
     return age;
   }
-  const createNewCar = async (newCar, nextPage) => {
+  const createNewCar = async (newCar, navTo) => {
     const jwtToken = localStorage.getItem("token");
     const token = jwtDecode(jwtToken);
     const completeCar = newCar;
     completeCar.user_id = token.id;
     try {
       await apiService.post(`/vehicle`, completeCar);
-      navigate(nextPage);
+      navigate(navTo);
     } catch (err) {
       console.error(err);
     }
