@@ -22,14 +22,15 @@ export function ContextProvider({ apiService, children }) {
     const jwtToken = localStorage.getItem("token");
     if (!jwtToken) {
       logout();
-    }
-    const token = jwtDecode(jwtToken);
-    try {
-      const data = await apiService.get(`/users/${token.id}`);
-      setUser(data);
-    } catch (error) {
-      console.error(error.message);
-      logout();
+    } else {
+      const token = jwtDecode(jwtToken);
+      try {
+        const data = await apiService.get(`/users/${token.id}`);
+        setUser(data);
+      } catch (error) {
+        console.error(error.message);
+        logout();
+      }
     }
   };
 
