@@ -1,6 +1,4 @@
-import ApiService from "./api.service";
-
-const apiService = new ApiService();
+import apiService from "./api.service";
 
 class FunctionsService {
   static fetchChargingPoint = async (chargingPointId) => {

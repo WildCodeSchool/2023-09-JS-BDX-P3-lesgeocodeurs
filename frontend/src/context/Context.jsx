@@ -2,7 +2,6 @@ import { createContext, useContext, useState, useMemo } from "react";
 import { jwtDecode } from "jwt-decode";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import ApiService from "../services/api.service";
 
 const theContext = createContext();
 
@@ -124,7 +123,7 @@ export function ContextProvider({ apiService, children }) {
     const jwtToken = apiService.getToken();
     const token = jwtDecode(jwtToken);
     try {
-      await apiService.delete(`/users/${token.id}`);
+      await apiService.del(`/users/${token.id}`);
       logout();
 
       alert("Votre compte a bien été supprimé");
@@ -135,7 +134,7 @@ export function ContextProvider({ apiService, children }) {
 
   const deleteUserAdmin = async (userId) => {
     try {
-      await apiService.delete(`/users/${userId}`);
+      await apiService.del(`/users/${userId}`);
       alert("Le compte a bien été supprimé");
     } catch (err) {
       console.error(err);
@@ -204,7 +203,7 @@ export function ContextProvider({ apiService, children }) {
 
 ContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
-  apiService: PropTypes.instanceOf(ApiService).isRequired,
+  apiService: PropTypes.shape().isRequired,
 };
 
 export const useTheContext = () => useContext(theContext);
