@@ -2,7 +2,6 @@ import { createContext, useContext, useState, useMemo } from "react";
 import { jwtDecode } from "jwt-decode";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import ApiService from "../services/api.service";
 
 const theContext = createContext();
 
@@ -204,7 +203,7 @@ export function ContextProvider({ apiService, children }) {
 
 ContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
-  apiService: PropTypes.instanceOf(ApiService).isRequired,
+  apiService: PropTypes.shape().isRequired,
 };
 
 export const useTheContext = () => useContext(theContext);
