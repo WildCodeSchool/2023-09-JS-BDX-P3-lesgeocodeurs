@@ -51,7 +51,7 @@ export default function Cars() {
   // Fonction pour confirmer la suppression du véhicule
   const confirmDeleteCar = async () => {
     try {
-      await apiService.delete(`/vehicle/${vehicleToDelete}`);
+      await apiService.del(`/vehicle/${vehicleToDelete}`);
       // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
       // ...
       // Réinitialiser l'ID du véhicule à supprimer

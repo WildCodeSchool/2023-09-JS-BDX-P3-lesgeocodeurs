@@ -60,7 +60,7 @@ export default function BackOfficeUtilisateur() {
   // Fonction pour confirmer la suppression du véhicule
   const confirmDeleteUser = async (userId) => {
     try {
-      await apiService.delete(`/users/${userId}`);
+      await apiService.del(`/users/${userId}`);
       // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
 
       // ...

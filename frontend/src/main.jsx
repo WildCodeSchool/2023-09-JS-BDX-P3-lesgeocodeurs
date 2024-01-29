@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ContextProvider } from "./context/Context";
-import ApiService from "./services/api.service";
+import apiService from "./services/api.service";
 import FunctionsService from "./services/functions.service";
 import "./styles/index.scss";
 
@@ -27,8 +27,6 @@ import NewCar from "./pages/NewCar";
 import NewReservation from "./pages/NewReservation";
 import BackOfficeModifCar from "./pages/BackOfficeModifCar";
 import BackOfficeManager from "./components/BackOfficeManager";
-
-const apiService = new ApiService();
 
 const router = createBrowserRouter([
   {

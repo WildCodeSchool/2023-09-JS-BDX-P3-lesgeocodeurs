@@ -65,7 +65,7 @@ export default function BackOfficeCars() {
 
   const confirmDeleteCar = async () => {
     try {
-      await apiService.delete(`/vehicle/${carToDelete}`);
+      await apiService.del(`/vehicle/${carToDelete}`);
       // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
 
       // ...
