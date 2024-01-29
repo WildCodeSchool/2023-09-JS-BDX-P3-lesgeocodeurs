@@ -28,9 +28,9 @@ export default function BackOfficeModifProfil() {
     }
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    editNewProfil(modifProfil);
+    await editNewProfil(modifProfil);
     navigate("/backoffice/utilisateur");
   };
 

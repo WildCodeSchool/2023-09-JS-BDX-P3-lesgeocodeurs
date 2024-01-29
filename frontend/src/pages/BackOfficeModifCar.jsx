@@ -25,9 +25,9 @@ export default function BackOfficeModifCar() {
     }
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    editCar(vFormData);
+    await editCar(vFormData);
     navigate("/backoffice/cars");
   };
   const handleChange = (e) =>
