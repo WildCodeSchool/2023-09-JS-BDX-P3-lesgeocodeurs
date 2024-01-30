@@ -32,7 +32,12 @@
     }
   }
 }
-
+.anim-slogan {
+  display: flex;
+  justify-content: space-evenly;
+  padding-bottom: 50px;
+  font-size: 30px;
+}
 // codepen config
 
 .wrapper {

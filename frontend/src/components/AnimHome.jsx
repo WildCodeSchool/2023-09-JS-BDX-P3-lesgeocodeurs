@@ -32,7 +32,9 @@ export default function AnimHome() {
           <rect x="0" y="0" width="100%" height="100%" />
         </svg>
       </div>
-      <span> Pour ne plus jamais être victime du coup de la panne...</span>
+      <div className="anim-slogan">
+        <span> Pour ne plus jamais être victime du coup de la panne...</span>
+      </div>
     </>
   );
 }
