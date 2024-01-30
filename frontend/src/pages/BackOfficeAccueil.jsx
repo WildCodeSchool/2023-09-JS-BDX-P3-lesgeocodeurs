@@ -7,7 +7,7 @@ import {
   MDBCardBody,
 } from "mdb-react-ui-kit";
 import { useTheContext } from "../context/Context";
-import NavBarBackOffice from "../components/NavBarBackOffice";
+import NavBarBO from "../components/NavBarBO";
 
 export default function BAckOfficeAccueil() {
   const [usersNbr, setUsersNbr] = useState();
@@ -53,7 +53,7 @@ export default function BAckOfficeAccueil() {
 
   return (
     <div className="backofficeaccueil_container">
-      <NavBarBackOffice />
+      <NavBarBO />
 
       <div className="dashboard_container">
         <MDBContainer fluid>
