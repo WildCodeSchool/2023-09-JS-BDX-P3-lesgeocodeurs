@@ -1,40 +1,50 @@
 .cars-container {
+  margin: 0 30px;
+
   .back {
     font-size: 18px;
-    margin-left: 50px;
     margin-block: 25px;
     border: none;
     background-color: white;
   }
 
-  .cars-title {
-    margin-left: 50px;
+  .my-cars {
+    margin-top: 20px;
+    margin-bottom: 30px;
+
+    .card {
+      max-width: 500px;
+      margin: auto;
+      margin-block: 10px;
+      display: flex;
+      justify-content: space-around;
+
+      .card-body {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+
+        p {
+          margin: 0;
+        }
+
+        .btn-delete-car {
+          display: flex;
+          align-self: flex-end;
+          height: 30px;
+          margin-top: 15px;
+          border-radius: 10px;
+        }
+      }
+    }
   }
 
-  .my-car {
-    padding-block: 50px;
-  }
-  .card-body {
-    display: flex;
-    justify-content: space-around;
-    flex-direction: column;
-  }
-  .btn-delete-car {
-    display: flex;
-    height: 30px;
-    margin-top: 15px;
-    border-radius: 10px;
-  }
-
-  .one-car {
-    display: flex;
-    justify-content: space-around;
-  }
-  .mb-4 {
-    width: 85%;
-  }
   .add-car {
     display: flex;
     justify-content: center;
+
+    .mb-4 {
+      width: 85%;
+    }
   }
 }
