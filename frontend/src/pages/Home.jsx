@@ -2,11 +2,11 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MDBBtn } from "mdb-react-ui-kit";
 import colorLogo from "../assets/Logo.png";
-import carVideo from "../assets/home.video.mp4";
 import mapImg from "../assets/carte.home.png";
 import reservationImg from "../assets/reservation.png";
 import stationImg from "../assets/cars.logo.home.png";
 import plugImg from "../assets/prise.png";
+import AnimHome from "../components/AnimHome";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -16,22 +16,17 @@ export default function Home() {
       <div className="logo-container">
         <img src={colorLogo} alt="logo" />
       </div>
-      <p className="slogan">
-        Pour ne plus jamais être victime du coup de la panne...
-        <br />
-        GeoCode est là pour vous !
-      </p>
+      <AnimHome />
       <div className="button-map-container">
         <MDBBtn className="mb-4" onClick={() => navigate("/map")}>
           Accédez à la Carte
         </MDBBtn>
       </div>
-      <div className="video-container">
-        <video preload="auto" autoPlay muted loop>
-          <source src={carVideo} type="video/mp4" />
-        </video>
-      </div>
 
+      {/* <div className="img-road-container">
+        <img className="img-road" src={roadImg} alt="road" />
+        <div className="overlay" />
+      </div> */}
       <div className="card-container">
         <div className="card">
           <img src={mapImg} alt="map" />

@@ -1,0 +1,61 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  max-width: 1000px;
+
+  video {
+    width: 100%;
+  }
+
+  svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    text {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 900;
+      text-transform: uppercase;
+      font-size: 25px !important;
+    }
+
+    > rect {
+      -webkit-mask: url(#mask);
+      mask: url(#mask);
+    }
+
+    rect {
+      fill: #fff;
+    }
+  }
+}
+.anim-slogan {
+  display: flex;
+  justify-content: space-evenly;
+  padding-bottom: 50px;
+  font-size: 30px;
+}
+// codepen config
+
+.wrapper {
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 10px;
+    height: 100%;
+    background-color: #fff;
+  }
+
+  &:before {
+    left: -9px;
+  }
+
+  &:after {
+    right: -5px;
+  }
+}
