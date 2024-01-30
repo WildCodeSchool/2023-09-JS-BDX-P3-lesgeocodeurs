@@ -4,8 +4,7 @@
 #     && pnpm fetch \
 #     && pnpm install --ignore-scripts \
 #     && pnpm run build
-cd ../backend \
+# cd ../backend \
     # && pnpm fetch \
     # && pnpm install --ignore-scripts \
-    && node migrate.js \
-    && node index.js
+cd /usr/src/app/backend && node migrate.js && node index.js

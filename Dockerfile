@@ -22,9 +22,12 @@ RUN cd backend && \
     pnpm fetch && \
     pnpm install
 
-COPY ./ .
+COPY ./frontend ./frontend
 
 RUN cd frontend && \
     pnpm run build
 
-CMD ["/bin/bash","-c","./docker-entry.sh"]
+COPY ./backend ./backend
+COPY docker-entry.sh .
+
+CMD ["sh","./docker-entry.sh"]
