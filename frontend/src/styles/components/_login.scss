@@ -1,8 +1,10 @@
 .login-form {
   padding: 2rem;
+
   h1 {
     padding: 1rem;
   }
+
   #contact-textarea {
     min-height: 20vh;
   }
@@ -12,8 +14,7 @@
   .login-form {
     margin: 0 10% 0 10%;
     display: block;
-    border-left: 1px solid #f0f0f0;
-    border-right: 1px solid #f0f0f0;
+
     button {
       margin-inline: auto;
       display: block;

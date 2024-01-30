@@ -21,6 +21,7 @@ $my-dark-theme: mdb-light-theme($my-theme-primary, $my-theme-secondary);
 @import "./components/backofficecars";
 @import "./components/registercars";
 @import "./components/newreservation";
+@import "./components/anim.home";
 
 * {
   margin: 0;
@@ -28,10 +29,34 @@ $my-dark-theme: mdb-light-theme($my-theme-primary, $my-theme-secondary);
   box-sizing: border-box;
 }
 
+.confirmation-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  z-index: 1000;
+  text-align: center;
+  border-radius: 5px;
+  box-shadow: 10px 10px 10px 10px rgba(0.1, 0.1, 0.1, 0.1);
+  border: 1px solid lightgray;
+
+  button {
+    margin: 20px;
+  }
+}
+
+.global-container-outlet:not(:has(.map-container)) {
+  margin-bottom: 90px;
+}
+
 @media only screen and (min-width: 768px) {
   .global-container-outlet {
     margin-top: 70px;
+    margin-bottom: 0;
   }
+
   .global-container-outlet:not(
       :has(
           .map-container,

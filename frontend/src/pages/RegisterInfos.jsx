@@ -33,7 +33,7 @@ export default function RegisterInfos() {
     formErrors.push("Veuillez renseigner un prénom valide");
   }
   if (age < 18) {
-    formErrors.push("Vous devez avoir plus de 18ans pour vous incrire");
+    formErrors.push("Vous devez avoir plus de 18 ans pour vous incrire");
   }
   if (age > 100) {
     formErrors.push("Vous ne devriez pas conduire à cet âge...");

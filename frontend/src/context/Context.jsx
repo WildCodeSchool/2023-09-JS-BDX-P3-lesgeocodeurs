@@ -18,6 +18,9 @@ export function ContextProvider({ apiService, children }) {
   };
   // eslint-disable-next-line consistent-return
 
+  /* fonction qui vérifie le token :
+    - déconnecte si pas de token ou non valide ou expiré
+    - remplit state user avec les infos du token */
   const getUserInfos = async () => {
     const jwtToken = localStorage.getItem("token");
     if (!jwtToken) {
@@ -35,18 +38,6 @@ export function ContextProvider({ apiService, children }) {
   };
 
   // connexion : vérifie si les identifiants sont bons et met à jour le state "user"
-  const login = async (credentials) => {
-    try {
-      const data = await apiService.post(`/users/login`, credentials);
-      localStorage.setItem("token", data.token);
-      apiService.setToken(data.token);
-      getUserInfos();
-      navigate("/");
-    } catch (err) {
-      console.error(err);
-      alert("wrong cred");
-    }
-  };
 
   // inscription : stocke le nouveau user dans le localstorage
   const register = async (newUser) => {
@@ -82,8 +73,6 @@ export function ContextProvider({ apiService, children }) {
   // modification du profil : modifie le state "user" et le localStorage
   const editUser = async (newData) => {
     const jwtToken = apiService.getToken();
-    // apiService.setToken(jwtToken);
-
     const token = jwtDecode(jwtToken);
     try {
       const response = await apiService.put(`/users/${token.id}`, newData);
@@ -119,7 +108,6 @@ export function ContextProvider({ apiService, children }) {
   };
 
   // suppression du compte : vide le state "user" et modifie le localStorage
-
   const deleteUser = async () => {
     const jwtToken = apiService.getToken();
     const token = jwtDecode(jwtToken);
@@ -141,23 +129,20 @@ export function ContextProvider({ apiService, children }) {
       console.error(err);
     }
   };
-  // elle parle d'elle même, c'est bien évidemment moi qui ai tout écris à la main..
+
   function calculerAge(dateOfBirth) {
     // Convertir la chaîne en objet Date
     const dob = new Date(dateOfBirth);
-
     // Obtenir la date actuelle
     const currentDate = new Date();
-
     // Calculer la différence en millisecondes entre la date actuelle et la date de naissance
     const timeDifference = currentDate - dob;
-
     // Convertir la différence en années
     const ageInMilliseconds = new Date(timeDifference);
     const age = ageInMilliseconds.getUTCFullYear() - 1970;
-
     return age;
   }
+
   const createNewCar = async (newCar, navTo) => {
     const jwtToken = localStorage.getItem("token");
     const token = jwtDecode(jwtToken);
@@ -175,7 +160,6 @@ export function ContextProvider({ apiService, children }) {
     () => ({
       user,
       apiService,
-      login,
       logout,
       register,
       calculerAge,
