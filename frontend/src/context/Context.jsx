@@ -35,18 +35,6 @@ export function ContextProvider({ apiService, children }) {
   };
 
   // connexion : vérifie si les identifiants sont bons et met à jour le state "user"
-  const login = async (credentials) => {
-    try {
-      const data = await apiService.post(`/users/login`, credentials);
-      localStorage.setItem("token", data.token);
-      apiService.setToken(data.token);
-      getUserInfos();
-      navigate("/myaccount");
-    } catch (err) {
-      console.error(err);
-      alert("wrong cred");
-    }
-  };
 
   // inscription : stocke le nouveau user dans le localstorage
   const register = async (newUser) => {
@@ -175,7 +163,6 @@ export function ContextProvider({ apiService, children }) {
     () => ({
       user,
       apiService,
-      login,
       logout,
       register,
       calculerAge,
