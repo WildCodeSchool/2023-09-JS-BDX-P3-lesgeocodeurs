@@ -26,3 +26,5 @@ COPY ./ .
 
 RUN cd frontend && \
     pnpm run build
+
+CMD ["/bin/bash","-c","./docker-entry.sh"]
