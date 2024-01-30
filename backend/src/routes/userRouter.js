@@ -17,7 +17,7 @@ router.get(
   verifyToken.verifyAdminToken,
   verifyToken.validateAdminToken
 );
-router.post("/", userControllers.add);
+router.post("/register", userControllers.add);
 router.post("/emailToCheck", userControllers.checkEmail);
 router.post("/login", userControllers.login);
 router.put("/:id([0-9]+)", verifyToken.verifyToken, userControllers.edit);

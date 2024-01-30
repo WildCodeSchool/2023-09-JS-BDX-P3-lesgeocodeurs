@@ -23,6 +23,7 @@ import BackOfficeUtilisateur from "./pages/BackOfficeUtilisateur";
 import BackOfficeAccueil from "./pages/BackOfficeAccueil";
 import BackOfficeModifProfil from "./pages/backOfficeModifProfil";
 import BackOfficeCars from "./pages/BackOfficeCars";
+// eslint-disable-next-line import/no-named-as-default
 import NewCar from "./pages/NewCar";
 import NewReservation from "./pages/NewReservation";
 import BackOfficeModifCar from "./pages/BackOfficeModifCar";

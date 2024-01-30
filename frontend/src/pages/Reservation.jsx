@@ -62,8 +62,8 @@ export default function Reservation() {
       </button>
 
       <h1 className="reservation-title">Mes Réservations</h1>
-      <p className="history-reservation">A venir</p>
-      {future &&
+      <p className="reservation-subtitle">A venir</p>
+      {future && future.length ? (
         future.map((r) => (
           <MDBCard border key={r.id}>
             <MDBCardBody>
@@ -82,9 +82,12 @@ export default function Reservation() {
               </div>
             </MDBCardBody>
           </MDBCard>
-        ))}
-      <p className="history-reservation">Passées</p>
-      {past &&
+        ))
+      ) : (
+        <div className="info-text">Pas de réservation à venir</div>
+      )}
+      <p className="reservation-subtitle past">Passées</p>
+      {past && past.length ? (
         past.map((r) => (
           <MDBCard border key={r.id}>
             <MDBCardBody>
@@ -98,7 +101,10 @@ export default function Reservation() {
               </div>
             </MDBCardBody>
           </MDBCard>
-        ))}
+        ))
+      ) : (
+        <div className="info-text">Pas de réservation passée</div>
+      )}
     </div>
   );
 }

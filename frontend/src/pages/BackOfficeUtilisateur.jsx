@@ -12,8 +12,6 @@ export default function BackOfficeUtilisateur() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   // État pour stocker l'ID du véhicule à supprimer
   const [userToDelete, setUserToDelete] = useState(null);
-  // eslint-disable-next-line no-unused-vars
-  const [confirmedDelete, setConfirmedDelete] = useState(false);
 
   const { apiService } = useTheContext();
   const navigate = useNavigate();
@@ -29,7 +27,7 @@ export default function BackOfficeUtilisateur() {
   };
 
   const handleEdit = (userId) => {
-    navigate(`/backoffice/modifprofil/${userId}`); // Utilisation de navigate pour la redirection
+    navigate(`/backoffice/modifprofil/${userId}`);
   };
 
   useEffect(() => {
@@ -52,30 +50,25 @@ export default function BackOfficeUtilisateur() {
     setUserToDelete(userId);
     setShowConfirmation(true);
   };
+
   const cancelDeleteUser = () => {
     // Annuler la suppression en fermant la boîte de dialogue
     setShowConfirmation(false);
   };
 
-  // Fonction pour confirmer la suppression du véhicule
+  // Fonction pour confirmer la suppression de l'utilisateur
   const confirmDeleteUser = async (userId) => {
     try {
       await apiService.del(`/users/${userId}`);
-      // Mettre à jour l'état local ou recharger la liste de véhicules après la suppression
-
-      // ...
-      // Réinitialiser l'ID du véhicule à supprimer
       setUserToDelete(null);
-      // Marquer la confirmation de suppression
-      setConfirmedDelete(true);
-      // Fermer la boîte de dialogue après la suppression réussie
-      alert("Votre compte a bien été supprimé");
+      alert("Le compte a bien été supprimé");
       fetchData();
     } catch (error) {
       console.error("Error deleting user:", error);
     }
     cancelDeleteUser();
   };
+
   const rows =
     userData?.map((user) => [
       user.id,
@@ -92,20 +85,6 @@ export default function BackOfficeUtilisateur() {
       />,
     ]) ?? [];
 
-  // Position de la boîte de dialogue de confirmation
-  const dialogStyle = {
-    position: "fixed",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    backgroundColor: "hsl(0deg 0% 94.65%)",
-    padding: "20px",
-    zIndex: "1000",
-    textAlign: "center",
-    borderRadius: "5px",
-    boxShadow: "10px 10px 10px 10px rgba(0.1, 0.1, 0.1, 0.1)",
-  };
-
   const basicData = { columns, rows };
 
   return (
@@ -117,8 +96,8 @@ export default function BackOfficeUtilisateur() {
       </div>
       {/* Boîte de dialogue de confirmation */}
       {showConfirmation && (
-        <div className="confirmation-dialog" style={dialogStyle}>
-          <p>Voulez-vous vraiment supprimer votre compte ?</p>
+        <div className="confirmation-dialog">
+          <p>Voulez-vous vraiment supprimer ce compte ?</p>
           <div className="popup-btn">
             <MDBBtn size="sm" onClick={() => confirmDeleteUser(userToDelete)}>
               Oui

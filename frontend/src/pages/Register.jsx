@@ -24,15 +24,13 @@ export default function Register() {
     formErrors.push("Le mot de passe doit contenir au moins 8 caractères");
   }
   if (!/\d/.test(formData.password)) {
-    formErrors.push(
-      "le champ  de mot de passe doit contenir au moins un chiffre"
-    );
+    formErrors.push("Le mot de passe doit contenir au moins un chiffre");
   }
   if (!/[!@#$%^&*(),.?":{}|<>]/.test(formData.password)) {
     formErrors.push("Le mot de passe doit contenir au moins une ponctuation");
   }
   if (formData?.password?.trim() === "") {
-    formErrors.push("Le champ du mot de passe ne peut pas être vide");
+    formErrors.push("Le mot de passe ne peut pas être vide");
   }
 
   return (

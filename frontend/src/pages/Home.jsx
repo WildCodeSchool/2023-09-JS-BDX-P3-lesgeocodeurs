@@ -1,19 +1,12 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  MDBCard,
-  MDBCardBody,
-  MDBCardText,
-  MDBCardImage,
-  MDBBtn,
-} from "mdb-react-ui-kit";
+import { MDBBtn } from "mdb-react-ui-kit";
 import colorLogo from "../assets/Logo.png";
-// import roadImg from "../assets/road.jpg";
+import mapImg from "../assets/carte.home.png";
 import reservationImg from "../assets/reservation.png";
 import stationImg from "../assets/cars.logo.home.png";
 import plugImg from "../assets/prise.png";
-import cartehome from "../assets/carte.home.png";
-import AnimHome from "../components/Anim.home";
+import AnimHome from "../components/AnimHome";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -35,37 +28,25 @@ export default function Home() {
         <div className="overlay" />
       </div> */}
       <div className="card-container">
-        <MDBCard>
-          <MDBCardImage src={cartehome} fluid alt="carte" />
-          <MDBCardBody>
-            <MDBCardText className="card-text">
-              Trouvez la borne la plus proche
-            </MDBCardText>
-          </MDBCardBody>
-        </MDBCard>
-        <MDBCard>
-          <MDBCardImage src={reservationImg} fluid alt="reservation" />
-          <MDBCardBody>
-            <MDBCardText className="card-text">Réservez une borne</MDBCardText>
-          </MDBCardBody>
-        </MDBCard>
-        <MDBCard>
-          <MDBCardImage src={stationImg} fluid alt="carslogo" />
-          <MDBCardBody>
-            <MDBCardText className="card-text">Gérez vos véhicules</MDBCardText>
-          </MDBCardBody>
-        </MDBCard>
-        <MDBCard>
-          <MDBCardImage src={plugImg} fluid alt="prise" />
-          <MDBCardBody>
-            <MDBCardText className="card-text">
-              Trouvez le type de prise qui vous correspond
-            </MDBCardText>
-          </MDBCardBody>
-        </MDBCard>
-        <p>
-          <Link to="/contact">Une question ? Contactez-nous </Link>
-        </p>
+        <div className="card">
+          <img src={mapImg} alt="map" />
+          <div>Trouvez la station la plus proche</div>
+        </div>
+        <div className="card">
+          <img src={reservationImg} alt="reservation" />
+          <div>Réservez une borne</div>
+        </div>
+        <div className="card">
+          <img src={stationImg} alt="station" />
+          <div>Gérez vos véhicules</div>
+        </div>
+        <div className="card">
+          <img src={plugImg} alt="plug" />
+          <div>Trouvez le bon type de prise</div>
+        </div>
+      </div>
+      <div className="contact">
+        <Link to="/contact">Une question ? Contactez-nous </Link>
       </div>
     </div>
   );
