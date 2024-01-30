@@ -1,6 +1,3 @@
 #!/usr/bin/env sh
 
-sleep 5
-npm install
-npm run build
-npm run start
+cd /usr/src/app/backend && node migrate.js && node index.js
