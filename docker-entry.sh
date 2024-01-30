@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
-sleep 5
-npm install
+cd frontend && pnpm install --ignore-scripts
+cd ../backend && pnpm install --ignore-scripts
+
 npm run build
 npm run start
