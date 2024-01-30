@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { MDBInput, MDBCol, MDBRow, MDBBtn } from "mdb-react-ui-kit";
+import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
 import { useTheContext } from "../context/Context";
 
 export default function Login() {
@@ -28,12 +28,6 @@ export default function Login() {
         value={formData.password}
         onChange={handleChange}
       />
-
-      <MDBRow className="mb-4">
-        <MDBCol>
-          <a href="#!">Mot de passe oublié? </a>
-        </MDBCol>
-      </MDBRow>
 
       <MDBBtn
         type="submit"
