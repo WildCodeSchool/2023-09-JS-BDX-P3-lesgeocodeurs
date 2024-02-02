@@ -11,7 +11,6 @@ export default function Register() {
     try {
       const data = await apiService.post(`/users/register`, newUser);
       localStorage.setItem("token", data.token);
-      apiService.setToken(data.token);
       navigate("/register/infos");
     } catch (err) {
       if (err.response) {
