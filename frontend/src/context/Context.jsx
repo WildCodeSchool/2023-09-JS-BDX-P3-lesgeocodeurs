@@ -11,6 +11,8 @@ export function ContextProvider({ apiService, children }) {
   // le state qui contient les infos du user connecté
   const [user, setUser] = useState(null);
 
+  const [modal, setModal] = useState("");
+
   const logout = async () => {
     setUser(null);
     localStorage.removeItem("token");
@@ -33,39 +35,6 @@ export function ContextProvider({ apiService, children }) {
       } catch (error) {
         console.error(error.message);
         logout();
-      }
-    }
-  };
-
-  // connexion : vérifie si les identifiants sont bons et met à jour le state "user"
-
-  // inscription : stocke le nouveau user dans le localstorage
-  const register = async (newUser) => {
-    try {
-      const data = await apiService.post(`/users/register`, newUser);
-      localStorage.setItem("token", data.token);
-      apiService.setToken(data.token);
-      navigate("/register/infos");
-    } catch (err) {
-      if (err.response) {
-        const error = err.response.data.err;
-        const token = JSON.stringify(err.response.data.token);
-        if (error === "Compte existant") {
-          alert(error);
-          navigate("/login");
-        } else if (error === "Half-register") {
-          localStorage.setItem("token", token);
-          navigate("/register/infos");
-        } else {
-          alert(error);
-        }
-      } else if (err.request) {
-        console.error("Pas de réponse du serveur");
-      } else {
-        console.error(
-          "Erreur lors de la préparation de la requête:",
-          err.message
-        );
       }
     }
   };
@@ -161,7 +130,6 @@ export function ContextProvider({ apiService, children }) {
       user,
       apiService,
       logout,
-      register,
       calculerAge,
       editUser,
       deleteUser,
@@ -171,8 +139,10 @@ export function ContextProvider({ apiService, children }) {
       countUsers,
       countVehicle,
       countChargingpoint,
+      modal,
+      setModal,
     }),
-    [user, apiService]
+    [user, apiService, modal]
   );
 
   return (

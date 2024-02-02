@@ -1,10 +1,41 @@
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { useTheContext } from "../context/Context";
 
 export default function Register() {
   const { formData, setFormData } = useOutletContext();
-  const { register } = useTheContext();
+  const { apiService, modal, setModal } = useTheContext();
+  const navigate = useNavigate();
+
+  const register = async (newUser) => {
+    try {
+      const data = await apiService.post(`/users/register`, newUser);
+      localStorage.setItem("token", data.token);
+      apiService.setToken(data.token);
+      navigate("/register/infos");
+    } catch (err) {
+      if (err.response) {
+        const error = err.response.data.err;
+        const token = JSON.stringify(err.response.data.token);
+        if (error === "Compte existant") {
+          setModal(error);
+          navigate("/login");
+        } else if (error === "Half-register") {
+          localStorage.setItem("token", token);
+          navigate("/register/infos");
+        } else {
+          setModal(error);
+        }
+      } else if (err.request) {
+        console.error("Pas de réponse du serveur");
+      } else {
+        console.error(
+          "Erreur lors de la préparation de la requête:",
+          err.message
+        );
+      }
+    }
+  };
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -76,6 +107,14 @@ export default function Register() {
           <p key={error}>{error}</p>
         ))}
       </form>
+      {modal ? (
+        <div className="confirmation-dialog">
+          <p>{modal}</p>
+          <MDBBtn size="sm" onClick={() => setModal("")}>
+            Ok
+          </MDBBtn>
+        </div>
+      ) : null}
     </div>
   );
 }

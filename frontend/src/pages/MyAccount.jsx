@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { MDBBtn } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
@@ -6,14 +5,11 @@ import { useTheContext } from "../context/Context";
 import apiService from "../services/api.service";
 
 export default function MyAccount() {
-  const { logout, user, calculerAge } = useTheContext();
+  const { logout, user, calculerAge, modal, setModal } = useTheContext();
 
   const userAge = calculerAge(
     user ? user.birth_date : "1995-01-01T00:00:00.000Z'"
   );
-
-  // État pour gérer l'affichage de la boîte de dialogue de confirmation
-  const [showConfirmation, setShowConfirmation] = useState(false);
 
   // Fonction pour confirmer la suppression du véhicule
   const confirmDeleteUser = async () => {
@@ -21,8 +17,8 @@ export default function MyAccount() {
     const token = jwtDecode(jwtToken);
     try {
       await apiService.del(`/users/${token.id}`);
+      setModal(false);
       logout();
-      alert("Votre compte a bien été supprimé");
     } catch (error) {
       console.error("Error deleting car:", error);
     }
@@ -88,7 +84,7 @@ export default function MyAccount() {
           className="buttonprofil"
           color="light"
           rippleColor="dark"
-          onClick={() => setShowConfirmation(true)}
+          onClick={() => setModal(true)}
         >
           <p>Supprimer</p>
           <p>&rarr;</p>
@@ -96,13 +92,13 @@ export default function MyAccount() {
       </div>
 
       {/* Boîte de dialogue de confirmation */}
-      {showConfirmation && (
+      {modal && (
         <div className="confirmation-dialog">
           <p>Voulez-vous vraiment supprimer votre compte ?</p>
           <MDBBtn size="sm" onClick={confirmDeleteUser}>
             Oui
           </MDBBtn>
-          <MDBBtn size="sm" onClick={() => setShowConfirmation(false)}>
+          <MDBBtn size="sm" onClick={() => setModal(false)}>
             Annuler
           </MDBBtn>
         </div>
