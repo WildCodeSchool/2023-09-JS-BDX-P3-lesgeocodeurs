@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { MDBDatatable, MDBBtn } from "mdb-react-ui-kit";
-import NavBarBackOffice from "../components/NavBarBackOffice";
+// import NavBarBackOffice from "../components/NavBarBackOffice";
 import { useTheContext } from "../context/Context";
+import NavBarBO from "../components/NavBarBO";
 
 export default function BackOfficeCars() {
   const [userData, setUserData] = useState([]);
@@ -63,7 +64,14 @@ export default function BackOfficeCars() {
     setShowConfirmation(false);
   };
 
-  const columns = ["id", "brand", "model", "type de prise"];
+  const columns = [
+    "ID",
+    "Marque",
+    "Modèle",
+    "Type de prise",
+    "Modifier",
+    "Supprimer",
+  ];
 
   const rows = userData.map((vehicle) => [
     vehicle.id,
@@ -84,8 +92,8 @@ export default function BackOfficeCars() {
 
   return (
     <div className="backofficeutilisateur_container">
-      <NavBarBackOffice />
-      <h2 className="bo-title">Data Véhicules</h2>
+      <NavBarBO />
+      <h2 className="bo-title">Véhicules</h2>
 
       <div className="backoffidata">
         <MDBDatatable fixedHeader maxHeight="460px" data={basicData} />
