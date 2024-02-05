@@ -9,11 +9,8 @@ import { useTheContext } from "../context/Context";
 export default function BackOfficeUtilisateur() {
   const [userData, setUserData] = useState(null);
   // État pour gérer l'affichage de la boîte de dialogue de confirmation
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  // État pour stocker l'ID du véhicule à supprimer
-  const [userToDelete, setUserToDelete] = useState(null);
 
-  const { apiService } = useTheContext();
+  const { apiService, setModal, yesNoModal, setYesNoModal } = useTheContext();
   const navigate = useNavigate();
 
   // Utilisation de useNavigate pour la navigation
@@ -22,12 +19,8 @@ export default function BackOfficeUtilisateur() {
       const response = await apiService.get(`/users`);
       setUserData(response);
     } catch (error) {
-      console.error("Erreur lors de la récupération des données :", error);
+      setModal("Erreur lors de la récupération des données :");
     }
-  };
-
-  const handleEdit = (userId) => {
-    navigate(`/backoffice/modifprofil/${userId}`);
   };
 
   useEffect(() => {
@@ -45,28 +38,15 @@ export default function BackOfficeUtilisateur() {
     "modification",
   ];
 
-  // Fonction pour ouvrir la boîte de dialogue de confirmation
-  const openConfirmationDialog = (userId) => {
-    setUserToDelete(userId);
-    setShowConfirmation(true);
-  };
-
-  const cancelDeleteUser = () => {
-    // Annuler la suppression en fermant la boîte de dialogue
-    setShowConfirmation(false);
-  };
-
-  // Fonction pour confirmer la suppression de l'utilisateur
   const confirmDeleteUser = async (userId) => {
     try {
       await apiService.del(`/users/${userId}`);
-      setUserToDelete(null);
-      alert("Le compte a bien été supprimé");
+      setYesNoModal(false);
+      setModal("Le compte a bien été supprimé");
       fetchData();
     } catch (error) {
-      console.error("Error deleting user:", error);
+      setModal("Error deleting user:");
     }
-    cancelDeleteUser();
   };
 
   const rows =
@@ -78,10 +58,18 @@ export default function BackOfficeUtilisateur() {
       user.birth_date,
       user.postal_code,
       user.city,
-      <FontAwesomeIcon icon={faEdit} onClick={() => handleEdit(user.id)} />,
+      <FontAwesomeIcon
+        icon={faEdit}
+        onClick={() => navigate(`/backoffice/modifprofil/${user.id}`)}
+      />,
       <FontAwesomeIcon
         icon={faTrash}
-        onClick={() => openConfirmationDialog(user.id)}
+        onClick={() =>
+          setYesNoModal({
+            message: "Voulez-vous vraiment supprimer ce compte ?",
+            userId: user.id,
+          })
+        }
       />,
     ]) ?? [];
 
@@ -95,14 +83,17 @@ export default function BackOfficeUtilisateur() {
         <MDBDatatable fixedHeader maxHeight="460px" data={basicData} />
       </div>
       {/* Boîte de dialogue de confirmation */}
-      {showConfirmation && (
+      {yesNoModal && (
         <div className="confirmation-dialog">
-          <p>Voulez-vous vraiment supprimer ce compte ?</p>
+          <p>{yesNoModal.message}</p>
           <div className="popup-btn">
-            <MDBBtn size="sm" onClick={() => confirmDeleteUser(userToDelete)}>
+            <MDBBtn
+              size="sm"
+              onClick={() => confirmDeleteUser(yesNoModal.userId)}
+            >
               Oui
             </MDBBtn>
-            <MDBBtn size="sm" onClick={cancelDeleteUser}>
+            <MDBBtn size="sm" onClick={() => setYesNoModal(false)}>
               Annuler
             </MDBBtn>
           </div>
