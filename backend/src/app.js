@@ -26,6 +26,7 @@ app.use(cors());
 // 4. Be sure to only have URLs in the array with domains from which you want to allow requests.
 // For example: ["http://mysite.com", "http://another-domain.com"]
 
+/*
 app.use(
   cors({
     origin: [
@@ -35,6 +36,7 @@ app.use(
     ],
   })
 );
+*/
 
 /* ************************************************************************* */
 
@@ -108,6 +110,7 @@ const reactBuildPath = `${__dirname}/../../frontend/dist`;
 
 // Serve react resources
 
+app.use(express.static(`${__dirname}/../../backend/public`));
 app.use(express.static(reactBuildPath));
 
 // Redirect unhandled requests to the react index file

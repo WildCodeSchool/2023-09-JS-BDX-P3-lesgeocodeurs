@@ -11,11 +11,8 @@ export default function BackOfficeCars() {
   const [userData, setUserData] = useState([]);
   const [plugTypes, setPlugTypes] = useState([]);
   // État pour gérer l'affichage de la boîte de dialogue de confirmation
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  // État pour stocker l'ID du véhicule à supprimer
-  const [carToDelete, setCarToDelete] = useState(null);
 
-  const { apiService } = useTheContext();
+  const { apiService, setModal, yesNoModal, setYesNoModal } = useTheContext();
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -46,22 +43,15 @@ export default function BackOfficeCars() {
     return plugType ? plugType.name : "Type inconnu";
   }
 
-  // Fonction pour ouvrir la boîte de dialogue de confirmation
-  const openConfirmationDialog = (carId) => {
-    setCarToDelete(carId);
-    setShowConfirmation(true);
-  };
-
-  const confirmDeleteCar = async () => {
+  const confirmDeleteCar = async (carToDelete) => {
     try {
       await apiService.del(`/vehicle/${carToDelete}`);
-      setCarToDelete(null);
-      alert("Votre vehicle a bien été supprimé");
+      setYesNoModal(false);
+      setModal("Votre vehicle a bien été supprimé");
       fetchData();
     } catch (error) {
       console.error("Error deleting user:", error);
     }
-    setShowConfirmation(false);
   };
 
   const columns = [
@@ -84,7 +74,12 @@ export default function BackOfficeCars() {
     />,
     <FontAwesomeIcon
       icon={faTrash}
-      onClick={() => openConfirmationDialog(vehicle.id)}
+      onClick={() =>
+        setYesNoModal({
+          message: "Voulez-vous vraiment supprimer votre compte ?",
+          vehicleId: vehicle.id,
+        })
+      }
     />,
   ]);
 
@@ -100,14 +95,17 @@ export default function BackOfficeCars() {
       </div>
 
       {/* Boîte de dialogue de confirmation */}
-      {showConfirmation && (
+      {yesNoModal && (
         <div className="confirmation-dialog">
-          <p>Voulez-vous vraiment supprimer votre compte ?</p>
+          <p>{yesNoModal.message}</p>
           <div className="popup-btn">
-            <MDBBtn size="sm" onClick={confirmDeleteCar}>
+            <MDBBtn
+              size="sm"
+              onClick={() => confirmDeleteCar(yesNoModal.vehicleId)}
+            >
               Oui
             </MDBBtn>
-            <MDBBtn size="sm" onClick={() => setShowConfirmation(false)}>
+            <MDBBtn size="sm" onClick={() => setYesNoModal(false)}>
               Annuler
             </MDBBtn>
           </div>

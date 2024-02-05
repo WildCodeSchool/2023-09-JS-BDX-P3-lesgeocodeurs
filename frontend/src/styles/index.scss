@@ -30,6 +30,13 @@ $my-dark-theme: mdb-light-theme($my-theme-primary, $my-theme-secondary);
   box-sizing: border-box;
 }
 
+body {
+  min-height: 100vh;
+}
+.global-container-outlet {
+  min-height: 100vh;
+  z-index: 1;
+}
 .confirmation-dialog {
   position: fixed;
   top: 50%;

@@ -3,11 +3,7 @@ version: '3.4'
 services:
   web:
     build: .
-    container_name: ${PROJECT_NAME:-project}-web
-    volumes:
-      - .:/usr/src/app:delegated
-      - ./docker-entry.sh:/etc/entrypoint.sh
-    entrypoint: [ "sh", "/etc/entrypoint.sh" ]
+    container_name: ${PROJECT_NAME}-web
     env_file:
       - ../envs/.env-${GITHUB_REPOSITORY_NAME}
     environment:
@@ -24,9 +20,9 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
-      - "traefik.http.routers.${PROJECT_NAME:-project}-secure.entrypoints=websecure"
-      - "traefik.http.routers.${PROJECT_NAME:-project}-secure.rule=Host(`${PROJECT_NAME:-project}.${HOST:-localhost}`)"
-      - "traefik.http.services.${PROJECT_NAME:-project}.loadbalancer.server.port=3310"
+      - "traefik.http.routers.${PROJECT_NAME}-secure.entrypoints=websecure"
+      - "traefik.http.routers.${PROJECT_NAME}-secure.rule=Host(`${PROJECT_NAME}.${HOST}`)"
+      - "traefik.http.services.${PROJECT_NAME}.loadbalancer.server.port=3310"
 
 networks:
   proxy:

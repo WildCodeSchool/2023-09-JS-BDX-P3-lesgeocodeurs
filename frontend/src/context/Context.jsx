@@ -11,6 +11,9 @@ export function ContextProvider({ apiService, children }) {
   // le state qui contient les infos du user connecté
   const [user, setUser] = useState(null);
 
+  const [modal, setModal] = useState("");
+  const [yesNoModal, setYesNoModal] = useState();
+
   const logout = async () => {
     setUser(null);
     localStorage.removeItem("token");
@@ -25,47 +28,14 @@ export function ContextProvider({ apiService, children }) {
     const jwtToken = localStorage.getItem("token");
     if (!jwtToken) {
       logout();
-    } else {
-      const token = jwtDecode(jwtToken);
-      try {
-        const data = await apiService.get(`/users/${token.id}`);
-        setUser(data);
-      } catch (error) {
-        console.error(error.message);
-        logout();
-      }
     }
-  };
-
-  // connexion : vérifie si les identifiants sont bons et met à jour le state "user"
-
-  // inscription : stocke le nouveau user dans le localstorage
-  const register = async (newUser) => {
+    const token = jwtDecode(jwtToken);
     try {
-      const data = await apiService.post(`/users/register`, newUser);
-      localStorage.setItem("token", data.token);
-      apiService.setToken(data.token);
-      navigate("/register/infos");
+      const data = await apiService.get(`/users/${token.id}`);
+      setUser(data);
     } catch (err) {
-      if (err.response) {
-        const error = err.response.data.err;
-        const token = JSON.stringify(err.response.data.token);
-        if (error === "Compte existant") {
-          alert(error);
-          navigate("/login");
-        } else if (error === "Half-register") {
-          localStorage.setItem("token", token);
-          navigate("/register/infos");
-        } else {
-          alert(error);
-        }
-      } else if (err.request) {
-        console.error("Pas de réponse du serveur");
-      } else {
-        console.error(
-          "Erreur lors de la préparation de la requête:",
-          err.message
-        );
+      if (err.response.status === 403) {
+        logout();
       }
     }
   };
@@ -115,7 +85,7 @@ export function ContextProvider({ apiService, children }) {
       await apiService.del(`/users/${token.id}`);
       logout();
 
-      alert("Votre compte a bien été supprimé");
+      setModal("Votre compte a bien été supprimé");
     } catch (err) {
       console.error(err);
     }
@@ -124,7 +94,7 @@ export function ContextProvider({ apiService, children }) {
   const deleteUserAdmin = async (userId) => {
     try {
       await apiService.del(`/users/${userId}`);
-      alert("Le compte a bien été supprimé");
+      setModal("Le compte a bien été supprimé");
     } catch (err) {
       console.error(err);
     }
@@ -161,7 +131,6 @@ export function ContextProvider({ apiService, children }) {
       user,
       apiService,
       logout,
-      register,
       calculerAge,
       editUser,
       deleteUser,
@@ -171,8 +140,12 @@ export function ContextProvider({ apiService, children }) {
       countUsers,
       countVehicle,
       countChargingpoint,
+      modal,
+      setModal,
+      yesNoModal,
+      setYesNoModal,
     }),
-    [user, apiService]
+    [user, apiService, modal, yesNoModal]
   );
 
   return (
