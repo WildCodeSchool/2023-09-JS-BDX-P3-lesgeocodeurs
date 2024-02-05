@@ -5,7 +5,8 @@ import { useTheContext } from "../context/Context";
 import apiService from "../services/api.service";
 
 export default function MyAccount() {
-  const { logout, user, calculerAge, modal, setModal } = useTheContext();
+  const { logout, user, calculerAge, yesNoModal, setYesNoModal } =
+    useTheContext();
 
   const userAge = calculerAge(
     user ? user.birth_date : "1995-01-01T00:00:00.000Z'"
@@ -17,7 +18,7 @@ export default function MyAccount() {
     const token = jwtDecode(jwtToken);
     try {
       await apiService.del(`/users/${token.id}`);
-      setModal(false);
+      setYesNoModal(false);
       logout();
     } catch (error) {
       console.error("Error deleting car:", error);
@@ -84,7 +85,9 @@ export default function MyAccount() {
           className="buttonprofil"
           color="light"
           rippleColor="dark"
-          onClick={() => setModal(true)}
+          onClick={() =>
+            setYesNoModal("Voulez-vous vraiment supprimer votre compte ?")
+          }
         >
           <p>Supprimer</p>
           <p>&rarr;</p>
@@ -92,13 +95,13 @@ export default function MyAccount() {
       </div>
 
       {/* Boîte de dialogue de confirmation */}
-      {modal && (
+      {yesNoModal && (
         <div className="confirmation-dialog">
-          <p>Voulez-vous vraiment supprimer votre compte ?</p>
+          <p>{yesNoModal}</p>
           <MDBBtn size="sm" onClick={confirmDeleteUser}>
             Oui
           </MDBBtn>
-          <MDBBtn size="sm" onClick={() => setModal(false)}>
+          <MDBBtn size="sm" onClick={() => setYesNoModal(false)}>
             Annuler
           </MDBBtn>
         </div>

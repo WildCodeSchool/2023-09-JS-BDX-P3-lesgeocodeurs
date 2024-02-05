@@ -4,7 +4,7 @@ import { useTheContext } from "../context/Context";
 
 export default function Register() {
   const { formData, setFormData } = useOutletContext();
-  const { apiService, modal, setModal } = useTheContext();
+  const { apiService, setModal } = useTheContext();
   const navigate = useNavigate();
 
   const register = async (newUser) => {
@@ -106,14 +106,6 @@ export default function Register() {
           <p key={error}>{error}</p>
         ))}
       </form>
-      {modal ? (
-        <div className="confirmation-dialog">
-          <p>{modal}</p>
-          <MDBBtn size="sm" onClick={() => setModal("")}>
-            Ok
-          </MDBBtn>
-        </div>
-      ) : null}
     </div>
   );
 }

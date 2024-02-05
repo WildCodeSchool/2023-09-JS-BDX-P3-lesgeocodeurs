@@ -12,6 +12,7 @@ export function ContextProvider({ apiService, children }) {
   const [user, setUser] = useState(null);
 
   const [modal, setModal] = useState("");
+  const [yesNoModal, setYesNoModal] = useState();
 
   const logout = async () => {
     setUser(null);
@@ -32,9 +33,10 @@ export function ContextProvider({ apiService, children }) {
     try {
       const data = await apiService.get(`/users/${token.id}`);
       setUser(data);
-    } catch (error) {
-      console.error(error.message);
-      logout();
+    } catch (err) {
+      if (err.response.status === 403) {
+        logout();
+      }
     }
   };
 
@@ -83,7 +85,7 @@ export function ContextProvider({ apiService, children }) {
       await apiService.del(`/users/${token.id}`);
       logout();
 
-      alert("Votre compte a bien été supprimé");
+      setModal("Votre compte a bien été supprimé");
     } catch (err) {
       console.error(err);
     }
@@ -92,7 +94,7 @@ export function ContextProvider({ apiService, children }) {
   const deleteUserAdmin = async (userId) => {
     try {
       await apiService.del(`/users/${userId}`);
-      alert("Le compte a bien été supprimé");
+      setModal("Le compte a bien été supprimé");
     } catch (err) {
       console.error(err);
     }
@@ -140,8 +142,10 @@ export function ContextProvider({ apiService, children }) {
       countChargingpoint,
       modal,
       setModal,
+      yesNoModal,
+      setYesNoModal,
     }),
-    [user, apiService, modal]
+    [user, apiService, modal, yesNoModal]
   );
 
   return (
