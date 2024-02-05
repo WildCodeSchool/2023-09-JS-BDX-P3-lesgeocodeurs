@@ -3,8 +3,9 @@ import { MDBDatatable, MDBBtn } from "mdb-react-ui-kit";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import NavBarBackOffice from "../components/NavBarBackOffice";
+// import NavBarBackOffice from "../components/NavBarBackOffice";
 import { useTheContext } from "../context/Context";
+import NavBarBO from "../components/NavBarBO";
 
 export default function BackOfficeUtilisateur() {
   const [userData, setUserData] = useState(null);
@@ -35,14 +36,15 @@ export default function BackOfficeUtilisateur() {
   }, []);
 
   const columns = [
-    "id",
-    "email",
-    "first_name",
-    "last_name",
-    "birth_date",
-    "postal_code",
-    "city",
-    "modification",
+    "ID",
+    "Email",
+    "Prénom",
+    "Nom",
+    "Date de naissance",
+    "Code postal",
+    "Ville",
+    "Modifier",
+    "Supprimer",
   ];
 
   // Fonction pour ouvrir la boîte de dialogue de confirmation
@@ -89,8 +91,8 @@ export default function BackOfficeUtilisateur() {
 
   return (
     <div className="backofficeutilisateur_container">
-      <NavBarBackOffice />
-      <h2 className="bo-title">Data Utilisateur</h2>
+      <NavBarBO />
+      <h2 className="bo-title">Utilisateurs</h2>
       <div className="backoffidata">
         <MDBDatatable fixedHeader maxHeight="460px" data={basicData} />
       </div>
