@@ -22,6 +22,7 @@ $my-dark-theme: mdb-light-theme($my-theme-primary, $my-theme-secondary);
 @import "./components/registercars";
 @import "./components/newreservation";
 @import "./components/anim.home";
+@import "./components/navbarbo";
 
 * {
   margin: 0;
@@ -29,6 +30,13 @@ $my-dark-theme: mdb-light-theme($my-theme-primary, $my-theme-secondary);
   box-sizing: border-box;
 }
 
+body {
+  min-height: 100vh;
+}
+.global-container-outlet {
+  min-height: 100vh;
+  z-index: 1;
+}
 .confirmation-dialog {
   position: fixed;
   top: 50%;

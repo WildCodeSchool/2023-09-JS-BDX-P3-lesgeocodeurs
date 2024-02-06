@@ -1,0 +1,13 @@
+.navbar-bo-container {
+  width: 100vw;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  // border-bottom: 1px solid #21a89a;
+  background-color: #efefef;
+
+  .navbar-bo-btn {
+    color: #21a89a !important;
+    margin: 0 20px;
+  }
+}
