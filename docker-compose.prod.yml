@@ -4,6 +4,8 @@ services:
   web:
     build: .
     container_name: ${PROJECT_NAME}-web
+    volumes:
+      - ./backend/public:/usr/src/app/backend/public:delegated
     env_file:
       - ../envs/.env-${GITHUB_REPOSITORY_NAME}
     environment:
