@@ -10,8 +10,6 @@ export default function ModifProfil() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    editUser(modifProfil);
-    navigate("/myaccount");
   };
 
   useEffect(() => {
@@ -37,7 +35,7 @@ export default function ModifProfil() {
       <div className="titlemodifprofil">
         <h1>Modifier mon Profil</h1>
       </div>
-      <form>
+      <form onSubmit={onSubmit}>
         <MDBInput
           className="mb-4"
           type="string"
@@ -87,7 +85,11 @@ export default function ModifProfil() {
           value={modifProfil?.city}
           onChange={handleChange}
         />
-        <MDBBtn onClick={onSubmit} type="submit" block>
+        <MDBBtn
+          onClick={() => editUser(modifProfil, "/myaccount")}
+          type="submit"
+          block
+        >
           Enregistrer
         </MDBBtn>
       </form>
