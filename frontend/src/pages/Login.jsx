@@ -15,7 +15,7 @@ export default function Login() {
   const login = async (credentials) => {
     try {
       const data = await apiService.post(`/users/login`, credentials);
-      localStorage.setItem("token", data.token);
+      // setToken de apiservice stoke le token dans le local storage
       apiService.setToken(data.token);
       getUserInfos();
       navigate("/myaccount");
