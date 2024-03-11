@@ -80,31 +80,27 @@ export default function Cars() {
       </button>
 
       <h1 className="cars-title">Mes véhicules</h1>
-      <div className="my-car">
-        <MDBCard border>
-          {vehicles.map((car) => (
-            <div className="one-car" key={car.model}>
-              <MDBCardBody>
-                <div>
-                  <MDBCardTitle>
-                    {car.brand} {car.model}
-                  </MDBCardTitle>
-                  <MDBCardText>
-                    Type de prise : {getPlugTypeName(car.plug_type_id)}
-                  </MDBCardText>
-                </div>
-                <div className="btn-delete-car">
-                  <MDBBtn
-                    size="sm"
-                    onClick={() => openConfirmationDialog(car.id)}
-                  >
-                    Supprimer
-                  </MDBBtn>
-                </div>
-              </MDBCardBody>
-            </div>
-          ))}
-        </MDBCard>
+      <div className="my-cars">
+        {vehicles.map((car) => (
+          <MDBCard border className="one-car" key={car.model}>
+            <MDBCardBody>
+              <MDBCardTitle>
+                {car.brand} {car.model}
+              </MDBCardTitle>
+              <MDBCardText>
+                Type de prise : {getPlugTypeName(car.plug_type_id)}
+              </MDBCardText>
+              <div className="btn-delete-car">
+                <MDBBtn
+                  size="sm"
+                  onClick={() => openConfirmationDialog(car.id)}
+                >
+                  Supprimer
+                </MDBBtn>
+              </div>
+            </MDBCardBody>
+          </MDBCard>
+        ))}
       </div>
 
       {/* Boîte de dialogue de confirmation */}

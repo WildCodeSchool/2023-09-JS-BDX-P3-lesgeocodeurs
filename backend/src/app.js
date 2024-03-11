@@ -1,6 +1,7 @@
 // Load the express module to create a web application
 
 const express = require("express");
+const path = require("path");
 
 const app = express();
 const cors = require("cors");
@@ -26,6 +27,7 @@ app.use(cors());
 // 4. Be sure to only have URLs in the array with domains from which you want to allow requests.
 // For example: ["http://mysite.com", "http://another-domain.com"]
 
+/*
 app.use(
   cors({
     origin: [
@@ -35,6 +37,7 @@ app.use(
     ],
   })
 );
+*/
 
 /* ************************************************************************* */
 
@@ -104,16 +107,21 @@ app.use("/api", router);
 // 1. Uncomment the lines related to serving static files and redirecting unhandled requests.
 // 2. Ensure that the `reactBuildPath` points to the correct directory where your frontend's build artifacts are located.
 
-const reactBuildPath = `${__dirname}/../../frontend/dist`;
+const reactBuildPath = path.join(__dirname, "/../../frontend/dist");
 
 // Serve react resources
 
 app.use(express.static(reactBuildPath));
 
+app.get(
+  "*.*",
+  express.static(path.join(__dirname, "../public"), { maxAge: "1y" })
+);
+
 // Redirect unhandled requests to the react index file
 
-app.get("*", (req, res) => {
-  res.sendFile(`${reactBuildPath}/index.html`);
+app.get("*", (_, res) => {
+  res.sendFile(path.join(reactBuildPath, "/index.html"));
 });
 
 /* ************************************************************************* */

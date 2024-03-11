@@ -3,18 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { MDBDatatable, MDBBtn } from "mdb-react-ui-kit";
-import NavBarBackOffice from "../components/NavBarBackOffice";
+// import NavBarBackOffice from "../components/NavBarBackOffice";
 import { useTheContext } from "../context/Context";
+import NavBarBO from "../components/NavBarBO";
 
 export default function BackOfficeCars() {
   const [userData, setUserData] = useState([]);
   const [plugTypes, setPlugTypes] = useState([]);
   // État pour gérer l'affichage de la boîte de dialogue de confirmation
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  // État pour stocker l'ID du véhicule à supprimer
-  const [carToDelete, setCarToDelete] = useState(null);
 
-  const { apiService } = useTheContext();
+  const { apiService, setModal, yesNoModal, setYesNoModal } = useTheContext();
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -45,25 +43,25 @@ export default function BackOfficeCars() {
     return plugType ? plugType.name : "Type inconnu";
   }
 
-  // Fonction pour ouvrir la boîte de dialogue de confirmation
-  const openConfirmationDialog = (carId) => {
-    setCarToDelete(carId);
-    setShowConfirmation(true);
-  };
-
-  const confirmDeleteCar = async () => {
+  const confirmDeleteCar = async (carToDelete) => {
     try {
       await apiService.del(`/vehicle/${carToDelete}`);
-      setCarToDelete(null);
-      alert("Votre vehicle a bien été supprimé");
+      setYesNoModal(false);
+      setModal("Votre vehicle a bien été supprimé");
       fetchData();
     } catch (error) {
       console.error("Error deleting user:", error);
     }
-    setShowConfirmation(false);
   };
 
-  const columns = ["id", "brand", "model", "type de prise"];
+  const columns = [
+    "ID",
+    "Marque",
+    "Modèle",
+    "Type de prise",
+    "Modifier",
+    "Supprimer",
+  ];
 
   const rows = userData.map((vehicle) => [
     vehicle.id,
@@ -76,7 +74,12 @@ export default function BackOfficeCars() {
     />,
     <FontAwesomeIcon
       icon={faTrash}
-      onClick={() => openConfirmationDialog(vehicle.id)}
+      onClick={() =>
+        setYesNoModal({
+          message: "Voulez-vous vraiment supprimer votre compte ?",
+          vehicleId: vehicle.id,
+        })
+      }
     />,
   ]);
 
@@ -84,22 +87,25 @@ export default function BackOfficeCars() {
 
   return (
     <div className="backofficeutilisateur_container">
-      <NavBarBackOffice />
-      <h2 className="bo-title">Data Véhicules</h2>
+      <NavBarBO />
+      <h2 className="bo-title">Véhicules</h2>
 
       <div className="backoffidata">
         <MDBDatatable fixedHeader maxHeight="460px" data={basicData} />
       </div>
 
       {/* Boîte de dialogue de confirmation */}
-      {showConfirmation && (
+      {yesNoModal && (
         <div className="confirmation-dialog">
-          <p>Voulez-vous vraiment supprimer votre compte ?</p>
+          <p>{yesNoModal.message}</p>
           <div className="popup-btn">
-            <MDBBtn size="sm" onClick={confirmDeleteCar}>
+            <MDBBtn
+              size="sm"
+              onClick={() => confirmDeleteCar(yesNoModal.vehicleId)}
+            >
               Oui
             </MDBBtn>
-            <MDBBtn size="sm" onClick={() => setShowConfirmation(false)}>
+            <MDBBtn size="sm" onClick={() => setYesNoModal(false)}>
               Annuler
             </MDBBtn>
           </div>

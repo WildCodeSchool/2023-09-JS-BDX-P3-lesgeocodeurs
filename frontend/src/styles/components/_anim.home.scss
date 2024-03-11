@@ -1,11 +1,15 @@
-.wrapper {
+.anim-wrapper {
   position: relative;
   width: 100%;
-  margin: 0 auto;
+  height: 100px;
+  margin: 20px auto;
   max-width: 1000px;
 
   video {
+    height: 100px;
     width: 100%;
+    aspect-ratio: initial;
+    object-fit: cover;
   }
 
   svg {
@@ -19,43 +23,7 @@
       font-family: "Montserrat", sans-serif;
       font-weight: 900;
       text-transform: uppercase;
-      font-size: 25px !important;
+      font-size: 28px !important;
     }
-
-    > rect {
-      -webkit-mask: url(#mask);
-      mask: url(#mask);
-    }
-
-    rect {
-      fill: #fff;
-    }
-  }
-}
-.anim-slogan {
-  display: flex;
-  justify-content: space-evenly;
-  padding-bottom: 50px;
-  font-size: 30px;
-}
-// codepen config
-
-.wrapper {
-  &:before,
-  &:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    width: 10px;
-    height: 100%;
-    background-color: #fff;
-  }
-
-  &:before {
-    left: -9px;
-  }
-
-  &:after {
-    right: -5px;
   }
 }

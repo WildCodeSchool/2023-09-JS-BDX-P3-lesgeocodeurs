@@ -17,16 +17,15 @@ export default function Home() {
         <img src={colorLogo} alt="logo" />
       </div>
       <AnimHome />
+      <div className="slogan">
+        Pour ne plus jamais être victime du coup de la panne...
+      </div>
       <div className="button-map-container">
         <MDBBtn className="mb-4" onClick={() => navigate("/map")}>
           Accédez à la Carte
         </MDBBtn>
       </div>
 
-      {/* <div className="img-road-container">
-        <img className="img-road" src={roadImg} alt="road" />
-        <div className="overlay" />
-      </div> */}
       <div className="card-container">
         <div className="card">
           <img src={mapImg} alt="map" />
