@@ -3,6 +3,7 @@ const tables = require("../tables");
 
 // Middleware de vérification du JWT
 const verifyToken = (req, res, next) => {
+  // exemple req.headers.authorization = 'Bearer <token>'
   // Récupérer le JWT de l'en-tête Authorization
   const token = req.headers.authorization;
 
@@ -10,6 +11,9 @@ const verifyToken = (req, res, next) => {
     return res.status(401).json({ message: "Authentification requise" });
   }
   try {
+    // exemple req.headers.authorization = 'Bearer <token>'
+    // Avec replace() on supprime 'Bearer ' par rien afin de vérifier le token par jwt
+    // Vérifie que le token n'est pas expiré et qu'il est bien signé par cette application
     jwt.verify(token.replace("Bearer ", ""), process.env.APP_SECRET);
     next();
   } catch (err) {
