@@ -3,8 +3,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const tables = require("../tables");
 
-function generateAccessToken(user) {
-  return jwt.sign(user, process.env.APP_SECRET, { expiresIn: "1600s" });
+function generateAccessToken(id) {
+  return jwt.sign(id, process.env.APP_SECRET, { expiresIn: "1600s" });
 }
 
 // The B of BREAD - Browse (Read All) operation
@@ -71,7 +71,7 @@ const edit = async (req, res, next) => {
 };
 
 // The A of BREAD - Add (Create) operation
-const add = async (req, res, next) => {
+const add = async (req, res) => {
   const user = req.body;
   const notHashedPassword = user.password;
 
@@ -97,7 +97,6 @@ const add = async (req, res, next) => {
         res.status(409).json({ err: "Email indisponible" });
       }
     }
-    next(err);
   }
 };
 

@@ -21,7 +21,8 @@
     "prebuild": "npm install",
     "build": "cross-env-shell \"cd ./frontend && npm run build && cd ../backend && npm run build\"",
     "start": "cross-env-shell \"cd ./backend && npm run start\"",
-    "clean": "cross-env-shell \"rm -rf ./node_modules ./package-lock.json ./backend/node_modules ./backend/package-lock.json ./frontend/node_modules ./frontend/package-lock.json\""
+    "clean": "cross-env-shell \"rm -rf ./node_modules ./package-lock.json ./backend/node_modules ./backend/package-lock.json ./frontend/node_modules ./frontend/package-lock.json\"",
+    "indent": "cross-env-shell \"indentBack.bat && indentFront.bat\""
   },
   "keywords": [],
   "author": "Wild Code School",
@@ -31,5 +32,8 @@
     "cross-env": "^7.0.3",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3"
+  },
+  "dependencies": {
+    "prettier": "^3.2.5"
   }
 }

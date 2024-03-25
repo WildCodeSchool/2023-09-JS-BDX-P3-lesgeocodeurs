@@ -17,21 +17,21 @@ export default function Register() {
         const error = err.response.data.err;
         const token = JSON.stringify(err.response.data.token);
         if (error === "Compte existant") {
-          setModal(error);
+          setModal(error, "connectez vous !");
           navigate("/login");
         } else if (error === "Half-register") {
           localStorage.setItem("token", token);
+          setModal(
+            "Hello back ! Il nous manques quelques informations pour confirmer votre inscription :)"
+          );
           navigate("/register/infos");
         } else {
           setModal(error);
         }
       } else if (err.request) {
-        console.error("Pas de réponse du serveur");
+        setModal("Pas de réponse du serveur");
       } else {
-        console.error(
-          "Erreur lors de la préparation de la requête:",
-          err.message
-        );
+        setModal("Erreur lors de la préparation de la requête:", err.message);
       }
     }
   };
@@ -47,9 +47,6 @@ export default function Register() {
   if (formData.password !== formData.confirmPassword) {
     formErrors.push("Les mots de passe ne correspondent pas");
   }
-  /*   if (formData.email && !isValidEmail) {
-    formErrors.push("L'adresse email n'est pas valide");
-  } */
   if (formData.password && formData.password.length < 8) {
     formErrors.push("Le mot de passe doit contenir au moins 8 caractères");
   }
