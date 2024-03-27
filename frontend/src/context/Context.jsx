@@ -41,13 +41,13 @@ export function ContextProvider({ apiService, children }) {
   };
 
   // modification du profil : modifie le state "user" et le localStorage
-  const editUser = async (newData) => {
+  const editUser = async (newData, link) => {
     const jwtToken = apiService.getToken();
     const token = jwtDecode(jwtToken);
     try {
-      const response = await apiService.put(`/users/${token.id}`, newData);
-      console.info(response);
+      await apiService.put(`/users/${token.id}`, newData);
       getUserInfos();
+      navigate(link);
     } catch (err) {
       console.error(err);
     }

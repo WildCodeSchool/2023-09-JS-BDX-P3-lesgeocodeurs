@@ -3,8 +3,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const tables = require("../tables");
 
-function generateAccessToken(username) {
-  return jwt.sign(username, process.env.APP_SECRET, { expiresIn: "1600s" });
+function generateAccessToken(user) {
+  return jwt.sign(user, process.env.APP_SECRET, { expiresIn: "1600s" });
 }
 
 // The B of BREAD - Browse (Read All) operation
