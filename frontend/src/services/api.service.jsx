@@ -6,6 +6,7 @@ const getToken = () => localStorage.getItem("token");
 
 const setToken = (token) => localStorage.setItem("token", token);
 
+// getConfig return une config(qui sera un objet avec une clé "headers" et un objet en valeur), ici la validation d'authorization à savoir on récupere le token dans le local storage si il existe et on ajoute "Authorization = `Bearer ${token}`" comme propriété de la clé "headers"
 const getConfig = () => {
   const config = { headers: {} };
   const token = getToken();
@@ -17,6 +18,7 @@ const getConfig = () => {
 
 const get = async (endpoint) => {
   try {
+    // axios.get = 2paramètres (le premier obligatoire :url à appeler , le deuxième facultatif: la configuration ici getConfig )
     const response = await axios.get(baseUrl + endpoint, getConfig());
     return response.data;
   } catch (err) {
