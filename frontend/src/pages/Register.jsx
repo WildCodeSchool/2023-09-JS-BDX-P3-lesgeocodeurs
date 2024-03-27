@@ -14,19 +14,17 @@ export default function Register() {
       navigate("/register/infos");
     } catch (err) {
       if (err.response) {
-        const error = err.response.data.err;
-        const token = JSON.stringify(err.response.data.token);
-        if (error === "Compte existant") {
-          setModal(error, "connectez vous !");
+        if (err.response.data.err === "Compte existant") {
+          setModal(err.response.data.err, "connectez vous !");
           navigate("/login");
-        } else if (error === "Half-register") {
-          localStorage.setItem("token", token);
+        } else if (err.response.data.err === "Half-register") {
+          localStorage.setItem("token", err.response.data.token);
           setModal(
             "Hello back ! Il nous manques quelques informations pour confirmer votre inscription :)"
           );
           navigate("/register/infos");
         } else {
-          setModal(error);
+          setModal(err.response.data.err);
         }
       } else if (err.request) {
         setModal("Pas de réponse du serveur");

@@ -45,6 +45,7 @@ const read = async (req, res, next) => {
     if (user == null) {
       res.sendStatus(404);
     } else {
+      delete user.password;
       res.json(user);
     }
   } catch (err) {

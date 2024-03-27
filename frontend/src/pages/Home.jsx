@@ -28,19 +28,25 @@ export default function Home() {
 
       <div className="card-container">
         <div className="card">
-          <img src={mapImg} alt="map" />
+          <img src={mapImg} alt="une carte avec un pointeur dessus" />
           <div>Trouvez la station la plus proche</div>
         </div>
         <div className="card">
-          <img src={reservationImg} alt="reservation" />
+          <img
+            src={reservationImg}
+            alt="Une grand-mère qui reserve une borne de rechargement pour vehicule électrique"
+          />
           <div>Réservez une borne</div>
         </div>
         <div className="card">
-          <img src={stationImg} alt="station" />
+          <img
+            src={stationImg}
+            alt="une station de rechargement pour  vehicule électrique"
+          />
           <div>Gérez vos véhicules</div>
         </div>
         <div className="card">
-          <img src={plugImg} alt="plug" />
+          <img src={plugImg} alt="des prises" />
           <div>Trouvez le bon type de prise</div>
         </div>
       </div>

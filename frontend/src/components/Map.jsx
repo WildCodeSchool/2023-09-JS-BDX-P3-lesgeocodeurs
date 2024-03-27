@@ -120,6 +120,12 @@ export default function Map() {
           <div>{selectedStation.address}</div>
           <br />
           <h3>Bornes</h3>
+          {!user && (
+            <Link to="/login" style={{ color: "#21a89a" }}>
+              Connectez-vous pour réserver
+            </Link>
+          )}
+
           {chargingPoints?.map((cp) => (
             <div key={cp.id} className="charging-point-div">
               <strong>{cp.name}</strong>
